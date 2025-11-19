@@ -1,0 +1,235 @@
+<div class="checkout-wrapper">
+  <!-- Toggle Button -->
+  <button 
+    class="cart-toggle-btn" 
+    (click)="toggleSidebar()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="9" cy="21" r="1" />
+      <circle cx="20" cy="21" r="1" />
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+    </svg>
+    <span class="cart-badge">{{ cartCount }}</span>
+  </button>
+
+  <!-- Sidebar -->
+  <div class="checkout-sidebar" [class.open]="isOpen">
+    
+    <!-- Header -->
+    <div class="sidebar-header">
+      <div class="shimmer-overlay"></div>
+      <div class="header-content">
+        <div>
+          <h2 class="header-title">Shopping Cart</h2>
+          <p class="header-subtitle">MELIZZO LUXURY CHOCOLATES</p>
+        </div>
+        <button class="close-btn" (click)="toggleSidebar()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Free Shipping Banner -->
+    <div class="shipping-banner">
+      <div class="banner-content">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="1" y="3" width="15" height="13"></rect>
+          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+          <circle cx="5.5" cy="18.5" r="2.5"></circle>
+          <circle cx="18.5" cy="18.5" r="2.5"></circle>
+        </svg>
+        <span class="banner-text">Free Worldwide Delivery on Orders Over $100</span>
+      </div>
+      <div class="banner-progress" *ngIf="freeShippingRemaining > 0">
+        You're ${{ freeShippingRemaining.toFixed(2) }} away from free shipping!
+      </div>
+    </div>
+
+    <!-- Cart Items -->
+    <div class="cart-items-container">
+      <div *ngIf="cartItems.length === 0" class="empty-cart">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+        </svg>
+        <p class="empty-text">Your cart is empty</p>
+        <p class="empty-subtext">Add some delicious chocolates!</p>
+      </div>
+
+      <div *ngIf="cartItems.length > 0" class="cart-items">
+        <div *ngFor="let item of cartItems" class="cart-item">
+          <img [src]="item.image" [alt]="item.name" class="item-image">
+          <div class="item-details">
+            <div class="item-header">
+              <div>
+                <h3 class="item-name">{{ item.name }}</h3>
+                <p class="item-size">{{ item.size }}</p>
+              </div>
+              <button class="remove-btn" (click)="removeItem(item.id)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+            
+            <div class="item-footer">
+              <div class="quantity-controls">
+                <button class="qty-btn" (click)="updateQuantity(item.id, -1)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+                <span class="quantity">{{ item.quantity }}</span>
+                <button class="qty-btn" (click)="updateQuantity(item.id, 1)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+              </div>
+              <span class="item-price">${{ (item.price * item.quantity).toFixed(2) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coupon Section -->
+    <div class="coupon-section">
+      <div *ngIf="!appliedCoupon">
+        <label class="coupon-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+          </svg>
+          Apply Coupon Code
+        </label>
+        <div class="coupon-input-group">
+          <input
+            type="text"
+            [(ngModel)]="couponCode"
+            placeholder="Enter code (e.g., MELIZZO15)"
+            class="coupon-input"
+          />
+          <button class="apply-btn" (click)="applyCoupon()">Apply</button>
+        </div>
+        <p class="coupon-hint">Try: MELIZZO15, WELCOME10, or FREESHIP</p>
+      </div>
+
+      <div *ngIf="appliedCoupon" class="applied-coupon">
+        <div class="coupon-info">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="5" x2="5" y2="19"></line>
+            <circle cx="6.5" cy="6.5" r="2.5"></circle>
+            <circle cx="17.5" cy="17.5" r="2.5"></circle>
+          </svg>
+          <div>
+            <p class="coupon-code">{{ appliedCoupon.code }}</p>
+            <p class="coupon-desc">
+              {{ appliedCoupon.type === 'percentage' 
+                ? appliedCoupon.discount + '% discount applied'
+                : 'Free shipping applied' }}
+            </p>
+          </div>
+        </div>
+        <button class="remove-coupon-btn" (click)="removeCoupon()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <h3 class="summary-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+          <rect x="2" y="3" width="20" height="18" rx="2" ry="2"></rect>
+        </svg>
+        Order Summary
+      </h3>
+      
+      <div class="summary-details">
+        <div class="summary-row">
+          <span>Subtotal ({{ cartCount }} items)</span>
+          <span>${{ subtotal.toFixed(2) }}</span>
+        </div>
+        
+        <div *ngIf="appliedCoupon && discount > 0" class="summary-row discount-row">
+          <span>Discount ({{ appliedCoupon.discount }}%)</span>
+          <span>-${{ discount.toFixed(2) }}</span>
+        </div>
+        
+        <div class="summary-row">
+          <span class="shipping-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+            Shipping
+          </span>
+          <span [class.free-shipping]="appliedCoupon?.freeShipping">
+            {{ appliedCoupon?.freeShipping ? 'FREE' : '$' + shipping.toFixed(2) }}
+          </span>
+        </div>
+        
+        <div class="summary-row">
+          <span>Tax (5%)</span>
+          <span>${{ tax.toFixed(2) }}</span>
+        </div>
+        
+        <div class="summary-total">
+          <span class="total-label">Total</span>
+          <span class="total-amount">${{ total.toFixed(2) }}</span>
+        </div>
+      </div>
+
+      <button class="checkout-btn" (click)="proceedToCheckout()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span>Proceed to Checkout</span>
+        <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </button>
+
+      <div class="security-badges">
+        <div class="badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Secure Payment</span>
+        </div>
+        <div class="badge-dot"></div>
+        <div class="badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="3" width="15" height="13"></rect>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+          <span>Free Delivery</span>
+        </div>
+        <div class="badge-dot"></div>
+        <span>Easy Returns</span>
+      </div>
+    </div>
+
+    <!-- Bottom Brand Strip -->
+    <div class="brand-strip">
+      MELIZZO - CRAFTING ELEGANCE WITH PASSION SINCE 2025
+    </div>
+  </div>
+</div>

@@ -1,11 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   standalone: false,
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'melizzo_Ui';
+  showHeader = true;
+  showFooter = true;
+
+  constructor(private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        const hideRoutes = ['/'];
+        if (
+          hideRoutes.includes(event.url) ||
+          event.url.startsWith('/website')
+        ) {
+          this.showHeader = false;
+          this.showFooter = false;
+        } else {
+          this.showHeader = true;
+          this.showFooter = true;
+        }
+      }
+    });
+  }
 }

@@ -6,13 +6,17 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { SharedModule } from '../shared/shared.module';
 import { ProductPageComponent } from './components/product-page/product-page.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { AboutUsComponent } from './components/about-us/about-us.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 
 @NgModule({
   declarations: [
     LandingPageComponent,
     ProductPageComponent,
-    PaymentComponent
+    PaymentComponent,
+    AboutUsComponent,
+    ContactComponent
   ],
   imports: [
     CommonModule,

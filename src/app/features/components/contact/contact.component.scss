@@ -1,0 +1,708 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&family=Noto+Serif+Georgian:wght@400;500;600;700&display=swap");
+
+// Variables
+$gold: #c9a86a;
+$gold-dark: #b8975a;
+$gold-light: #d4b87c;
+$black: #0a0a0a;
+$dark-bg: #0f0f0f;
+$white: #ffffff;
+
+$font-main: "Noto Sans Georgian", sans-serif;
+$font-serif: "Noto Serif Georgian", serif;
+
+// Mixins
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+// Base
+.contact-page {
+  background: $black;
+  color: $white;
+  font-family: $font-main;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @media (min-width: 768px) {
+    padding: 0 2rem;
+  }
+}
+
+// Hero Section
+.contact-hero {
+  position: relative;
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $dark-bg 0%, $black 100%);
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    min-height: 50vh;
+  }
+}
+
+.hero-gradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(201, 168, 106, 0.1) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  text-align: center;
+  padding: 2rem 1rem;
+  z-index: 1;
+
+  @media (min-width: 768px) {
+    padding: 3rem 2rem;
+  }
+}
+
+.hero-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: $gold;
+  margin-bottom: 1rem;
+
+  @media (min-width: 768px) {
+    font-size: 11px;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 400;
+  font-family: $font-serif;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+
+  @media (min-width: 768px) {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.hero-subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+
+  @media (min-width: 768px) {
+    font-size: 1.25rem;
+  }
+}
+
+// Contact Cards
+.contact-cards {
+  padding: 3rem 0;
+  background: $black;
+
+  @media (min-width: 768px) {
+    padding: 5rem 0;
+  }
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.contact-card {
+  position: relative;
+  padding: 2rem 1.5rem;
+  background: $dark-bg;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  text-decoration: none;
+  color: $white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  @include transition(all, 0.3s);
+
+  &:hover {
+    border-color: $gold;
+    transform: translateY(-5px);
+    background: rgba(201, 168, 106, 0.05);
+
+    .card-icon {
+      transform: scale(1.1);
+      color: $gold;
+    }
+
+    .card-action {
+      opacity: 1;
+      transform: translateX(5px);
+    }
+  }
+
+  @media (min-width: 768px) {
+    padding: 2.5rem 2rem;
+  }
+}
+
+.card-icon {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  color: rgba(255, 255, 255, 0.8);
+  @include transition(all, 0.3s);
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (min-width: 768px) {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.card-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+
+  @media (min-width: 768px) {
+    font-size: 1.25rem;
+  }
+}
+
+.card-detail {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1rem;
+  font-weight: 300;
+
+  @media (min-width: 768px) {
+    font-size: 0.938rem;
+  }
+}
+
+.card-action {
+  font-size: 0.813rem;
+  color: $gold;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  @include transition(all, 0.3s);
+
+  @media (min-width: 768px) {
+    font-size: 0.875rem;
+  }
+}
+
+// Contact Form Section
+.contact-form-section {
+  padding: 3rem 0;
+  background: $dark-bg;
+
+  @media (min-width: 768px) {
+    padding: 5rem 0;
+  }
+}
+
+.form-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+
+  @media (min-width: 768px) {
+    margin-bottom: 3rem;
+  }
+}
+
+.section-title {
+  font-size: 1.875rem;
+  font-weight: 400;
+  font-family: $font-serif;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+
+  @media (min-width: 768px) {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.section-description {
+  font-size: 0.938rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+  line-height: 1.6;
+
+  @media (min-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+.contact-form {
+  display: grid;
+grid-template-columns: repeat(3, 1fr);
+
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  &.full-width {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.5rem;
+
+    @media (min-width: 768px) {
+      font-size: 0.938rem;
+    }
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: $white;
+    font-size: 0.938rem;
+    font-family: $font-main;
+    font-weight: 300;
+    @include transition(all, 0.3s);
+
+    @media (min-width: 768px) {
+      padding: 1rem 1.25rem;
+      font-size: 1rem;
+    }
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $gold;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+
+    @media (min-width: 768px) {
+      min-height: 150px;
+    }
+  }
+
+  select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23c9a86a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 3rem;
+  }
+}
+
+.submit-btn {
+  grid-column: 1 / -1;
+  padding: 1rem 2rem;
+  background: $gold;
+  color: $black;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  @include transition(all, 0.3s);
+
+  @media (min-width: 768px) {
+    padding: 1.25rem 2.5rem;
+    font-size: 0.938rem;
+    justify-self: start;
+  }
+
+  svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    @include transition(transform, 0.3s);
+  }
+
+  &:hover:not(:disabled) {
+    background: $gold-dark;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(201, 168, 106, 0.3);
+
+    svg {
+      transform: translateX(5px);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Business Hours
+.business-hours {
+  padding: 3rem 0;
+  background: $black;
+
+  @media (min-width: 768px) {
+    padding: 5rem 0;
+  }
+}
+
+.hours-content {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hours-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 2rem 1.5rem;
+  background: $dark-bg;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  @media (min-width: 768px) {
+    padding: 2.5rem 3rem;
+    gap: 1.25rem;
+  }
+}
+
+.hours-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .day {
+    font-size: 0.938rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+
+    @media (min-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+
+  .time {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $gold;
+
+    @media (min-width: 768px) {
+      font-size: 0.938rem;
+    }
+  }
+}
+
+.hours-note {
+  font-size: 0.813rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+  margin-top: 1.5rem;
+  font-weight: 300;
+
+  @media (min-width: 768px) {
+    font-size: 0.875rem;
+  }
+}
+
+// FAQ Section
+.faq-section {
+  padding: 3rem 0 4rem;
+  background: $dark-bg;
+
+  @media (min-width: 768px) {
+    padding: 5rem 0 6rem;
+  }
+}
+
+.faq-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+
+  @media (min-width: 768px) {
+    margin-bottom: 3.5rem;
+  }
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  @media (min-width: 768px) {
+    gap: 1rem;
+  }
+}
+
+.faq-item {
+  background: $black;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  @include transition(all, 0.3s);
+
+  &.active {
+    border-color: rgba(201, 168, 106, 0.3);
+
+    .faq-icon {
+      transform: rotate(180deg);
+      color: $gold;
+    }
+  }
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.faq-question {
+  width: 100%;
+  padding: 1.25rem 1rem;
+  background: transparent;
+  border: none;
+  color: $white;
+  font-size: 0.938rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  font-family: $font-main;
+  @include transition(color, 0.3s);
+
+  @media (min-width: 768px) {
+    padding: 1.5rem 2rem;
+    font-size: 1.063rem;
+  }
+
+  &:hover {
+    color: $gold;
+  }
+}
+
+.faq-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  color: rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+  @include transition(all, 0.3s);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  @include transition(max-height, 0.4s, ease-in-out);
+
+  &.show {
+    max-height: 500px;
+  }
+
+  p {
+    padding: 0 1rem 1.25rem;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.7;
+    font-weight: 300;
+
+    @media (min-width: 768px) {
+      padding: 0 2rem 1.5rem;
+      font-size: 0.938rem;
+    }
+  }
+}
+
+// Response Promise
+.response-promise {
+  padding: 3rem 0;
+  background: linear-gradient(135deg, $dark-bg 0%, $black 100%);
+
+  @media (min-width: 768px) {
+    padding: 5rem 0;
+  }
+}
+
+.promise-content {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 2rem 1rem;
+
+  @media (min-width: 768px) {
+    padding: 3rem 2rem;
+  }
+}
+
+.promise-icon {
+  font-size: 2.5rem;
+  color: $gold;
+  margin-bottom: 1.5rem;
+
+  @media (min-width: 768px) {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.promise-content h2 {
+  font-size: 1.75rem;
+  font-weight: 400;
+  font-family: $font-serif;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+
+  @media (min-width: 768px) {
+    font-size: 2.25rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.promise-content p {
+  font-size: 0.938rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+
+  @media (min-width: 768px) {
+    font-size: 1.063rem;
+  }
+}
+
+.promise-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 500px;
+  margin: 0 auto;
+
+  @media (min-width: 768px) {
+    gap: 2rem;
+  }
+}
+
+.stat {
+  padding: 1.5rem 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(201, 168, 106, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @media (min-width: 768px) {
+    padding: 2rem 1.5rem;
+  }
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 400;
+  font-family: $font-serif;
+  color: $gold;
+  line-height: 1;
+
+  @media (min-width: 768px) {
+    font-size: 2.5rem;
+  }
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+
+  @media (min-width: 768px) {
+    font-size: 0.813rem;
+  }
+}
+
+// Animations
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

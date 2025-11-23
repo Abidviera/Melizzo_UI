@@ -1,0 +1,502 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&family=Noto+Serif+Georgian:wght@400;500;600;700&display=swap");
+
+$gold: #c9a86a;
+$gold-dark: #b8975a;
+$black: #0a0a0a;
+$dark-bg: #0f0f0f;
+$white: #ffffff;
+
+$font-main: "Noto Sans Georgian", sans-serif;
+$font-serif: "Noto Serif Georgian", serif;
+
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+.about-us-section {
+  background: $black;
+  color: $white;
+ 
+  font-family: $font-main;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+// Hero Section
+.about-hero {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1410 0%, #2d1f18 100%);
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(201, 168, 106, 0.15), transparent 60%);
+    pointer-events: none;
+  }
+}
+
+.about-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+}
+
+.about-hero-content {
+  position: relative;
+  text-align: center;
+  padding: 4rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: $gold;
+  margin-bottom: 1.5rem;
+}
+
+.about-hero-title {
+  font-size: 4rem;
+  font-weight: 400;
+  font-family: $font-serif;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
+}
+
+.title-divider {
+  width: 5rem;
+  height: 1px;
+  background: $gold;
+  margin: 0 auto 2rem;
+}
+
+.about-hero-description {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.8;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+// Our Story Section
+.our-story {
+  padding: 8rem 0;
+  background: $black;
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5rem;
+  align-items: center;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.section-title {
+  font-size: 3rem;
+  font-weight: 400;
+  font-family: $font-serif;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+.story-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.lead-text {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+}
+
+.highlight {
+  color: $gold;
+  font-weight: 500;
+}
+
+.story-text p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.8;
+}
+
+.mission-statement {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: rgba(201, 168, 106, 0.08);
+  border-left: 3px solid $gold;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.mission-icon {
+  font-size: 2rem;
+  color: $gold;
+  flex-shrink: 0;
+}
+
+.mission-content h4 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: $gold;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.mission-content p {
+  font-size: 0.938rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+}
+
+// Story Images
+.story-images {
+  position: relative;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  height: 600px;
+
+  @media (max-width: 768px) {
+    height: 400px;
+  }
+}
+
+.story-image {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    @include transition(transform, 0.7s);
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+}
+
+.main-image {
+  grid-column: 1 / -1;
+  grid-row: 1 / 2;
+}
+
+.secondary-image {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
+
+// Core Values
+.core-values {
+  padding: 8rem 0;
+  background: $dark-bg;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.value-card {
+  padding: 3rem 2rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+  @include transition(all, 0.5s);
+
+  &:hover {
+    border-color: rgba(201, 168, 106, 0.3);
+    transform: translateY(-10px);
+    background: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.value-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.value-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.value-description {
+  font-size: 0.938rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.7;
+}
+
+// Certifications
+.certifications {
+  padding: 8rem 0;
+  background: $black;
+}
+
+.cert-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cert-intro {
+  font-size: 1.063rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.8;
+  margin-bottom: 4rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cert-highlight {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  padding: 3rem;
+  background: linear-gradient(135deg, rgba(201, 168, 106, 0.1), transparent);
+  border: 1px solid rgba(201, 168, 106, 0.2);
+  margin-bottom: 4rem;
+  text-align: left;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 2rem;
+  }
+}
+
+.cert-icon {
+  color: $gold;
+  flex-shrink: 0;
+
+  svg {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+.cert-text h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: $gold;
+  margin-bottom: 1rem;
+}
+
+.cert-text p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.8;
+}
+
+.cert-badges {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.cert-badge {
+  padding: 2.5rem 2rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(201, 168, 106, 0.3);
+  text-align: center;
+  @include transition(all, 0.4s);
+
+  &:hover {
+    border-color: $gold;
+    transform: translateY(-8px);
+    box-shadow: 0 10px 40px rgba(201, 168, 106, 0.2);
+  }
+}
+
+.cert-badge-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.cert-badge h4 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.cert-badge p {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.05em;
+}
+
+// Timeline
+.company-timeline {
+  padding: 8rem 0;
+  background: $dark-bg;
+}
+
+.timeline {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  padding-left: 3rem;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, $gold, rgba(201, 168, 106, 0.2));
+  }
+
+  @media (max-width: 768px) {
+    padding-left: 2rem;
+  }
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 3rem;
+  padding-left: 2rem;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -2.5rem;
+  top: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: $black;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  @include transition(all, 0.3s);
+
+  &.active {
+    background: $gold;
+    border-color: $gold;
+    box-shadow: 0 0 20px rgba(201, 168, 106, 0.5);
+  }
+
+  &.upcoming {
+    border-color: rgba(201, 168, 106, 0.4);
+    animation: pulse 2s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(201, 168, 106, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(201, 168, 106, 0);
+  }
+}
+
+.timeline-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: $gold;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-content h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-content p {
+  font-size: 0.938rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+}
+
+// CTA Section
+.about-cta {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, #1a1410 0%, #0a0a0a 100%);
+  text-align: center;
+}
+
+.cta-content h2 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  font-family: $font-serif;
+  margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+.cta-content p {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2.5rem;
+}
+
+.cta-button {
+  padding: 1rem 3rem;
+  background: $gold;
+  color: $black;
+  border: none;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  @include transition(all, 0.3s);
+
+  &:hover {
+    background: $gold-dark;
+    transform: scale(1.05);
+  }
+}

@@ -11,21 +11,27 @@ export class AppComponent {
   showHeader = true;
   showFooter = true;
 
-  constructor(private router: Router) {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        const hideRoutes = ['/'];
-        if (
-          hideRoutes.includes(event.url) ||
-          event.url.startsWith('/website')
-        ) {
-          this.showHeader = false;
-          this.showFooter = false;
-        } else {
-          this.showHeader = true;
-          this.showFooter = true;
-        }
+ constructor(private router: Router) {
+  this.router.events.subscribe((event) => {
+    if (event instanceof NavigationStart) {
+      const hideRoutes = ['/', '/']; // Landing page
+
+      const currentUrl =  event.url;
+
+      if (
+        hideRoutes.includes(currentUrl) ||
+        currentUrl === '' ||
+        currentUrl === '/' ||
+        currentUrl.startsWith('/website')
+      ) {
+        this.showHeader = false;
+        this.showFooter = false;
+      } else {
+        this.showHeader = true;
+        this.showFooter = true;
       }
-    });
-  }
+    }
+  });
+}
+
 }

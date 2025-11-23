@@ -6,17 +6,17 @@
   >
     <div class="header-container">
       <div class="logo">
-        <h1 class="logo-text">MELIZZO</h1>
-        <p class="logo-subtitle">CHOCOLATE ARTISAN</p>
+        <img src="/logos/melizzoLogo.png" alt="MELIZZO" class="logo-text-image">
+        <p class="logo-subtitle">ARTISAN FOOD CO.</p>
       </div>
 
       <nav class="nav" data-aos="fade-down" data-aos-delay="200">
         <a
           *ngFor="let item of navigationItems"
-          [href]="'#' + item.toLowerCase()"
+          [routerLink]="item.route"
           class="nav-link"
         >
-          {{ item.toUpperCase() }}
+          {{ item.label.toUpperCase() }}
         </a>
       </nav>
 
@@ -108,7 +108,7 @@
       <div class="hero-title">{{ getCurrentSlide().title }}</div>
       <p class="hero-description">{{ getCurrentSlide().description }}</p>
       <button class="hero-btn">
-        <span>DISCOVER COLLECTION</span>
+        <span>DISCOVER OUR LAUNCH</span>
       </button>
     </div>
 
@@ -136,12 +136,12 @@
   </section>
 
   <!-- Our Story Section -->
-  <section class="story-section">
+  <section class="story-section" id="story">
     <div class="story-bg-decoration"></div>
     <div class="container">
       <div class="section-header" data-aos="fade-up">
-        <p class="section-badge">OUR STORY</p>
-        <div class="section-title">From Bean to Bliss</div>
+        <p class="section-badge">WELCOME TO MELIZZO</p>
+        <div class="section-title">A New Beginning</div>
         <div class="title-divider"></div>
       </div>
 
@@ -149,38 +149,44 @@
         <div class="story-image" data-aos="fade-right" data-aos-delay="200">
           <img
             src="https://images.unsplash.com/photo-1714102367897-4a19259feb75?w=800&q=80"
-            alt="Cocoa beans"
+            alt="Melizzo beginning"
           />
           <div class="story-image-overlay"></div>
         </div>
 
         <div class="story-content" data-aos="fade-left" data-aos-delay="400">
-          <font class="story-lead">
-            At <span class="highlight">Melizzo</span>, chocolate is more than a
-            treat — it's a journey of passion, precision, and purity.
-          </font>
-          <font class="story-text">
-            From hand-selecting the finest cocoa beans to crafting each bar in
-            small batches, we blend time-honored artistry with modern
-            perfection.
-          </font>
-          <font class="story-text">
-            Every bite tells a story — of the farmer who nurtured the cacao, the
-            artisan who transformed it, and the moment of pure indulgence that
-            awaits you.
-          </font>
+          <p class="story-lead">
+            <span class="highlight">Melizzo</span> brings innovative,
+            high-quality packaged food products to customers who love
+            discovering new flavors.
+          </p>
+          <p class="story-text">
+            From premium chocolates to unique specialty foods, we curate
+            distinctive creations that offer a fresh and exciting taste
+            experience. Our commitment is simple: to introduce exceptional
+            products that inspire curiosity, delight the senses, and elevate
+            everyday snacking.
+          </p>
+          <p class="story-text">
+            We're launching with our signature Dubai chocolates — Kunafa
+            Pistachio and Angel Hair — two products that blend traditional
+            Middle Eastern flavors with modern craftsmanship. This is just the
+            beginning. Our vision extends beyond chocolate to a full range of
+            artisan packed foods including brownies, pancakes, and more delights
+            to come.
+          </p>
           <div class="story-stats">
             <div class="stat" data-aos="zoom-in" data-aos-delay="600">
-              <div class="stat-value">15+</div>
-              <div class="stat-label">YEARS OF CRAFT</div>
+              <div class="stat-value">2025</div>
+              <div class="stat-label">YEAR FOUNDED</div>
             </div>
             <div class="stat" data-aos="zoom-in" data-aos-delay="800">
-              <div class="stat-value">100%</div>
-              <div class="stat-label">ARTISAN MADE</div>
+              <div class="stat-value">2</div>
+              <div class="stat-label">LAUNCH PRODUCTS</div>
             </div>
             <div class="stat" data-aos="zoom-in" data-aos-delay="1000">
-              <div class="stat-value">50K+</div>
-              <div class="stat-label">HAPPY CUSTOMERS</div>
+              <div class="stat-value">100%</div>
+              <div class="stat-label">HANDCRAFTED</div>
             </div>
           </div>
         </div>
@@ -188,14 +194,15 @@
     </div>
   </section>
 
-  <section class="dubai-section">
+  <!-- First Launch Section -->
+  <section class="dubai-section" id="our-launch">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
-        <p class="section-badge">NEW LAUNCH</p>
-        <div class="section-title">Experience Our Latest Creations</div>
+        <p class="section-badge">OUR FIRST LAUNCH</p>
+        <div class="section-title">Introducing Two Masterpieces</div>
         <p class="section-description">
-          Discover our newest range of handcrafted chocolates — a perfect blend
-          of creativity, flavor, and passion.
+          Discover our debut collection — two handcrafted Dubai chocolates that
+          set the standard for luxury and flavor.
         </p>
       </div>
 
@@ -203,7 +210,6 @@
         <div
           *ngFor="let product of dubaiProducts; let i = index"
           class="dubai-product"
-          [class.reverse]="isOdd(i)"
         >
           <div
             class="dubai-image-container"
@@ -213,7 +219,6 @@
             <div class="dubai-main-image">
               <img [src]="getSelectedImage(i, product)" [alt]="product.title" />
 
-              <!-- Navigation Arrows -->
               <button
                 class="carousel-nav carousel-prev"
                 (click)="prevImage(i, product)"
@@ -276,7 +281,7 @@
                   points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
                 />
               </svg>
-              <span>EXCLUSIVE</span>
+              <span>NEW LAUNCH</span>
             </div>
             <div class="dubai-title">{{ product.title }}</div>
             <p class="dubai-description">{{ product.description }}</p>
@@ -299,14 +304,6 @@
               </div>
             </div>
             <div class="dubai-footer">
-              <div
-                class="price-info"
-                data-aos="fade-up"
-                [attr.data-aos-delay]="i * 100 + 600"
-              >
-                <p class="price-label">PRICE</p>
-                <p class="price-value">AED {{ product.price }}</p>
-              </div>
               <button
                 class="add-cart-btn"
                 data-aos="zoom-in"
@@ -324,7 +321,7 @@
                     d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
                   />
                 </svg>
-                ADD TO CART
+                ORDER NOW
               </button>
             </div>
           </div>
@@ -332,119 +329,13 @@
       </div>
     </div>
   </section>
-  <!-- Sustainability Section -->
-  <section class="sustainability-section">
-    <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <p class="section-badge">SUSTAINABILITY</p>
-        <div class="section-title">Ethically Made. Planet First.</div>
-        <p class="section-description">
-          We believe extraordinary chocolate begins with respect — for the
-          planet and its people
-        </p>
-      </div>
 
-      <div class="sustainability-grid">
-        <div
-          *ngFor="let feature of sustainabilityFeatures; let i = index"
-          class="sustainability-card"
-          data-aos="fade-up"
-          [attr.data-aos-delay]="i * 100"
-        >
-          <div class="sustainability-icon">{{ feature.icon }}</div>
-          <div class="sustainability-title">{{ feature.title }}</div>
-          <p class="sustainability-description">{{ feature.description }}</p>
-        </div>
-      </div>
-
-      <div
-        class="sustainability-promise"
-        data-aos="fade-up"
-        data-aos-delay="400"
-      >
-        <p class="promise-title">Our Promise</p>
-        <p class="promise-text">
-          Chocolate that feels as good as it tastes. Every purchase supports
-          sustainable farming and helps preserve the future of premium cacao.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Collections Grid -->
-  <section class="collections-section">
-    <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <p class="section-badge">OUR COLLECTIONS</p>
-        <div class="section-title">Curated Excellence</div>
-        <p class="section-description">
-          Each collection embodies our dedication to the craft of chocolate
-          making
-        </p>
-      </div>
-
-      <div class="filter-tabs" data-aos="fade-up" data-aos-delay="200">
-        <button
-          *ngFor="let filter of filters"
-          (click)="setFilter(filter)"
-          class="filter-tab"
-          [class.active]="activeFilter === filter"
-        >
-          {{ filter.toUpperCase() }}
-        </button>
-      </div>
-
-      <div class="collections-grid">
-        <div
-          *ngFor="
-            let item of filteredCollections;
-            let i = index;
-            trackBy: trackById
-          "
-          class="collection-card"
-          data-aos="fade-up"
-          [attr.data-aos-delay]="i * 100"
-        >
-          <div class="collection-image">
-            <img [src]="item.image" [alt]="item.title" />
-            <div class="collection-overlay"></div>
-            <button class="collection-btn">EXPLORE</button>
-          </div>
-          <div class="collection-title">{{ item.title }}</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Signature Creations -->
-  <!-- <section class="signature-section">
-    <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <p class="section-badge">SIGNATURE CREATIONS</p>
-        <div class="section-title">Where Flavors Meet Artistry</div> 
-      </div>
-
-      <div class="signature-grid">
-        <div *ngFor="let item of signatureCreations; let i = index" 
-             class="signature-card" 
-             data-aos="zoom-in" [attr.data-aos-delay]="i * 150">
-          <div class="signature-image">
-            <img [src]="item.image" [alt]="item.name">
-            <div class="signature-overlay">
-              <p class="signature-description">{{ item.description }}</p>
-            </div>
-          </div>
-          <div class="signature-name">{{ item.name }}</div>
-        </div>
-      </div>
-    </div>
-  </section> -->
-
+  <!-- Product Showcase -->
   <section class="products-section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
-        <p class="section-badge">SIGNATURE SELECTION</p>
-        <div class="section-title">Premium Artisan Chocolates</div>
+        <p class="section-badge">NOW AVAILABLE</p>
+        <div class="section-title">Our Launch Collection</div>
       </div>
 
       <div class="products-grid">
@@ -482,21 +373,18 @@
                   d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
                 />
               </svg>
-              ADD TO CART
+              ORDER NOW
             </button>
           </div>
           <div class="product-info">
             <div class="product-name">{{ product.name }}</div>
-            <p class="product-price">
-              <span class="currency">AED</span> {{ product.price }}
-            </p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Limited Edition Section -->
+
   <section class="limited-section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
@@ -540,9 +428,9 @@
         </div>
 
         <div class="limited-details" data-aos="fade-left" data-aos-delay="200">
-          <div class="limited-title">Ramadan Gift Collection</div>
+          <div class="limited-title">Christmas Gift Collection</div>
           <p class="limited-description">
-            Our exclusive Ramadan collection features handcrafted chocolates
+            Our exclusive Christmas collection features handcrafted chocolates
             inspired by traditional Middle Eastern flavors — dates, rose,
             saffron, and cardamom — beautifully presented in luxurious gift
             boxes.
@@ -601,7 +489,107 @@
     </div>
   </section>
 
-  <!-- Dubai Collection Section -->
+  <!-- Coming Soon Section -->
+  <section class="coming-soon-section" id="coming-soon">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <p class="section-badge">THE FUTURE OF MELIZZO</p>
+        <div class="section-title">More Delights Coming Soon</div>
+        <p class="section-description">
+          Our launch products are just the beginning. Stay tuned for exciting
+          new additions to the Melizzo family.
+        </p>
+      </div>
+
+      <div class="upcoming-grid">
+        <div
+          *ngFor="let item of upcomingProducts; let i = index"
+          class="upcoming-card"
+          data-aos="fade-up"
+          [attr.data-aos-delay]="i * 150"
+        >
+          <div class="upcoming-icon">{{ item.icon }}</div>
+          <div class="upcoming-name">{{ item.name }}</div>
+          <p class="upcoming-description">{{ item.description }}</p>
+          <div class="upcoming-badge">{{ item.status }}</div>
+        </div>
+      </div>
+
+      <div class="notify-cta" data-aos="fade-up" data-aos-delay="400">
+        <p class="notify-text">
+          Be the first to know when we launch new products
+        </p>
+        <button class="notify-btn">NOTIFY ME</button>
+      </div>
+    </div>
+
+    <!-- Timeline Preview -->
+    <div class="launch-timeline" data-aos="fade-up" data-aos-delay="500">
+      <div class="timeline-header">
+        <h3 class="timeline-title">Launch Timeline</h3>
+      </div>
+      <div class="timeline-items">
+        <div class="timeline-item" data-aos="fade-right" data-aos-delay="600">
+          <div class="timeline-marker active"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">JANUARY 2025</div>
+            <div class="timeline-name">Dubai Chocolates Launch</div>
+            <div class="timeline-status completed">✓ COMPLETED</div>
+          </div>
+        </div>
+        <div class="timeline-item" data-aos="fade-right" data-aos-delay="700">
+          <div class="timeline-marker upcoming"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">Q2 2025</div>
+            <div class="timeline-name">Artisan Brownies</div>
+            <div class="timeline-status">COMING SOON</div>
+          </div>
+        </div>
+        <div class="timeline-item" data-aos="fade-right" data-aos-delay="800">
+          <div class="timeline-marker upcoming"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">Q3 2025</div>
+            <div class="timeline-name">Gourmet Pancakes</div>
+            <div class="timeline-status">COMING SOON</div>
+          </div>
+        </div>
+        <div class="timeline-item" data-aos="fade-right" data-aos-delay="900">
+          <div class="timeline-marker upcoming"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">Q4 2025</div>
+            <div class="timeline-name">More Surprises</div>
+            <div class="timeline-status">STAY TUNED</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Values Section -->
+  <section class="sustainability-section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <p class="section-badge">OUR VALUES</p>
+        <div class="section-title">Built on Excellence</div>
+        <p class="section-description">
+          Every product from Melizzo is crafted with care, quality, and purpose
+        </p>
+      </div>
+
+      <div class="sustainability-grid">
+        <div
+          *ngFor="let feature of sustainabilityFeatures; let i = index"
+          class="sustainability-card"
+          data-aos="fade-up"
+          [attr.data-aos-delay]="i * 100"
+        >
+          <div class="sustainability-icon">{{ feature.icon }}</div>
+          <div class="sustainability-title">{{ feature.title }}</div>
+          <p class="sustainability-description">{{ feature.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Corporate Gifting -->
   <section class="corporate-section">
@@ -609,14 +597,14 @@
       <div class="corporate-grid">
         <div class="corporate-content" data-aos="fade-right">
           <p class="section-badge">CORPORATE GIFTING</p>
-          <div class="corporate-title">Elevate Your Brand</div>
+          <div class="corporate-title">Perfect for Every Occasion</div>
           <p class="corporate-text">
-            Whether it's for corporate events, weddings, or festive celebrations
-            — create unforgettable moments with our bespoke chocolate boxes.
+            Whether it's for corporate events, celebrations, or special moments
+            — our artisan chocolates make unforgettable gifts.
           </p>
           <p class="corporate-text">
-            Personalized packaging, elegant presentation, and unforgettable
-            flavors — crafted just for your brand or occasion.
+            Personalized packaging, elegant presentation, and exceptional
+            flavors — crafted to impress your clients and team.
           </p>
           <ul class="corporate-features">
             <li
@@ -641,7 +629,7 @@
               data-aos-delay="400"
             >
               <div class="diamond-icon"></div>
-              <span>Dedicated account manager</span>
+              <span>Dedicated support</span>
             </li>
             <li
               class="corporate-feature"
@@ -649,7 +637,7 @@
               data-aos-delay="500"
             >
               <div class="diamond-icon"></div>
-              <span>Flexible delivery schedules</span>
+              <span>Flexible delivery options</span>
             </li>
           </ul>
           <button class="quote-btn" data-aos="zoom-in" data-aos-delay="600">
@@ -671,87 +659,14 @@
     </div>
   </section>
 
-  <section class="timeline-section">
-    <div class="timeline-bg-decoration"></div>
-
-    <div class="container">
-      <div class="section-header" data-aos="fade-up" data-aos-duration="1000">
-        <p class="section-badge">OUR PROCESS</p>
-        <div class="section-title">The Art of Chocolate Making</div>
-        <p class="section-description">
-          From bean to bar, witness the meticulous journey of creating luxury
-          chocolate
-        </p>
-      </div>
-
-      <div class="timeline">
-        <div
-          class="timeline-line"
-          data-aos="fade"
-          data-aos-duration="1500"
-        ></div>
-
-        <div
-          *ngFor="let step of timelineSteps; let i = index"
-          class="timeline-step"
-          [class.reverse]="isOdd(i)"
-          [attr.data-aos]="isEven(i) ? 'fade-right' : 'fade-left'"
-          data-aos-duration="1000"
-          [attr.data-aos-delay]="i * 150"
-          data-aos-anchor-placement="top-center"
-        >
-          <div class="timeline-content">
-            <div class="timeline-icon">{{ step.icon }}</div>
-            <div class="step-badge">
-              <span>STEP {{ step.step }}</span>
-            </div>
-            <div class="timeline-title">{{ step.title }}</div>
-            <p class="timeline-description">{{ step.description }}</p>
-          </div>
-
-          <div class="timeline-indicator">
-            <div class="indicator-glow"></div>
-            <div class="indicator-circle">
-              <span>{{ step.step }}</span>
-            </div>
-            <div class="indicator-dot indicator-dot-top"></div>
-            <div class="indicator-dot indicator-dot-bottom"></div>
-          </div>
-
-          <div
-            class="timeline-accent"
-            [class.left]="isEven(i)"
-            [class.right]="isOdd(i)"
-          ></div>
-        </div>
-
-        <div
-          class="timeline-end"
-          data-aos="zoom-in"
-          data-aos-duration="800"
-          data-aos-delay="300"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Behind the Scenes -->
   <section class="workshop-section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
-        <p class="section-badge">BEHIND THE SCENES</p>
-        <div class="section-title">Where Magic Happens</div>
+        <p class="section-badge">CRAFTSMANSHIP</p>
+        <div class="section-title">Handcrafted with Passion</div>
         <p class="section-description">
-          Step into our kitchen — where artistry meets science
+          Every product is made with meticulous attention to detail
         </p>
       </div>
 
@@ -762,100 +677,16 @@
           data-aos="zoom-in"
           [attr.data-aos-delay]="i * 150"
         >
-          <img [src]="image" alt="Workshop" />
+          <img [src]="image" alt="Craftsmanship" />
           <div class="workshop-overlay"></div>
         </div>
       </div>
 
       <div class="workshop-cta" data-aos="fade-up" data-aos-delay="400">
         <p class="workshop-text">
-          Watch our chocolatiers temper, mold, and decorate each chocolate with
-          care and passion
+          Watch our artisans create each chocolate with precision and care
         </p>
-        <button class="tour-btn">VIRTUAL TOUR</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Visit Our Boutique -->
-  <section class="boutique-section">
-    <div class="container">
-      <div class="boutique-grid">
-        <div class="boutique-image" data-aos="fade-right">
-          <img src="melizzoCompany.jpg" alt="Boutique" />
-        </div>
-
-        <div class="boutique-content" data-aos="fade-left" data-aos-delay="200">
-          <font class="section-badge">VISIT US</font>
-          <div class="boutique-title">Experience Melizzo</div>
-          <p class="boutique-text">
-            Visit our boutique to experience the aroma, texture, and taste of
-            Melizzo firsthand. Indulge in tastings, watch live chocolate-making,
-            and explore our exclusive collections.
-          </p>
-          <div class="boutique-details">
-            <div class="detail-item" data-aos="fade-up" data-aos-delay="300">
-              <font class="detail-label">LOCATION</font>
-              <font class="detail-value"
-                >Dubai Mall, Ground Floor, Dubai, UAE</font
-              >
-            </div>
-            <div class="detail-item" data-aos="fade-up" data-aos-delay="400">
-              <font class="detail-label">HOURS</font>
-              <font class="detail-value">Daily 10:00 AM - 10:00 PM</font>
-            </div>
-          </div>
-          <button
-            class="directions-btn"
-            data-aos="zoom-in"
-            data-aos-delay="500"
-          >
-            GET DIRECTIONS
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Customer Testimonials -->
-  <section class="testimonials-section">
-    <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <p class="section-badge">TESTIMONIALS</p>
-        <div class="section-title">Chocolate Lovers Speak</div>
-      </div>
-
-      <div class="testimonials-grid">
-        <div
-          *ngFor="let testimonial of testimonials; let i = index"
-          class="testimonial-card"
-          data-aos="flip-left"
-          [attr.data-aos-delay]="i * 150"
-        >
-          <div class="stars">
-            <svg
-              *ngFor="let star of [1, 2, 3, 4, 5]"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-              />
-            </svg>
-          </div>
-          <p class="testimonial-quote">"{{ testimonial.quote }}"</p>
-          <div class="testimonial-author">
-            <div class="author-image">
-              <img [src]="testimonial.image" [alt]="testimonial.name" />
-            </div>
-            <div class="author-info">
-              <p class="author-name">{{ testimonial.name }}</p>
-              <p class="author-location">{{ testimonial.location }}</p>
-            </div>
-          </div>
-        </div>
+        <button class="tour-btn">LEARN MORE</button>
       </div>
     </div>
   </section>
@@ -877,10 +708,10 @@
           </svg>
           <p class="section-badge">FOLLOW OUR JOURNEY</p>
         </div>
-        <div class="section-title">&#64;MelizzoChocolate</div>
+        <div class="section-title">&#64;Melizzo</div>
         <p class="section-description">
-          Join our community of chocolate lovers and witness the artistry behind
-          every piece
+          Join us as we launch and grow — witness the artistry behind every
+          creation
         </p>
       </div>
 
@@ -927,7 +758,7 @@
 
       <div class="instagram-cta" data-aos="fade-up" data-aos-delay="400">
         <a
-          href="https://instagram.com/melizzochocolate"
+          href="https://instagram.com/melizzofood"
           target="_blank"
           rel="noopener noreferrer"
           class="instagram-btn"
@@ -948,12 +779,12 @@
     </div>
   </section>
 
-  <!-- Chocolate Knowledge -->
+  <!-- Blog/Knowledge Section -->
   <section class="knowledge-section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
-        <p class="section-badge">KNOWLEDGE</p>
-        <div class="section-title">Discover the World of Chocolate</div>
+        <p class="section-badge">OUR BLOG</p>
+        <div class="section-title">Stories & Updates</div>
       </div>
 
       <div class="knowledge-grid">
@@ -979,11 +810,11 @@
   <section class="newsletter-section">
     <div class="newsletter-container">
       <div class="section-header" data-aos="fade-up">
-        <p class="section-badge">STAY CONNECTED</p>
-        <div class="section-title">Join Our Journey</div>
+        <p class="section-badge">STAY UPDATED</p>
+        <div class="section-title">Join the Melizzo Family</div>
         <p class="section-description">
-          Subscribe to receive exclusive offers, early access to new
-          collections, and artisan chocolate insights.
+          Subscribe to receive launch updates, exclusive offers, and be the
+          first to try our new products.
         </p>
       </div>
 
@@ -997,19 +828,19 @@
       </div>
 
       <p class="newsletter-note" data-aos="fade-up" data-aos-delay="300">
-        NO SPAM, ONLY SWEETNESS
+        NO SPAM, ONLY DELICIOUS UPDATES
       </p>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
+  <footer class="footer" id="contact">
     <div class="container">
       <div class="footer-grid" data-aos="fade-up">
         <div class="footer-brand">
           <div class="footer-logo">MELIZZO</div>
           <p class="footer-tagline">
-            Crafting luxury chocolate experiences since 2025
+            Crafting artisan food experiences since 2025
           </p>
         </div>
 

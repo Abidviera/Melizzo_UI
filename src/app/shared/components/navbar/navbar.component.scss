@@ -1,162 +1,136 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&family=Noto+Serif+Georgian:wght@400;500;600;700&display=swap");
+
+// Variables
+$gold: #c9a86a;
+$gold-dark: #b8975a;
+$black: #0a0a0a;
+$white: #ffffff;
+
+$font-main: "Noto Sans Georgian", sans-serif;
+$font-serif: "Noto Serif Georgian", serif;
+
+// Mixins
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
 }
 
+
 header {
-  position: fixed;
-  width: 100%;
+
   z-index: 1000;
-  top: 0;
+  padding: 1.5rem 0;
+  @include transition(all, 0.5s);
+  background: rgb(0, 0, 0);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  
+
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  transition: all 0.5s ease;
-  background: rgba(29, 20, 16, 0.95);
-  backdrop-filter: blur(10px);
-  padding: 0px 60px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
- 
+  justify-content: space-between;
 }
 
 .logo {
-  transition: transform 0.3s;
+  cursor: pointer;
+  @include transition(transform);
+
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
-.logo:hover {
-  transform: scale(1.05);
+.logo-text-image {
+  height: 23px; 
+  width: auto;
+  display: block;
+  margin: 0;
+  
+  @media (max-width: 768px) {
+    height: 20px;
+  }
 }
 
-nav {
-  display: flex;
-  gap: 45px;
-  align-items: center;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  font-size: 13px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+.logo-subtitle {
+  font-size: 9px;
   font-weight: 400;
+  letter-spacing: 0.3em;
+  color: $gold;
+  margin: 0.25rem 0 0 0;
+  font-family: $font-main;
+}
+
+.nav {
+  display: none;
+  gap: 3rem;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    display: flex;
+  }
+}
+
+.nav-link {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
   position: relative;
-  padding: 8px 0;
-  transition: color 0.3s;
-}
+  padding: 0.5rem 0;
+  @include transition(color);
+  font-family: $font-main;
 
-nav a::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: #d4af37;
-  transform: translateX(-50%);
-  transition: width 0.3s ease;
-}
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 1px;
+    background: $gold;
+    transform: translateX(-50%);
+    @include transition(width);
+  }
 
-nav a:hover {
-  color: #d4af37;
-}
+  &:hover {
+    color: $gold;
 
-nav a:hover::after {
-  width: 100%;
+    &::after {
+      width: 100%;
+    }
+  }
 }
 
 .header-icons {
   display: flex;
-  gap: 20px;
+  gap: 1.5rem;
   align-items: center;
 }
 
-.icon-wrapper {
-  position: relative;
+.icon-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
-  padding: 8px;
+  padding: 0.5rem;
   border-radius: 50%;
-  transition: all 0.3s;
-}
+  @include transition();
 
-.icon-wrapper:hover {
-  background: rgba(212, 175, 55, 0.1);
-  transform: translateY(-3px);
-}
-
-.icon-wrapper svg {
-  width: 22px;
-  height: 22px;
-  stroke: white;
-  fill: none;
-  stroke-width: 2;
-  transition: stroke 0.3s;
-}
-
-.icon-wrapper:hover svg {
-  stroke: #d4af37;
-}
-
-.cart-count {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: #d4af37;
-  color: #1a1410;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  font-size: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
-/* Responsive Header */
-@media (max-width: 1024px) {
-  header {
-    padding: 20px 40px;
+  &:hover {
+    color: $gold;
+    background: rgba(201, 168, 106, 0.1);
+    transform: translateY(-3px);
   }
 
-  header.scrolled {
-    padding: 15px 40px;
-  }
-
-  nav {
-    gap: 30px;
-  }
-
-  nav a {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 768px) {
-  header {
-    padding: 15px 20px;
-    top: 0;
-  }
-
-  header.scrolled {
-    padding: 12px 20px;
-  }
-
-  nav {
-    display: none;
-  }
-
-  .header-icons {
-    gap: 15px;
-  }
-
-  .icon-wrapper {
-    padding: 6px;
-  }
-
-  .icon-wrapper svg {
-    width: 20px;
-    height: 20px;
+  svg {
+    width: 1rem;
+    height: 1rem;
   }
 }

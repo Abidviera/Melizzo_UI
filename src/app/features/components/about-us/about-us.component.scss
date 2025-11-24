@@ -18,6 +18,11 @@ $font-serif: "Noto Serif Georgian", serif;
   color: $white;
  
   font-family: $font-main;
+  overflow: hidden;
+}
+
+.about-us-section::-webkit-scrollbar {
+  display: none;
 }
 
 .container {
@@ -26,7 +31,7 @@ $font-serif: "Noto Serif Georgian", serif;
   padding: 0 2rem;
 }
 
-// Hero Section
+
 .about-hero {
   position: relative;
   min-height: 60vh;
@@ -96,7 +101,7 @@ $font-serif: "Noto Serif Georgian", serif;
   margin: 0 auto;
 }
 
-// Our Story Section
+
 .our-story {
   padding: 8rem 0;
   background: $black;
@@ -179,7 +184,7 @@ $font-serif: "Noto Serif Georgian", serif;
   line-height: 1.7;
 }
 
-// Story Images
+
 .story-images {
   position: relative;
 }
@@ -228,7 +233,7 @@ $font-serif: "Noto Serif Georgian", serif;
   background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
 }
 
-// Core Values
+
 .core-values {
   padding: 8rem 0;
   background: $dark-bg;
@@ -277,7 +282,7 @@ $font-serif: "Noto Serif Georgian", serif;
   line-height: 1.7;
 }
 
-// Certifications
+
 .certifications {
   padding: 8rem 0;
   background: $black;
@@ -375,7 +380,7 @@ $font-serif: "Noto Serif Georgian", serif;
   letter-spacing: 0.05em;
 }
 
-// Timeline
+
 .company-timeline {
   padding: 8rem 0;
   background: $dark-bg;
@@ -460,7 +465,7 @@ $font-serif: "Noto Serif Georgian", serif;
   line-height: 1.6;
 }
 
-// CTA Section
+
 .about-cta {
   padding: 6rem 0;
   background: linear-gradient(135deg, #1a1410 0%, #0a0a0a 100%);

@@ -1,5 +1,31 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
-  
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c9a86a;
+  border-radius: 4px;
+
+  &:hover {
+    background: #b8975a;
+  }
+}
+
+.body {
+  background-color: black;
+  overflow-x: hidden;
+  min-height: 100vh;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }

@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&family=Noto+Serif+Georgian:wght@400;500;600;700&display=swap");
 
-// Variables
+
 $gold: #c9a86a;
 $gold-dark: #b8975a;
 $gold-light: #d4b87c;
@@ -11,17 +11,22 @@ $white: #ffffff;
 $font-main: "Noto Sans Georgian", sans-serif;
 $font-serif: "Noto Serif Georgian", serif;
 
-// Mixins
+
 @mixin transition($property: all, $duration: 0.3s, $timing: ease) {
   transition: $property $duration $timing;
 }
 
-// Base
+
 .contact-page {
   background: $black;
   color: $white;
   font-family: $font-main;
   min-height: 100vh;
+  overflow: hidden;
+}
+
+.contact-page::-webkit-scrollbar {
+  display: none;
 }
 
 .container {
@@ -34,7 +39,7 @@ $font-serif: "Noto Serif Georgian", serif;
   }
 }
 
-// Hero Section
+
 .contact-hero {
   position: relative;
   min-height: 40vh;
@@ -109,7 +114,7 @@ $font-serif: "Noto Serif Georgian", serif;
   }
 }
 
-// Contact Cards
+
 .contact-cards {
   padding: 3rem 0;
   background: $black;
@@ -225,7 +230,7 @@ $font-serif: "Noto Serif Georgian", serif;
   }
 }
 
-// Contact Form Section
+
 .contact-form-section {
   padding: 3rem 0;
   background: $dark-bg;
@@ -238,7 +243,10 @@ $font-serif: "Noto Serif Georgian", serif;
 .form-wrapper {
   max-width: 1000px;
   margin: 0 auto;
+  padding: 20px;
 }
+
+
 
 .form-header {
   text-align: center;
@@ -262,7 +270,6 @@ $font-serif: "Noto Serif Georgian", serif;
     margin-bottom: 1rem;
   }
 }
-
 .section-description {
   font-size: 0.938rem;
   color: rgba(255, 255, 255, 0.6);
@@ -273,14 +280,13 @@ $font-serif: "Noto Serif Georgian", serif;
     font-size: 1rem;
   }
 }
-
 .contact-form {
   display: grid;
-grid-template-columns: repeat(3, 1fr);
-
+  grid-template-columns: 1fr; // Single column on mobile
+  gap: 1.5rem;
 
   @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); // Two columns on tablet+
     gap: 2rem;
   }
 }
@@ -290,7 +296,7 @@ grid-template-columns: repeat(3, 1fr);
   flex-direction: column;
 
   &.full-width {
-    grid-column: 1 / -1;
+    grid-column: 1 / -1; // Spans all columns
   }
 
   label {
@@ -308,7 +314,7 @@ grid-template-columns: repeat(3, 1fr);
   input,
   select,
   textarea {
-    width: 100%;
+    width: 90%;
     padding: 0.875rem 1rem;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -316,11 +322,13 @@ grid-template-columns: repeat(3, 1fr);
     font-size: 0.938rem;
     font-family: $font-main;
     font-weight: 300;
+    border-radius: 0; 
     @include transition(all, 0.3s);
 
     @media (min-width: 768px) {
       padding: 1rem 1.25rem;
       font-size: 1rem;
+      width: 90%;
     }
 
     &::placeholder {
@@ -358,9 +366,8 @@ grid-template-columns: repeat(3, 1fr);
     padding-right: 3rem;
   }
 }
-
 .submit-btn {
-  grid-column: 1 / -1;
+  grid-column: 1 / -1; // Spans all columns
   padding: 1rem 2rem;
   background: $gold;
   color: $black;
@@ -368,18 +375,21 @@ grid-template-columns: repeat(3, 1fr);
   font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.1em;
+  text-transform: uppercase;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
   margin-top: 0.5rem;
+  width: 100%; // Full width on mobile
   @include transition(all, 0.3s);
 
   @media (min-width: 768px) {
     padding: 1.25rem 2.5rem;
     font-size: 0.938rem;
-    justify-self: start;
+    width: auto; // Auto width on desktop
+    justify-self: start; // Left align on desktop
   }
 
   svg {
@@ -398,13 +408,34 @@ grid-template-columns: repeat(3, 1fr);
     }
   }
 
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
 }
+@media (max-width: 767px) {
+  .contact-form {
+    gap: 1.25rem;
+  }
 
-// Business Hours
+  .form-group {
+    input,
+    select,
+    textarea {
+      font-size: 16px; 
+    }
+  }
+}
+
+
+.contact-page {
+  scroll-behavior: smooth;
+}
+
 .business-hours {
   padding: 3rem 0;
   background: $black;
@@ -480,7 +511,7 @@ grid-template-columns: repeat(3, 1fr);
   }
 }
 
-// FAQ Section
+
 .faq-section {
   padding: 3rem 0 4rem;
   background: $dark-bg;
@@ -589,7 +620,7 @@ grid-template-columns: repeat(3, 1fr);
   }
 }
 
-// Response Promise
+
 .response-promise {
   padding: 3rem 0;
   background: linear-gradient(135deg, $dark-bg 0%, $black 100%);
@@ -695,7 +726,7 @@ grid-template-columns: repeat(3, 1fr);
   }
 }
 
-// Animations
+
 @keyframes fadeInUp {
   from {
     opacity: 0;

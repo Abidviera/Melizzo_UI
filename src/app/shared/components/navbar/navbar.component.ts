@@ -15,7 +15,7 @@ export class NavbarComponent {
     { label: 'Our Launch', route: '' },
     { label: 'Story', route: '/aboutUs' }, 
     { label: 'Coming Soon', route: '' },
-    { label: 'Contact', route: '' }
+    { label: 'Contact', route: '/contact' }
   ];
   isScrolled = false;
 

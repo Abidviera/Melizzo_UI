@@ -5,8 +5,11 @@ import {
   HostListener,
   ViewChild,
   ElementRef,
+  ChangeDetectorRef,
+  NgZone,
 } from '@angular/core';
 import * as AOS from 'aos';
+import { WhatsAppService } from '../../../services/whats-app.service';
 interface Slide {
   title: string;
   subtitle: string;
@@ -39,7 +42,6 @@ interface BlogPost {
   image: string;
   readTime: string;
 }
-
 @Component({
   selector: 'app-landing-page',
   standalone: false,
@@ -50,6 +52,8 @@ export class LandingPageComponent {
   isScrolled = false;
   currentSlide = 0;
   private slideInterval: any;
+  private rafId: number | null = null;
+  private lastScrollTop = 0;
 
   slides: Slide[] = [
     {
@@ -66,7 +70,6 @@ export class LandingPageComponent {
         'Silky white chocolate fused with fluffy cotton candy for a cloud-soft, melt-in-mouth sweetness.',
       image: 'angelhair.jpg',
     },
-
     {
       title: 'Kunafa Pistachio',
       subtitle: 'Middle Eastern Excellence',
@@ -195,29 +198,29 @@ export class LandingPageComponent {
     {
       name: 'Artisan Brownies',
       description: 'Rich, fudgy, and decadent',
-      icon: '',
+      icon: '🍫',
       status: 'Coming Soon',
     },
     {
       name: 'Gourmet Pancakes',
       description: 'Fluffy and irresistible',
-      icon: '',
+      icon: '🥞',
       status: 'Coming Soon',
     },
     {
       name: 'More Surprises',
       description: 'Stay tuned for more',
-      icon: '',
+      icon: '✨',
       status: 'Coming Soon',
     },
   ];
 
   navigationItems = [
-  { label: 'Our Launch', route: '/our-launch' },
-  { label: 'Story', route: '/aboutUs' }, 
-  { label: 'Coming Soon', route: '/coming-soon' },
-  { label: 'Contact', route: '/contact' }
-];
+    { label: 'Our Launch', route: '' },
+    { label: 'Our Story', route: '/aboutUs' },
+    { label: 'Coming Soon', route: '' },
+    { label: 'Contact', route: '/contact' },
+  ];
 
   footerColumns = [
     {
@@ -229,6 +232,15 @@ export class LandingPageComponent {
       links: ['Our Story', 'Craftsmanship', 'Vision', 'Press'],
     },
     { title: 'Support', links: ['Contact', 'Shipping', 'Returns', 'FAQ'] },
+    {
+      title: 'Contact',
+      links: [
+        'info@melizzo.com',
+        '+1 705 927-0127',
+        '525 Macintosh Grove',
+        'Peterborough, ON K9H 0K1',
+      ],
+    },
   ];
 
   sustainabilityFeatures = [
@@ -271,38 +283,82 @@ export class LandingPageComponent {
     '/choclate images/IMG_7901.webp',
   ];
 
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone,
+     private whatsappService: WhatsAppService
+  ) {}
+
   ngOnInit(): void {
     this.startSlideshow();
-    AOS.init({
-      duration: 1000,
-      easing: 'ease-out-cubic',
-      once: true,
-      mirror: false,
-      offset: 100,
-      delay: 0,
-      anchorPlacement: 'top-bottom',
-      disable: false,
+
+    // Run AOS outside Angular zone for better performance
+    this.ngZone.runOutsideAngular(() => {
+      AOS.init({
+        duration: 600,
+        easing: 'ease-out-cubic',
+        once: true,
+        mirror: false,
+        offset: 100,
+        delay: 0,
+        anchorPlacement: 'top-bottom',
+        disable: false,
+        throttleDelay: 99,
+      });
     });
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      AOS.refresh();
-    }, 500);
+    // Delay AOS refresh slightly
+    this.ngZone.runOutsideAngular(() => {
+      setTimeout(() => {
+        AOS.refresh();
+      }, 150);
+    });
   }
 
   ngOnDestroy(): void {
     this.stopSlideshow();
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+    }
   }
 
-  @HostListener('window:scroll', [])
+ @HostListener('window:scroll')
   onWindowScroll(): void {
-    this.isScrolled = window.scrollY > 50;
+    // Use requestAnimationFrame for smooth scroll handling
+    if (!this.rafId) {
+      this.ngZone.runOutsideAngular(() => {
+        this.rafId = requestAnimationFrame(() => {
+          this.updateScrollState();
+          this.rafId = null;
+        });
+      });
+    }
+  }
+
+  private updateScrollState(): void {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Only update if scroll position changed significantly (reduces repaints)
+    if (Math.abs(scrollTop - this.lastScrollTop) > 5) {
+      const newScrollState = scrollTop > 50;
+      
+      if (this.isScrolled !== newScrollState) {
+        this.ngZone.run(() => {
+          this.isScrolled = newScrollState;
+          this.cdr.detectChanges();
+        });
+      }
+      
+      this.lastScrollTop = scrollTop;
+    }
   }
 
   startSlideshow(): void {
     this.slideInterval = setInterval(() => {
       this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+      this.cdr.detectChanges();
     }, 5000);
   }
 
@@ -314,6 +370,7 @@ export class LandingPageComponent {
 
   setSlide(index: number): void {
     this.currentSlide = index;
+    this.cdr.detectChanges();
   }
 
   getCurrentSlide(): Slide {
@@ -349,6 +406,7 @@ export class LandingPageComponent {
 
   selectProductImage(productIndex: number, imageIndex: number): void {
     this.selectedImageIndex[productIndex] = imageIndex;
+    this.cdr.detectChanges();
   }
 
   prevImage(productIndex: number, product: DubaiProduct): void {
@@ -356,15 +414,90 @@ export class LandingPageComponent {
     const newIndex =
       currentIndex === 0 ? product.images.length - 1 : currentIndex - 1;
     this.selectedImageIndex[productIndex] = newIndex;
+    this.cdr.detectChanges();
   }
 
   nextImage(productIndex: number, product: DubaiProduct): void {
     const currentIndex = this.selectedImageIndex[productIndex] || 0;
     const newIndex = (currentIndex + 1) % product.images.length;
     this.selectedImageIndex[productIndex] = newIndex;
+    this.cdr.detectChanges();
   }
 
   trackByIndex(index: number): number {
     return index;
   }
+
+  prevSlide(): void {
+    this.stopSlideshow();
+    this.currentSlide =
+      this.currentSlide === 0 ? this.slides.length - 1 : this.currentSlide - 1;
+    this.startSlideshow();
+    this.cdr.detectChanges();
+  }
+
+  nextSlide(): void {
+    this.stopSlideshow();
+    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+    this.startSlideshow();
+    this.cdr.detectChanges();
+  }
+
+/**
+ * Handle ORDER NOW button click for Dubai chocolates
+ */
+orderDubaiProduct(product: DubaiProduct): void {
+  this.whatsappService.sendProductInquiry({
+    name: product.title,
+    description: product.description,
+    image: product.image,
+    price: 'Please inquire' // Add actual price if available
+  });
+}
+
+/**
+ * Handle quick add/order for products
+ */
+orderProduct(product: Product): void {
+  this.whatsappService.sendProductInquiry({
+    name: product.name,
+    description: `${product.tag} - Premium Dubai Chocolate`,
+    image: product.image
+  });
+}
+
+/**
+ * Handle hero section discover button
+ */
+discoverLaunch(): void {
+  const message = `Hello Melizzo! 👋\n\nI saw your launch collection and I'm very interested!\n\nCould you tell me more about:\n• Kunafa Pistachio\n• Angel Hair Dubai Chocolate\n\nThank you! 😊`;
+  this.whatsappService.sendCustomMessage(message);
+}
+
+/**
+ * Handle limited edition order
+ */
+orderLimitedEdition(): void {
+  this.whatsappService.sendProductInquiry({
+    name: 'Christmas Gift Collection',
+    description: 'Exclusive Christmas collection featuring handcrafted chocolates inspired by traditional Middle Eastern flavors - 24-piece luxury assortment with premium gold packaging',
+    price: 'Contact for pricing'
+  });
+}
+
+/**
+ * Handle corporate gifting inquiry
+ */
+requestCorporateQuote(): void {
+  const message = `Hello Melizzo! 👋\n\nI'm interested in Corporate Gifting for my company.\n\nPlease provide information about:\n• Custom branding & packaging\n• Bulk order discounts\n• Minimum order quantities\n• Delivery timeline\n\nThank you! 😊`;
+  this.whatsappService.sendCustomMessage(message);
+}
+
+/**
+ * Handle notify me for upcoming products
+ */
+notifyMe(): void {
+  const message = `Hello Melizzo! 👋\n\nI'd like to be notified when you launch new products!\n\nI'm particularly interested in:\n• Artisan Brownies\n• Gourmet Pancakes\n• Other upcoming delights\n\nPlease add me to your notification list.\n\nThank you! 😊`;
+  this.whatsappService.sendCustomMessage(message);
+}
 }

@@ -6,7 +6,12 @@
   >
     <div class="header-container">
       <div class="logo">
-        <img src="/logos/melizzoLogo.png" alt="MELIZZO" class="logo-text-image">
+        <img
+          src="/logos/melizzoLogo.png"
+          alt="MELIZZO"
+          class="logo-text-image"
+          loading="lazy"
+        />
         <p class="logo-subtitle">ARTISAN FOOD CO.</p>
       </div>
 
@@ -73,7 +78,6 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
   <section class="hero">
     <div
       *ngFor="let slide of slides; let i = index"
@@ -86,6 +90,7 @@
         [src]="slide.image"
         [alt]="slide.title"
         class="hero-image"
+        loading="lazy"
       />
 
       <video
@@ -107,10 +112,31 @@
       </div>
       <div class="hero-title">{{ getCurrentSlide().title }}</div>
       <p class="hero-description">{{ getCurrentSlide().description }}</p>
-      <button class="hero-btn">
+      <button class="hero-btn" (click)="discoverLaunch()">
         <span>DISCOVER OUR LAUNCH</span>
       </button>
     </div>
+
+    <button class="hero-carousel-nav hero-carousel-prev" (click)="prevSlide()">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <button class="hero-carousel-nav hero-carousel-next" (click)="nextSlide()">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
 
     <div class="slide-indicators">
       <button
@@ -135,7 +161,6 @@
     </div>
   </section>
 
-  <!-- Our Story Section -->
   <section class="story-section" id="story">
     <div class="story-bg-decoration"></div>
     <div class="container">
@@ -150,6 +175,7 @@
           <img
             src="https://images.unsplash.com/photo-1714102367897-4a19259feb75?w=800&q=80"
             alt="Melizzo beginning"
+            loading="lazy"
           />
           <div class="story-image-overlay"></div>
         </div>
@@ -194,7 +220,6 @@
     </div>
   </section>
 
-  <!-- First Launch Section -->
   <section class="dubai-section" id="our-launch">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
@@ -217,7 +242,7 @@
             [attr.data-aos-delay]="i * 100"
           >
             <div class="dubai-main-image">
-              <img [src]="getSelectedImage(i, product)" [alt]="product.title" />
+              <img [src]="getSelectedImage(i, product)" [alt]="product.title" loading="lazy"/>
 
               <button
                 class="carousel-nav carousel-prev"
@@ -257,6 +282,7 @@
                 [attr.data-aos-delay]="i * 100 + j * 50"
               >
                 <img
+                loading="lazy"
                   [src]="img"
                   [alt]="product.title + ' - Image ' + (j + 1)"
                 />
@@ -305,6 +331,7 @@
             </div>
             <div class="dubai-footer">
               <button
+               (click)="orderDubaiProduct(product)"
                 class="add-cart-btn"
                 data-aos="zoom-in"
                 [attr.data-aos-delay]="i * 100 + 700"
@@ -330,7 +357,6 @@
     </div>
   </section>
 
-  <!-- Product Showcase -->
   <section class="products-section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
@@ -346,7 +372,7 @@
           [attr.data-aos-delay]="i * 100"
         >
           <div class="product-image">
-            <img [src]="product.image" [alt]="product.name" />
+            <img [src]="product.image" loading="lazy" [alt]="product.name" />
             <div class="product-tag">{{ product.tag.toUpperCase() }}</div>
             <button class="wishlist-btn">
               <svg
@@ -360,7 +386,7 @@
                 />
               </svg>
             </button>
-            <button class="quick-add-btn">
+            <button class="quick-add-btn" (click)="orderProduct(product)">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -383,7 +409,6 @@
       </div>
     </div>
   </section>
-
 
   <section class="limited-section">
     <div class="container">
@@ -423,6 +448,7 @@
           <img
             src="https://images.unsplash.com/photo-1629610306962-a8aa73153d0e?w=800&q=80"
             alt="Limited Edition"
+            loading="lazy"
           />
           <div class="available-badge">AVAILABLE NOW</div>
         </div>
@@ -480,8 +506,8 @@
               </svg>
               <span>Express delivery available</span>
             </li>
-          </ul>
-          <button class="order-btn" data-aos="zoom-in" data-aos-delay="700">
+          </ul> 
+          <button class="order-btn"  (click)="orderLimitedEdition()" data-aos="zoom-in" data-aos-delay="700">
             ORDER NOW
           </button>
         </div>
@@ -489,7 +515,6 @@
     </div>
   </section>
 
-  <!-- Coming Soon Section -->
   <section class="coming-soon-section" id="coming-soon">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
@@ -519,11 +544,10 @@
         <p class="notify-text">
           Be the first to know when we launch new products
         </p>
-        <button class="notify-btn">NOTIFY ME</button>
+        <button class="notify-btn"  (click)="notifyMe()">NOTIFY ME</button>
       </div>
     </div>
 
-    <!-- Timeline Preview -->
     <div class="launch-timeline" data-aos="fade-up" data-aos-delay="500">
       <div class="timeline-header">
         <h3 class="timeline-title">Launch Timeline</h3>
@@ -565,7 +589,6 @@
     </div>
   </section>
 
-  <!-- Our Values Section -->
   <section class="sustainability-section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
@@ -591,7 +614,6 @@
     </div>
   </section>
 
-  <!-- Corporate Gifting -->
   <section class="corporate-section">
     <div class="container">
       <div class="corporate-grid">
@@ -640,7 +662,7 @@
               <span>Flexible delivery options</span>
             </li>
           </ul>
-          <button class="quote-btn" data-aos="zoom-in" data-aos-delay="600">
+          <button class="quote-btn" (click)="requestCorporateQuote()" data-aos="zoom-in" data-aos-delay="600">
             REQUEST QUOTE
           </button>
         </div>
@@ -652,14 +674,13 @@
             data-aos="zoom-in"
             [attr.data-aos-delay]="i * 100 + 500"
           >
-            <img [src]="image" alt="Corporate Gift" />
+            <img [src]="image" alt="Corporate Gift" loading="lazy" />
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Behind the Scenes -->
   <section class="workshop-section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
@@ -677,7 +698,7 @@
           data-aos="zoom-in"
           [attr.data-aos-delay]="i * 150"
         >
-          <img [src]="image" alt="Craftsmanship" />
+          <img [src]="image" alt="Craftsmanship"  loading="lazy"/>
           <div class="workshop-overlay"></div>
         </div>
       </div>
@@ -691,7 +712,6 @@
     </div>
   </section>
 
-  <!-- Instagram Section -->
   <section class="instagram-section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
@@ -726,7 +746,7 @@
           data-aos="zoom-in"
           [attr.data-aos-delay]="i * 100"
         >
-          <img [src]="post.image" alt="Instagram post" />
+          <img [src]="post.image" alt="Instagram post"  loading="lazy"/>
           <div class="instagram-overlay">
             <div class="instagram-stats">
               <svg
@@ -758,7 +778,7 @@
 
       <div class="instagram-cta" data-aos="fade-up" data-aos-delay="400">
         <a
-          href="https://instagram.com/melizzofood"
+          href="https://www.instagram.com/melizzoltd?igsh=MTlkYWJvZjd5M2F3aA=="
           target="_blank"
           rel="noopener noreferrer"
           class="instagram-btn"
@@ -779,7 +799,6 @@
     </div>
   </section>
 
-  <!-- Blog/Knowledge Section -->
   <section class="knowledge-section">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
@@ -795,7 +814,7 @@
           [attr.data-aos-delay]="i * 150"
         >
           <div class="knowledge-image">
-            <img [src]="post.image" [alt]="post.title" />
+            <img [src]="post.image" [alt]="post.title" loading="lazy"/>
             <div class="read-time-badge">{{ post.readTime }}</div>
           </div>
           <div class="knowledge-title">{{ post.title }}</div>
@@ -806,7 +825,6 @@
     </div>
   </section>
 
-  <!-- Newsletter -->
   <section class="newsletter-section">
     <div class="newsletter-container">
       <div class="section-header" data-aos="fade-up">
@@ -833,7 +851,6 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="footer" id="contact">
     <div class="container">
       <div class="footer-grid" data-aos="fade-up">

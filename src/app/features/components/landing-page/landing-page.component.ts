@@ -286,13 +286,13 @@ export class LandingPageComponent {
   constructor(
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
-     private whatsappService: WhatsAppService
+    private whatsappService: WhatsAppService
   ) {}
 
   ngOnInit(): void {
     this.startSlideshow();
 
-    // Run AOS outside Angular zone for better performance
+  
     this.ngZone.runOutsideAngular(() => {
       AOS.init({
         duration: 600,
@@ -309,7 +309,6 @@ export class LandingPageComponent {
   }
 
   ngAfterViewInit(): void {
-    // Delay AOS refresh slightly
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         AOS.refresh();
@@ -324,9 +323,9 @@ export class LandingPageComponent {
     }
   }
 
- @HostListener('window:scroll')
+  @HostListener('window:scroll')
   onWindowScroll(): void {
-    // Use requestAnimationFrame for smooth scroll handling
+    
     if (!this.rafId) {
       this.ngZone.runOutsideAngular(() => {
         this.rafId = requestAnimationFrame(() => {
@@ -339,18 +338,18 @@ export class LandingPageComponent {
 
   private updateScrollState(): void {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
-    // Only update if scroll position changed significantly (reduces repaints)
+
+
     if (Math.abs(scrollTop - this.lastScrollTop) > 5) {
       const newScrollState = scrollTop > 50;
-      
+
       if (this.isScrolled !== newScrollState) {
         this.ngZone.run(() => {
           this.isScrolled = newScrollState;
           this.cdr.detectChanges();
         });
       }
-      
+
       this.lastScrollTop = scrollTop;
     }
   }
@@ -443,61 +442,49 @@ export class LandingPageComponent {
     this.cdr.detectChanges();
   }
 
-/**
- * Handle ORDER NOW button click for Dubai chocolates
- */
-orderDubaiProduct(product: DubaiProduct): void {
-  this.whatsappService.sendProductInquiry({
-    name: product.title,
-    description: product.description,
-    image: product.image,
-    price: 'Please inquire' // Add actual price if available
-  });
-}
 
-/**
- * Handle quick add/order for products
- */
-orderProduct(product: Product): void {
-  this.whatsappService.sendProductInquiry({
-    name: product.name,
-    description: `${product.tag} - Premium Dubai Chocolate`,
-    image: product.image
-  });
-}
+  orderDubaiProduct(product: DubaiProduct): void {
+    this.whatsappService.sendProductInquiry({
+      name: product.title,
+      description: product.description,
+      image: product.image,
+      price: 'Please inquire', 
+    });
+  }
 
-/**
- * Handle hero section discover button
- */
-discoverLaunch(): void {
-  const message = `Hello Melizzo! 👋\n\nI saw your launch collection and I'm very interested!\n\nCould you tell me more about:\n• Kunafa Pistachio\n• Angel Hair Dubai Chocolate\n\nThank you! 😊`;
-  this.whatsappService.sendCustomMessage(message);
-}
 
-/**
- * Handle limited edition order
- */
-orderLimitedEdition(): void {
-  this.whatsappService.sendProductInquiry({
-    name: 'Christmas Gift Collection',
-    description: 'Exclusive Christmas collection featuring handcrafted chocolates inspired by traditional Middle Eastern flavors - 24-piece luxury assortment with premium gold packaging',
-    price: 'Contact for pricing'
-  });
-}
+  orderProduct(product: Product): void {
+    this.whatsappService.sendProductInquiry({
+      name: product.name,
+      description: `${product.tag} - Premium Dubai Chocolate`,
+      image: product.image,
+    });
+  }
 
-/**
- * Handle corporate gifting inquiry
- */
-requestCorporateQuote(): void {
-  const message = `Hello Melizzo! 👋\n\nI'm interested in Corporate Gifting for my company.\n\nPlease provide information about:\n• Custom branding & packaging\n• Bulk order discounts\n• Minimum order quantities\n• Delivery timeline\n\nThank you! 😊`;
-  this.whatsappService.sendCustomMessage(message);
-}
 
-/**
- * Handle notify me for upcoming products
- */
-notifyMe(): void {
-  const message = `Hello Melizzo! 👋\n\nI'd like to be notified when you launch new products!\n\nI'm particularly interested in:\n• Artisan Brownies\n• Gourmet Pancakes\n• Other upcoming delights\n\nPlease add me to your notification list.\n\nThank you! 😊`;
-  this.whatsappService.sendCustomMessage(message);
-}
+  discoverLaunch(): void {
+    const message = `Hello Melizzo! 👋\n\nI saw your launch collection and I'm very interested!\n\nCould you tell me more about:\n• Kunafa Pistachio\n• Angel Hair Dubai Chocolate\n\nThank you! 😊`;
+    this.whatsappService.sendCustomMessage(message);
+  }
+
+
+  orderLimitedEdition(): void {
+    this.whatsappService.sendProductInquiry({
+      name: 'Christmas Gift Collection',
+      description:
+        'Exclusive Christmas collection featuring handcrafted chocolates inspired by traditional Middle Eastern flavors - 24-piece luxury assortment with premium gold packaging',
+      price: 'Contact for pricing',
+    });
+  }
+
+
+  requestCorporateQuote(): void {
+    const message = `Hello Melizzo! 👋\n\nI'm interested in Corporate Gifting for my company.\n\nPlease provide information about:\n• Custom branding & packaging\n• Bulk order discounts\n• Minimum order quantities\n• Delivery timeline\n\nThank you! 😊`;
+    this.whatsappService.sendCustomMessage(message);
+  }
+
+  notifyMe(): void {
+    const message = `Hello Melizzo! 👋\n\nI'd like to be notified when you launch new products!\n\nI'm particularly interested in:\n• Artisan Brownies\n• Gourmet Pancakes\n• Other upcoming delights\n\nPlease add me to your notification list.\n\nThank you! 😊`;
+    this.whatsappService.sendCustomMessage(message);
+  }
 }

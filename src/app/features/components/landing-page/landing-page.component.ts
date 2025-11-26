@@ -1,14 +1,10 @@
 import {
   Component,
-  OnInit,
-  OnDestroy,
   HostListener,
-  ViewChild,
-  ElementRef,
   ChangeDetectorRef,
   NgZone,
 } from '@angular/core';
-import * as AOS from 'aos';
+import AOS from 'aos';
 import { WhatsAppService } from '../../../services/whats-app.service';
 interface Slide {
   title: string;

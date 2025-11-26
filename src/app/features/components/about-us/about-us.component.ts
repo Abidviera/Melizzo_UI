@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import * as AOS from 'aos';
+import AOS from 'aos';
+
 interface AboutFeature {
   icon: string;
   title: string;

@@ -153,7 +153,7 @@ export class LandingPageComponent {
       likes: '3.1K',
     },
     {
-      image: '/choclate images/IMG_7899.webp',
+      image: '/choclate images/mixed.webp',
       likes: '2.7K',
     },
     {

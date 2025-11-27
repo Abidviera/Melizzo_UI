@@ -50,7 +50,7 @@ export class LandingPageComponent {
   private slideInterval: any;
   private rafId: number | null = null;
   private lastScrollTop = 0;
-
+  currentSustainabilityIndex = 0;
   slides: Slide[] = [
     {
       title: 'Our First Collection',
@@ -267,9 +267,9 @@ export class LandingPageComponent {
   ];
 
   workshopImages = [
-    'https://images.unsplash.com/photo-1646082192921-272df4780996?w=800&q=80',
-    'https://images.unsplash.com/photo-1714102367897-4a19259feb75?w=800&q=80',
-    'cover.jpg',
+    '/choclate images/choclateBean.webp',
+    '/choclate images/choclatemaking.webp',
+    '/choclate images/beanwithmelizzo.webp',
   ];
 
   corporateGiftImages = [
@@ -288,7 +288,6 @@ export class LandingPageComponent {
   ngOnInit(): void {
     this.startSlideshow();
 
-  
     this.ngZone.runOutsideAngular(() => {
       AOS.init({
         duration: 600,
@@ -319,9 +318,22 @@ export class LandingPageComponent {
     }
   }
 
+  scrollToSustainabilityCard(index: number): void {
+    const container = document.querySelector(
+      '.sustainability-grid'
+    ) as HTMLElement;
+    if (container) {
+      const cardWidth =
+        container.querySelector('.sustainability-card')?.clientWidth || 0;
+      container.scrollTo({
+        left: cardWidth * index,
+        behavior: 'smooth',
+      });
+    }
+  }
+
   @HostListener('window:scroll')
   onWindowScroll(): void {
-    
     if (!this.rafId) {
       this.ngZone.runOutsideAngular(() => {
         this.rafId = requestAnimationFrame(() => {
@@ -332,9 +344,18 @@ export class LandingPageComponent {
     }
   }
 
+  @HostListener('scroll', ['$event.target'])
+  onSustainabilityScroll(element: HTMLElement): void {
+    if (window.innerWidth <= 767) {
+      const scrollLeft = element.scrollLeft;
+      const cardWidth =
+        element.querySelector('.sustainability-card')?.clientWidth || 0;
+      this.currentSustainabilityIndex = Math.round(scrollLeft / cardWidth);
+    }
+  }
+
   private updateScrollState(): void {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
 
     if (Math.abs(scrollTop - this.lastScrollTop) > 5) {
       const newScrollState = scrollTop > 50;
@@ -438,16 +459,14 @@ export class LandingPageComponent {
     this.cdr.detectChanges();
   }
 
-
   orderDubaiProduct(product: DubaiProduct): void {
     this.whatsappService.sendProductInquiry({
       name: product.title,
       description: product.description,
       image: product.image,
-      price: 'Please inquire', 
+      price: 'Please inquire',
     });
   }
-
 
   orderProduct(product: Product): void {
     this.whatsappService.sendProductInquiry({
@@ -457,12 +476,10 @@ export class LandingPageComponent {
     });
   }
 
-
   discoverLaunch(): void {
     const message = `Hello Melizzo! 👋\n\nI saw your launch collection and I'm very interested!\n\nCould you tell me more about:\n• Kunafa Pistachio\n• Angel Hair Dubai Chocolate\n\nThank you! 😊`;
     this.whatsappService.sendCustomMessage(message);
   }
-
 
   orderLimitedEdition(): void {
     this.whatsappService.sendProductInquiry({
@@ -472,7 +489,6 @@ export class LandingPageComponent {
       price: 'Contact for pricing',
     });
   }
-
 
   requestCorporateQuote(): void {
     const message = `Hello Melizzo! 👋\n\nI'm interested in Corporate Gifting for my company.\n\nPlease provide information about:\n• Custom branding & packaging\n• Bulk order discounts\n• Minimum order quantities\n• Delivery timeline\n\nThank you! 😊`;

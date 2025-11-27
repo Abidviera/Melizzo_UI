@@ -12,7 +12,7 @@
           class="logo-text-image"
           loading="lazy"
         />
-        <p class="logo-subtitle">ARTISAN FOOD CO.</p>
+        <p class="logo-subtitle">Melt The Moment</p>
       </div>
 
       <nav class="nav" data-aos="fade-down" data-aos-delay="200">
@@ -173,7 +173,7 @@
       <div class="story-grid">
         <div class="story-image" data-aos="fade-right" data-aos-delay="200">
           <img
-            src="https://images.unsplash.com/photo-1714102367897-4a19259feb75?w=800&q=80"
+            src="choclate images/beanwithmelizzo.webp"
             alt="Melizzo beginning"
             loading="lazy"
           />
@@ -242,7 +242,11 @@
             [attr.data-aos-delay]="i * 100"
           >
             <div class="dubai-main-image">
-              <img [src]="getSelectedImage(i, product)" [alt]="product.title" loading="lazy"/>
+              <img
+                [src]="getSelectedImage(i, product)"
+                [alt]="product.title"
+                loading="lazy"
+              />
 
               <button
                 class="carousel-nav carousel-prev"
@@ -282,7 +286,7 @@
                 [attr.data-aos-delay]="i * 100 + j * 50"
               >
                 <img
-                loading="lazy"
+                  loading="lazy"
                   [src]="img"
                   [alt]="product.title + ' - Image ' + (j + 1)"
                 />
@@ -331,7 +335,7 @@
             </div>
             <div class="dubai-footer">
               <button
-               (click)="orderDubaiProduct(product)"
+                (click)="orderDubaiProduct(product)"
                 class="add-cart-btn"
                 data-aos="zoom-in"
                 [attr.data-aos-delay]="i * 100 + 700"
@@ -506,8 +510,13 @@
               </svg>
               <span>Express delivery available</span>
             </li>
-          </ul> 
-          <button class="order-btn"  (click)="orderLimitedEdition()" data-aos="zoom-in" data-aos-delay="700">
+          </ul>
+          <button
+            class="order-btn"
+            (click)="orderLimitedEdition()"
+            data-aos="zoom-in"
+            data-aos-delay="700"
+          >
             ORDER NOW
           </button>
         </div>
@@ -544,7 +553,7 @@
         <p class="notify-text">
           Be the first to know when we launch new products
         </p>
-        <button class="notify-btn"  (click)="notifyMe()">NOTIFY ME</button>
+        <button class="notify-btn" (click)="notifyMe()">NOTIFY ME</button>
       </div>
     </div>
 
@@ -662,7 +671,12 @@
               <span>Flexible delivery options</span>
             </li>
           </ul>
-          <button class="quote-btn" (click)="requestCorporateQuote()" data-aos="zoom-in" data-aos-delay="600">
+          <button
+            class="quote-btn"
+            (click)="requestCorporateQuote()"
+            data-aos="zoom-in"
+            data-aos-delay="600"
+          >
             REQUEST QUOTE
           </button>
         </div>
@@ -698,7 +712,7 @@
           data-aos="zoom-in"
           [attr.data-aos-delay]="i * 150"
         >
-          <img [src]="image" alt="Craftsmanship"  loading="lazy"/>
+          <img [src]="image" alt="Craftsmanship" loading="lazy" />
           <div class="workshop-overlay"></div>
         </div>
       </div>
@@ -746,7 +760,7 @@
           data-aos="zoom-in"
           [attr.data-aos-delay]="i * 100"
         >
-          <img [src]="post.image" alt="Instagram post"  loading="lazy"/>
+          <img [src]="post.image" alt="Instagram post" loading="lazy" />
           <div class="instagram-overlay">
             <div class="instagram-stats">
               <svg
@@ -814,7 +828,7 @@
           [attr.data-aos-delay]="i * 150"
         >
           <div class="knowledge-image">
-            <img [src]="post.image" [alt]="post.title" loading="lazy"/>
+            <img [src]="post.image" [alt]="post.title" loading="lazy" />
             <div class="read-time-badge">{{ post.readTime }}</div>
           </div>
           <div class="knowledge-title">{{ post.title }}</div>
@@ -855,10 +869,15 @@
     <div class="container">
       <div class="footer-grid" data-aos="fade-up">
         <div class="footer-brand">
-          <div class="footer-logo">MELIZZO</div>
-          <p class="footer-tagline">
-            Crafting artisan food experiences since 2025
-          </p>
+          <div class="logo">
+            <img
+              src="/logos/melizzoLogo.png"
+              alt="MELIZZO"
+              class="logo-text-image"
+              loading="lazy"
+            />
+            <p class="logo-subtitle">Melt The Moment</p>
+          </div>
         </div>
 
         <div

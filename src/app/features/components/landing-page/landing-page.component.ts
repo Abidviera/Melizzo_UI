@@ -57,20 +57,20 @@ export class LandingPageComponent {
       subtitle: 'Kunafa Pistachio & Angel Hair',
       description:
         'A taste of Middle Eastern luxury. Kunafas crispy sweetness and the silky threads of Angel Hair, reimagined in chocolate.',
-      image: '/choclate images/kunafaangel2.jpg',
+      image: '/choclate images/kunafaangel.webp',
     },
     {
       title: 'Angel Hair White',
       subtitle: 'White Chocolate × Sweet Cotton Candy',
       description:
         'Silky white chocolate fused with fluffy cotton candy for a cloud-soft, melt-in-mouth sweetness.',
-      image: 'angelhair.jpg',
+      image: 'angelhair.webp',
     },
     {
       title: 'Kunafa Pistachio',
       subtitle: 'Middle Eastern Excellence',
       description: 'Where tradition meets innovation in every bite',
-      image: 'kunafa.jpg',
+      image: 'kunafa.webp',
     },
     {
       title: 'Introducing Melizzo',
@@ -105,9 +105,9 @@ export class LandingPageComponent {
         'Crunchy Roasted Kunafa',
         'Visually Appealing',
       ],
-      image: 'kunafa.jpg',
+      image: 'kunafa.webp',
       images: [
-        'kunafa.jpg',
+        'kunafa.webp',
         '/choclate images/IMG_7896.webp',
         '/choclate images/IMG_7899.webp',
         '/choclate images/IMG_7920.webp',
@@ -125,9 +125,9 @@ export class LandingPageComponent {
         'Vibrant Pink & Blue Colors',
         'A Perfect Balance of Creamy & Airy Textures',
       ],
-      image: 'angelhair.jpg',
+      image: 'angelhair.webp',
       images: [
-        'angelhair.jpg',
+        'angelhair.webp',
         '/choclate images/IMG_7906.webp',
         '/choclate images/IMG_7901.webp',
         '/choclate images/IMG_7925.webp',
@@ -178,14 +178,14 @@ export class LandingPageComponent {
       title: 'Kunafa Meets Chocolate',
       excerpt:
         'The fascinating story behind our signature Kunafa Pistachio chocolate and the traditional flavors that inspired it.',
-      image: 'kunafa.jpg',
+      image: 'kunafa.webp',
       readTime: '6 min read',
     },
     {
       title: 'Coming Soon: More Artisan Delights',
       excerpt:
         'Get a sneak peek at our upcoming products including brownies, pancakes, and other packed food innovations.',
-      image: 'angelhair.jpg',
+      image: 'angelhair.webp',
       readTime: '4 min read',
     },
   ];

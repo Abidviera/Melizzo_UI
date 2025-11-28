@@ -13,7 +13,7 @@ export class NavbarComponent {
  
     navigationItems = [
     { label: 'Our Launch', route: '' },
-    { label: 'Story', route: '/aboutUs' }, 
+    { label: 'Our Story', route: '/aboutUs' }, 
     { label: 'Coming Soon', route: '' },
     { label: 'Contact', route: '/contact' }
   ];

@@ -2664,6 +2664,7 @@ header {
 }
 
 // ===== LIMITED EDITION SECTION =====
+// ===== LIMITED EDITION SECTION =====
 .limited-section {
   padding: 8rem 0;
   background: linear-gradient(to bottom, $black 0%, $dark-bg 100%);
@@ -2693,33 +2694,64 @@ header {
   }
 }
 
-.limited-image {
+.limited-placeholder {
   position: relative;
   aspect-ratio: 4 / 3;
-  overflow: hidden;
+  background: linear-gradient(135deg, rgba(201, 168, 106, 0.05) 0%, rgba(0, 0, 0, 0.8) 100%);
+  border: 1px solid rgba(201, 168, 106, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  @include transition();
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    @include transition(transform, 0.7s);
-  }
-
-  &:hover img {
-    transform: scale(1.05);
+  &:hover {
+    border-color: rgba(201, 168, 106, 0.4);
+    background: linear-gradient(135deg, rgba(201, 168, 106, 0.08) 0%, rgba(0, 0, 0, 0.9) 100%);
   }
 }
 
-.available-badge {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  padding: 0.5rem 1rem;
-  background: $gold;
-  color: $black;
-  font-size: 10px;
-  font-weight: 600;
+.placeholder-icon {
+  font-size: 5rem;
+  opacity: 0.8;
+  @include transition();
+
+  .limited-placeholder:hover & {
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 4rem;
+  }
+}
+
+.placeholder-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.coming-soon-title {
+  font-size: 2rem;
+  font-weight: 400;
   letter-spacing: 0.3em;
+  color: $gold;
+  font-family: $font-serif;
+  line-height: 1;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+}
+
+.coming-soon-subtitle {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.5);
   font-family: $font-main;
 }
 
@@ -2783,18 +2815,40 @@ header {
 .order-btn {
   margin-top: 2rem;
   padding: 1rem 2rem;
-  background: $gold;
-  color: $black;
-  border: none;
+  background: transparent;
+  border: 1px solid $gold;
+  color: $gold;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.3em;
   cursor: pointer;
   @include transition();
   font-family: $font-main;
-  width: 30%;
+  width: fit-content;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: $gold;
+    @include transition(left, 0.5s);
+    z-index: -1;
+  }
+
   &:hover {
-    background: $gold-dark;
-    transform: scale(1.05);
+    color: $black;
+
+    &::before {
+      left: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
   }
 }

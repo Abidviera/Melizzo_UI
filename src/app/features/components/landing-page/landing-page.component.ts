@@ -190,26 +190,26 @@ export class LandingPageComponent {
     },
   ];
 
-  upcomingProducts = [
-    {
-      name: 'Artisan Brownies',
-      description: 'Rich, fudgy, and decadent',
-      icon: '🍫',
-      status: 'Coming Soon',
-    },
-    {
-      name: 'Gourmet Pancakes',
-      description: 'Fluffy and irresistible',
-      icon: '🥞',
-      status: 'Coming Soon',
-    },
-    {
-      name: 'More Surprises',
-      description: 'Stay tuned for more',
-      icon: '✨',
-      status: 'Coming Soon',
-    },
-  ];
+ upcomingProducts = [
+  {
+    name: 'Something Sweet',
+    description: 'Rich, indulgent, unforgettable',
+    icon: '🎁',
+    status: 'Mystery Awaits',
+  },
+  {
+    name: 'Something Fluffy',
+    description: 'Light, delightful, irresistible',
+    icon: '✨',
+    status: 'Coming Soon',
+  },
+  {
+    name: 'Something Magical',
+    description: 'Beyond your imagination',
+    icon: '🌟',
+    status: 'Stay Tuned',
+  },
+];
 
   navigationItems = [
     { label: 'Our Launch', route: '' },
@@ -498,5 +498,10 @@ export class LandingPageComponent {
   notifyMe(): void {
     const message = `Hello Melizzo! 👋\n\nI'd like to be notified when you launch new products!\n\nI'm particularly interested in:\n• Artisan Brownies\n• Gourmet Pancakes\n• Other upcoming delights\n\nPlease add me to your notification list.\n\nThank you! 😊`;
     this.whatsappService.sendCustomMessage(message);
+  }
+
+
+  notifyLimitedEdition(){
+
   }
 }

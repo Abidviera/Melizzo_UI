@@ -16,10 +16,8 @@ body::-webkit-scrollbar {
 }
 
 body {
-  transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000;
-
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeSpeed;
@@ -52,7 +50,6 @@ body {
   will-change: transform, opacity;
 }
 
-/* Disable animations when user prefers reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;

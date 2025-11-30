@@ -72,7 +72,7 @@ export class LandingPageComponent {
 
   isScrolled = false;
   isMobileMenuOpen = false;
-  cartItemCount = 3;
+  cartItemCount = 0;
 
 
   currentSlide = 0;

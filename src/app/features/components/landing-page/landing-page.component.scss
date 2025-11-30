@@ -57,7 +57,6 @@ header {
     backdrop-filter: blur(10px);
     padding: 1rem 0;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-    
   }
 }
 
@@ -892,6 +891,12 @@ header {
   background: $black;
 }
 
+@media (max-width: 768px) {
+  .dubai-section {
+    padding: 0rem 0;
+  }
+}
+
 .dubai-products {
   display: flex;
   flex-direction: column;
@@ -1265,7 +1270,11 @@ header {
   padding: 8rem 0;
   background: linear-gradient(to bottom, $black 0%, $dark-bg 100%);
 }
-
+@media (max-width: 768px) {
+  .limited-section {
+    padding: 0rem 0;
+  }
+}
 .limited-badge {
   display: inline-flex;
   align-items: center;
@@ -1650,7 +1659,11 @@ header {
   padding: 8rem 0;
   background: $dark-bg;
 }
-
+@media (max-width: 768px) {
+  .sustainability-section {
+    padding: 0rem 0;
+  }
+}
 .sustainability-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1805,7 +1818,11 @@ header {
   padding: 8rem 0;
   background: $black;
 }
-
+@media (max-width: 768px) {
+  .workshop-section {
+    padding: 4rem 0;
+  }
+}
 .workshop-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -1878,7 +1895,11 @@ header {
   padding: 8rem 0;
   background: $black;
 }
-
+@media (max-width: 768px) {
+  .instagram-section {
+    padding: 4rem 0;
+  }
+}
 .instagram-header {
   display: inline-flex;
   align-items: center;
@@ -1993,7 +2014,11 @@ header {
   padding: 8rem 0;
   background: $dark-bg;
 }
-
+@media (max-width: 768px) {
+  .knowledge-section {
+    padding: 4rem 0;
+  }
+}
 .knowledge-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -2080,7 +2105,11 @@ header {
   padding: 8rem 0;
   background: $black;
 }
-
+@media (max-width: 768px) {
+  .newsletter-section {
+    padding: 4rem 0;
+  }
+}
 .newsletter-form {
   display: flex;
   gap: 1rem;
@@ -2231,11 +2260,11 @@ header {
   .nav {
     display: flex;
   }
-  
+
   .header-icons {
     display: flex;
   }
-  
+
   .mobile-header-actions,
   .mobile-menu-toggle {
     display: none;
@@ -2247,39 +2276,39 @@ header {
   .corporate-grid {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .dubai-product {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .limited-content {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .upcoming-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .timeline-items {
     grid-template-columns: repeat(4, 1fr);
   }
-  
+
   .workshop-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .instagram-grid {
     grid-template-columns: repeat(6, 1fr);
   }
-  
+
   .knowledge-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .newsletter-form {
     flex-wrap: nowrap;
   }
-  
+
   .footer-brand {
     grid-column: auto;
   }
@@ -2289,60 +2318,60 @@ header {
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .section-title {
     font-size: 2rem;
   }
-  
+
   .dubai-title,
   .limited-title {
     font-size: 1.75rem;
   }
-  
+
   .corporate-title {
     font-size: 2rem;
   }
-  
+
   .product-card {
     width: 60%;
   }
-  
+
   .order-btn {
     width: 100%;
   }
-  
+
   .header-container {
     padding: 0 1.25rem;
   }
-  
+
   .logo-text-image {
     height: 18px;
   }
-  
+
   .logo-subtitle {
     font-size: 7px;
     letter-spacing: 0.25em;
   }
-  
+
   .hero-carousel-nav {
     width: 3rem;
     height: 3rem;
     opacity: 1;
-    
+
     &.hero-carousel-prev {
       left: 0rem;
     }
-    
+
     &.hero-carousel-next {
       right: 0rem;
     }
-    
+
     svg {
       width: 1.25rem;
       height: 1.25rem;
     }
   }
-  
+
   .sustainability-grid {
     display: flex;
     overflow-x: auto;
@@ -2355,12 +2384,12 @@ header {
     padding-left: 2rem;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    
+
     &::-webkit-scrollbar {
       display: none;
     }
   }
-  
+
   .sustainability-card {
     flex: 0 0 85%;
     min-width: 85%;
@@ -2369,59 +2398,59 @@ header {
     background: rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(10px);
-    
+
     &:first-child {
       margin-left: 0;
     }
-    
+
     &:last-child {
       margin-right: 2rem;
     }
-    
+
     &:hover {
       transform: translateY(-4px);
     }
   }
-  
+
   .sustainability-icon {
     font-size: 2.5rem;
     margin-bottom: 1.25rem;
   }
-  
+
   .sustainability-title {
     font-size: 1.125rem;
     margin-bottom: 0.875rem;
   }
-  
+
   .sustainability-description {
     font-size: 0.8125rem;
     line-height: 1.6;
   }
-  
+
   .footer-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .launch-timeline {
     padding: 2rem 1.5rem;
   }
-  
+
   .timeline-title {
     font-size: 1.5rem;
   }
-  
+
   .upcoming-card {
     padding: 2rem 1.5rem;
   }
-  
+
   .upcoming-icon {
     font-size: 3rem;
   }
-  
+
   .upcoming-name {
     font-size: 1.25rem;
   }
-  
+
   .notify-cta {
     padding: 2rem 1rem;
   }
@@ -2434,24 +2463,56 @@ header {
   }
 }
 
-.collection-card:nth-child(1) { animation-delay: 0.05s; }
-.collection-card:nth-child(2) { animation-delay: 0.1s; }
-.collection-card:nth-child(3) { animation-delay: 0.15s; }
-.collection-card:nth-child(4) { animation-delay: 0.2s; }
-.collection-card:nth-child(5) { animation-delay: 0.25s; }
-.collection-card:nth-child(6) { animation-delay: 0.3s; }
+.collection-card:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.collection-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.collection-card:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.collection-card:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.collection-card:nth-child(5) {
+  animation-delay: 0.25s;
+}
+.collection-card:nth-child(6) {
+  animation-delay: 0.3s;
+}
 
-.product-card:nth-child(1) { animation-delay: 0.1s; }
-.product-card:nth-child(2) { animation-delay: 0.2s; }
-.product-card:nth-child(3) { animation-delay: 0.3s; }
-.product-card:nth-child(4) { animation-delay: 0.4s; }
+.product-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.product-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.product-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.product-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
 
-.instagram-post:nth-child(1) { animation-delay: 0.1s; }
-.instagram-post:nth-child(2) { animation-delay: 0.2s; }
-.instagram-post:nth-child(3) { animation-delay: 0.3s; }
-.instagram-post:nth-child(4) { animation-delay: 0.4s; }
-.instagram-post:nth-child(5) { animation-delay: 0.5s; }
-.instagram-post:nth-child(6) { animation-delay: 0.6s; }
+.instagram-post:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.instagram-post:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.instagram-post:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.instagram-post:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.instagram-post:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.instagram-post:nth-child(6) {
+  animation-delay: 0.6s;
+}
 
 /* Grid layout adjustments for Dubai products */
 @media (min-width: 1024px) {

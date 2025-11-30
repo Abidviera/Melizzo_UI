@@ -22,6 +22,8 @@ $font-serif: "Noto Serif Georgian", serif;
   font-family: $font-main;
   min-height: 100vh;
   overflow: hidden;
+
+ 
 }
 
 .contact-page::-webkit-scrollbar {
@@ -42,6 +44,7 @@ $font-serif: "Noto Serif Georgian", serif;
 .contact-hero {
   position: relative;
   min-height: 40vh;
+    padding-top: 50px;
   display: flex;
   align-items: center;
   justify-content: center;

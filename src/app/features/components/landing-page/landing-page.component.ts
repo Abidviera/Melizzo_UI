@@ -7,6 +7,9 @@ import {
 import AOS from 'aos';
 import { WhatsAppService } from '../../../services/whats-app.service';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { debounceTime, throttleTime } from 'rxjs/operators';
+
 interface Slide {
   title: string;
   subtitle: string;
@@ -69,33 +72,35 @@ interface SustainabilityFeature {
   styleUrl: './landing-page.component.scss',
 })
 export class LandingPageComponent {
+  private scrollSubject = new Subject<number>();
+  private destroy$ = new Subject<void>();
+  private isScrolling = false;
 
   isScrolled = false;
   isMobileMenuOpen = false;
   cartItemCount = 0;
-
 
   currentSlide = 0;
   private slideInterval: any;
   private rafId: number | null = null;
   private lastScrollTop = 0;
 
-
   selectedImageIndex: { [key: number]: number } = {};
   currentSustainabilityIndex = 0;
-
 
   slides: Slide[] = [
     {
       title: 'Our First Collection',
       subtitle: 'Kunafa Pistachio & Angel Hair',
-      description: 'A taste of Middle Eastern luxury. Kunafas crispy sweetness and the silky threads of Angel Hair, reimagined in chocolate.',
+      description:
+        'A taste of Middle Eastern luxury. Kunafas crispy sweetness and the silky threads of Angel Hair, reimagined in chocolate.',
       image: '/choclate images/kunafaangel.webp',
     },
     {
       title: 'Angel Hair White',
       subtitle: 'White Chocolate × Sweet Cotton Candy',
-      description: 'Silky white chocolate fused with fluffy cotton candy for a cloud-soft, melt-in-mouth sweetness.',
+      description:
+        'Silky white chocolate fused with fluffy cotton candy for a cloud-soft, melt-in-mouth sweetness.',
       image: 'angelhair.webp',
     },
     {
@@ -107,7 +112,8 @@ export class LandingPageComponent {
     {
       title: 'Introducing Melizzo',
       subtitle: 'A New Era of Artisan Chocolate',
-      description: 'Witness the mesmerizing journey of cocoa transformed into pure indulgence — where craftsmanship meets passion.',
+      description:
+        'Witness the mesmerizing journey of cocoa transformed into pure indulgence — where craftsmanship meets passion.',
       image: 'choclate.mp4',
     },
   ];
@@ -128,7 +134,8 @@ export class LandingPageComponent {
   dubaiProducts: DubaiProduct[] = [
     {
       title: 'Kunafa Pistachio Dubai Chocolate',
-      description: 'Indulge in a taste of authentic Middle Eastern luxury. This exquisite chocolate bar combines rich milk chocolate with a creamy pistachio filling and the unique, crispy texture of roasted kunafa pastry. It is a sophisticated treat where creamy, nutty, and crunchy textures meet in perfect harmony.',
+      description:
+        'Indulge in a taste of authentic Middle Eastern luxury. This exquisite chocolate bar combines rich milk chocolate with a creamy pistachio filling and the unique, crispy texture of roasted kunafa pastry. It is a sophisticated treat where creamy, nutty, and crunchy textures meet in perfect harmony.',
       features: [
         'Premium Milk Chocolate',
         'Creamy Pistachio Filling',
@@ -147,7 +154,8 @@ export class LandingPageComponent {
     },
     {
       title: 'Angel Hair Dubai Chocolate',
-      description: 'Indulge in a delightful fusion of textures. Rich white chocolate is perfectly blended with sweet, fluffy cotton candy and crisp, golden pastry strands, offering a playful contrast between creamy melt and airy crunch. A uniquely luxurious experience.',
+      description:
+        'Indulge in a delightful fusion of textures. Rich white chocolate is perfectly blended with sweet, fluffy cotton candy and crisp, golden pastry strands, offering a playful contrast between creamy melt and airy crunch. A uniquely luxurious experience.',
       features: [
         'Cotton Candy Infused White Chocolate',
         'Crisp Angel Hair Pastry',
@@ -178,19 +186,22 @@ export class LandingPageComponent {
   blogPosts: BlogPost[] = [
     {
       title: 'The Art of Dubai Chocolate',
-      excerpt: 'Discover what makes Dubai chocolate unique and why our handcrafted creations are taking the world by storm.',
+      excerpt:
+        'Discover what makes Dubai chocolate unique and why our handcrafted creations are taking the world by storm.',
       image: '/choclate images/IMG_7896.webp',
       readTime: '5 min read',
     },
     {
       title: 'Kunafa Meets Chocolate',
-      excerpt: 'The fascinating story behind our signature Kunafa Pistachio chocolate and the traditional flavors that inspired it.',
+      excerpt:
+        'The fascinating story behind our signature Kunafa Pistachio chocolate and the traditional flavors that inspired it.',
       image: 'kunafa.webp',
       readTime: '6 min read',
     },
     {
       title: 'Coming Soon: More Artisan Delights',
-      excerpt: 'Get a sneak peek at our upcoming products including brownies, pancakes, and other packed food innovations.',
+      excerpt:
+        'Get a sneak peek at our upcoming products including brownies, pancakes, and other packed food innovations.',
       image: 'angelhair.webp',
       readTime: '4 min read',
     },
@@ -249,22 +260,26 @@ export class LandingPageComponent {
     {
       icon: '🌍',
       title: 'Quality First',
-      description: 'We source only the finest ingredients from trusted suppliers, ensuring every product meets our high standards.',
+      description:
+        'We source only the finest ingredients from trusted suppliers, ensuring every product meets our high standards.',
     },
     {
       icon: '✓',
       title: 'Canadian Regulatory Compliance',
-      description: 'Melizzo Ltd. has successfully met all Canadian regulatory requirements for importing and distributing food products. We hold the necessary food license and CFIA certifications, ensuring every product meets the highest standards of quality, safety, and legal compliance.',
+      description:
+        'Melizzo Ltd. has successfully met all Canadian regulatory requirements for importing and distributing food products. We hold the necessary food license and CFIA certifications, ensuring every product meets the highest standards of quality, safety, and legal compliance.',
     },
     {
       icon: '♻️',
       title: 'Sustainable Packaging',
-      description: 'Our packaging is designed to be both luxurious and environmentally responsible, using recyclable materials.',
+      description:
+        'Our packaging is designed to be both luxurious and environmentally responsible, using recyclable materials.',
     },
     {
       icon: '🤝',
       title: 'Community Focus',
-      description: 'Built on the foundation of bringing people together through exceptional artisan food experiences.',
+      description:
+        'Built on the foundation of bringing people together through exceptional artisan food experiences.',
     },
   ];
 
@@ -289,9 +304,27 @@ export class LandingPageComponent {
   ) {}
 
   ngOnInit(): void {
+    this.scrollSubject
+      .pipe(throttleTime(16), debounceTime(10))
+      .subscribe((scrollTop) => {
+        this.handleScroll(scrollTop);
+      });
+
     this.checkScroll();
     this.startSlideshow();
     this.initAOS();
+  }
+
+  private handleScroll(scrollTop: number): void {
+    const newScrollState = scrollTop > 50;
+
+    if (this.isScrolled !== newScrollState) {
+      this.ngZone.run(() => {
+        this.isScrolled = newScrollState;
+
+        this.cdr.markForCheck();
+      });
+    }
   }
 
   ngAfterViewInit(): void {
@@ -301,36 +334,42 @@ export class LandingPageComponent {
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.stopSlideshow();
     this.cancelAnimationFrame();
     this.closeMobileMenu();
   }
 
-
   private initAOS(): void {
     this.ngZone.runOutsideAngular(() => {
-      AOS.init({
-        duration: 600,
-        easing: 'ease-out-cubic',
-        once: true,
-        mirror: false,
-        offset: 100,
-        delay: 0,
-        anchorPlacement: 'top-bottom',
-        disable: false,
-        throttleDelay: 99,
-      });
+      setTimeout(() => {
+        AOS.init({
+          duration: 600,
+          easing: 'ease-out-cubic',
+          once: true,
+          mirror: false,
+          offset: 100,
+          delay: 0,
+          anchorPlacement: 'top-bottom',
+
+          throttleDelay: 99,
+        });
+      }, 1000);
     });
   }
 
-
   @HostListener('window:scroll')
   onWindowScroll(): void {
-    if (!this.rafId) {
+    if (!this.isScrolling) {
+      this.isScrolling = true;
+
       this.ngZone.runOutsideAngular(() => {
-        this.rafId = requestAnimationFrame(() => {
-          this.updateScrollState();
-          this.rafId = null;
+        requestAnimationFrame(() => {
+          const scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
+          this.scrollSubject.next(scrollTop);
+          this.isScrolling = false;
         });
       });
     }
@@ -342,17 +381,17 @@ export class LandingPageComponent {
 
   private updateScrollState(): void {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
+
     if (Math.abs(scrollTop - this.lastScrollTop) > 5) {
       const newScrollState = scrollTop > 50;
-      
+
       if (this.isScrolled !== newScrollState) {
         this.ngZone.run(() => {
           this.isScrolled = newScrollState;
           this.cdr.detectChanges();
         });
       }
-      
+
       this.lastScrollTop = scrollTop;
     }
   }
@@ -389,7 +428,6 @@ export class LandingPageComponent {
     document.body.classList.remove('mobile-menu-open');
   }
 
-
   navigateHome(): void {
     this.router.navigate(['/']);
     this.closeMobileMenu();
@@ -401,7 +439,6 @@ export class LandingPageComponent {
     }
     this.closeMobileMenu();
   }
-
 
   openSearch(): void {
     console.log('Open search');
@@ -426,7 +463,6 @@ export class LandingPageComponent {
     this.closeMobileMenu();
   }
 
-
   startSlideshow(): void {
     this.slideInterval = setInterval(() => {
       this.currentSlide = (this.currentSlide + 1) % this.slides.length;
@@ -450,9 +486,8 @@ export class LandingPageComponent {
 
   prevSlide(): void {
     this.stopSlideshow();
-    this.currentSlide = this.currentSlide === 0 
-      ? this.slides.length - 1 
-      : this.currentSlide - 1;
+    this.currentSlide =
+      this.currentSlide === 0 ? this.slides.length - 1 : this.currentSlide - 1;
     this.startSlideshow();
     this.cdr.detectChanges();
   }
@@ -474,13 +509,12 @@ export class LandingPageComponent {
 
   isImage(url: string): boolean {
     const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov'];
-    return !videoExtensions.some(ext => url.toLowerCase().includes(ext));
+    return !videoExtensions.some((ext) => url.toLowerCase().includes(ext));
   }
 
   isVideo(url: string): boolean {
     return !this.isImage(url);
   }
-
 
   getSelectedImage(productIndex: number, product: DubaiProduct): string {
     const index = this.selectedImageIndex[productIndex] || 0;
@@ -494,18 +528,17 @@ export class LandingPageComponent {
 
   prevImage(productIndex: number, product: DubaiProduct): void {
     const currentIndex = this.selectedImageIndex[productIndex] || 0;
-    this.selectedImageIndex[productIndex] = currentIndex === 0 
-      ? product.images.length - 1 
-      : currentIndex - 1;
+    this.selectedImageIndex[productIndex] =
+      currentIndex === 0 ? product.images.length - 1 : currentIndex - 1;
     this.cdr.detectChanges();
   }
 
   nextImage(productIndex: number, product: DubaiProduct): void {
     const currentIndex = this.selectedImageIndex[productIndex] || 0;
-    this.selectedImageIndex[productIndex] = (currentIndex + 1) % product.images.length;
+    this.selectedImageIndex[productIndex] =
+      (currentIndex + 1) % product.images.length;
     this.cdr.detectChanges();
   }
-
 
   orderDubaiProduct(product: DubaiProduct): void {
     this.whatsappService.sendProductInquiry({
@@ -543,7 +576,6 @@ export class LandingPageComponent {
     const message = `Hello Melizzo! 👋\n\nI'd like to be notified when you launch new products!\n\nI'm particularly interested in:\n• Artisan Brownies\n• Gourmet Pancakes\n• Other upcoming delights\n\nPlease add me to your notification list.\n\nThank you! 😊`;
     this.whatsappService.sendCustomMessage(message);
   }
-
 
   trackByIndex(index: number): number {
     return index;

@@ -23,64 +23,70 @@ interface TimelineItem {
   selector: 'app-about-us',
   standalone: false,
   templateUrl: './about-us.component.html',
-  styleUrl: './about-us.component.scss'
+  styleUrl: './about-us.component.scss',
 })
 export class AboutUsComponent {
-features: AboutFeature[] = [
+  features: AboutFeature[] = [
     {
       icon: '',
       title: 'Passion for Excellence',
-      description: 'Every product is crafted with meticulous attention to detail, bringing together the finest ingredients and innovative techniques.'
+      description:
+        'Every product is crafted with meticulous attention to detail, bringing together the finest ingredients and innovative techniques.',
     },
     {
       icon: '',
       title: 'Innovation Driven',
-      description: 'We constantly explore new flavors and concepts, staying ahead of culinary trends to offer unique taste experiences.'
+      description:
+        'We constantly explore new flavors and concepts, staying ahead of culinary trends to offer unique taste experiences.',
     },
     {
       icon: '',
       title: 'Customer First',
-      description: 'Your satisfaction drives everything we do. We\'re committed to delivering products that exceed expectations.'
-    }
+      description:
+        "Your satisfaction drives everything we do. We're committed to delivering products that exceed expectations.",
+    },
   ];
 
   certifications: Certification[] = [
     {
       icon: '🛡️',
       title: 'CFIA Certified',
-      subtitle: 'Canadian Food Inspection Agency'
+      subtitle: 'Canadian Food Inspection Agency',
     },
     {
       icon: '✓',
       title: 'Licensed Importer',
-      subtitle: 'Full Regulatory Compliance'
+      subtitle: 'Full Regulatory Compliance',
     },
     {
       icon: '🏆',
       title: 'Quality Assured',
-      subtitle: 'Highest Safety Standards'
-    }
+      subtitle: 'Highest Safety Standards',
+    },
   ];
 
   timelineItems: TimelineItem[] = [
     {
       date: 'JANUARY 2025',
       title: 'Company Founded',
-      description: 'Melizzo Ltd. established with a vision to revolutionize artisan food in Canada',
-      status: 'active'
+      description:
+        'Melizzo Ltd. established with a vision to revolutionize artisan food in Canada',
+      status: 'active',
     },
     {
       date: 'JANUARY 2025',
       title: 'Product Launch',
-      description: 'Introduced our signature Dubai chocolates: Kunafa Pistachio & Angel Hair',
-      status: 'active'
+      description:
+        'Introduced our signature Dubai chocolates: Kunafa Pistachio & Angel Hair',
+      status: 'active',
     },
     {
       date: '2025 & BEYOND',
       title: 'Expansion',
-      description: 'Growing our product line with brownies, pancakes, and more artisan delights',
-      status: 'upcoming'
-    }
+      description:
+        'Growing our product line with brownies, pancakes, and more artisan delights',
+      status: 'upcoming',
+    },
   ];
 
   ngOnInit(): void {

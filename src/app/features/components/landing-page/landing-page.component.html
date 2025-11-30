@@ -526,10 +526,15 @@
         </p>
       </div>
 
-      <div class="sustainability-grid">
+      <div
+        class="sustainability-grid"
+        #sustainabilityGrid
+        (scroll)="onSustainabilityScroll($event)"
+      >
         <div
           *ngFor="let feature of sustainabilityFeatures; let i = index"
           class="sustainability-card"
+          [attr.data-index]="i"
           data-aos="fade-up"
           [attr.data-aos-delay]="i * 100"
         >
@@ -537,6 +542,38 @@
           <div class="sustainability-title">{{ feature.title }}</div>
           <p class="sustainability-description">{{ feature.description }}</p>
         </div>
+      </div>
+
+      <!-- Scroll Indicators -->
+      <div class="sustainability-scroll-indicators">
+        <button
+          *ngFor="let feature of sustainabilityFeatures; let i = index"
+          (click)="scrollToSustainabilityCard(i)"
+          class="sustainability-indicator"
+          [class.active]="currentSustainabilityIndex === i"
+          [attr.aria-label]="'View ' + feature.title"
+        ></button>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="sustainability-progress">
+        <div
+          class="sustainability-progress-bar"
+          [style.width.%]="sustainabilityProgress"
+        ></div>
+      </div>
+
+      <!-- Scroll Hint (shows initially) -->
+      <div class="sustainability-scroll-hint" *ngIf="showScrollHint">
+        <span>SWIPE TO EXPLORE</span>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
       </div>
     </div>
   </section>
@@ -782,4 +819,16 @@
       </p>
     </div>
   </section>
+
+  <button
+    class="scroll-to-top"
+    [class.visible]="showScrollToTop"
+    (click)="scrollToTop()"
+    aria-label="Scroll to top"
+  >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+    <span>TOP</span>
+  </button>
 </div>

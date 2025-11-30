@@ -8,12 +8,142 @@ $white: #ffffff;
 $font-main: "Noto Sans Georgian", sans-serif;
 $font-serif: "Noto Serif Georgian", serif;
 
-/* Mixins */
+
 @mixin transition($property: all, $duration: 0.3s, $timing: ease) {
   transition: $property $duration $timing;
 }
+.scroll-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(201, 168, 106, 0.3);
+  border-radius: 0;
+  color: $gold;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  @include transition(all, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
+  z-index: 999;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  padding: 0;
 
-/* Global Styles */
+  // Visible state
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  // Hover state
+  &:hover {
+    background: rgba(201, 168, 106, 0.1);
+    border-color: $gold;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(201, 168, 106, 0.3);
+
+    svg {
+      transform: translateY(-2px);
+    }
+
+    span {
+      color: $gold;
+    }
+  }
+
+  // Active/Click state
+  &:active {
+    transform: translateY(-2px) scale(0.95);
+    transition-duration: 0.1s;
+  }
+
+  // Focus state for accessibility
+  &:focus {
+    outline: none;
+    border-color: $gold;
+    box-shadow: 0 0 0 3px rgba(201, 168, 106, 0.2);
+  }
+
+  // SVG icon
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    stroke-width: 2.5;
+    @include transition(transform, 0.3s);
+  }
+
+  // Text
+  span {
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    font-family: $font-main;
+    color: $gold;
+    @include transition(color, 0.3s);
+  }
+
+  // Mobile responsive
+  @media (max-width: 768px) {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 3rem;
+    height: 3rem;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    span {
+      font-size: 7px;
+    }
+  }
+
+  // Extra small mobile
+  @media (max-width: 480px) {
+    bottom: 1rem;
+    right: 1rem;
+    width: 2.75rem;
+    height: 2.75rem;
+
+    svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    span {
+      font-size: 6px;
+    }
+  }
+}
+
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.scroll-to-top.animate-in {
+  animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1235,21 +1365,46 @@ img {
   }
 }
 
-/* Sustainability Section */
+/* Add to your existing SCSS file */
+
+/* Sustainability Section - Enhanced Mobile Experience */
 .sustainability-section {
   padding: 8rem 0;
   background: $dark-bg;
-}
-@media (max-width: 768px) {
-  .sustainability-section {
-    padding: 0rem 0;
+  position: relative;
+
+  @media (max-width: 768px) {
+    padding: 4rem 0;
   }
 }
+
 .sustainability-grid {
   transform: translateZ(0);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 1.25rem;
+    padding: 0 1rem 2rem 1rem;
+    margin: 0 -2rem;
+    padding-left: 2rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Add momentum scrolling for iOS */
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .sustainability-card {
@@ -1258,9 +1413,35 @@ img {
   border: 1px solid rgba(255, 255, 255, 0.05);
   @include transition(all, 0.5s);
   contain: layout style paint;
+
   &:hover {
     border-color: rgba(201, 168, 106, 0.3);
     transform: translateY(-8px);
+  }
+
+  @media (max-width: 768px) {
+    flex: 0 0 85%;
+    min-width: 85%;
+    scroll-snap-align: center;
+    padding: 1.75rem 1.5rem;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 2rem;
+    }
+
+    &:hover {
+      transform: translateY(-4px);
+    }
   }
 }
 
@@ -1268,6 +1449,11 @@ img {
   font-size: 3rem;
   margin-bottom: 1.5rem;
   line-height: 1;
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+    margin-bottom: 1.25rem;
+  }
 }
 
 .sustainability-title {
@@ -1277,6 +1463,11 @@ img {
   letter-spacing: 0.02em;
   font-family: $font-main;
   line-height: 1.4;
+
+  @media (max-width: 768px) {
+    font-size: 1.125rem;
+    margin-bottom: 0.875rem;
+  }
 }
 
 .sustainability-description {
@@ -1285,8 +1476,168 @@ img {
   color: rgba(255, 255, 255, 0.6);
   line-height: 1.7;
   font-family: $font-main;
+
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+    line-height: 1.6;
+  }
 }
 
+/* Scroll Indicators for Mobile */
+.sustainability-scroll-indicators {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0 2rem;
+  }
+}
+
+.sustainability-indicator {
+  width: 2rem;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  cursor: pointer;
+  @include transition(all, 0.3s);
+  padding: 0;
+  border-radius: 2px;
+
+  &.active {
+    background: $gold;
+    width: 2.5rem;
+  }
+
+  &:hover {
+    background: rgba(201, 168, 106, 0.5);
+  }
+}
+
+/* Scroll Hint Animation */
+.sustainability-scroll-hint {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.2em;
+    font-family: $font-main;
+    animation: fadeInOut 3s ease-in-out infinite;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      animation: slideHint 2s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes slideHint {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+}
+
+/* Navigation Arrows for Mobile */
+.sustainability-nav {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    margin-top: 1rem;
+    position: relative;
+    z-index: 10;
+  }
+}
+
+.sustainability-nav-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(201, 168, 106, 0.1);
+  border: 1px solid rgba(201, 168, 106, 0.3);
+  color: $gold;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include transition(all, 0.3s);
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    background: rgba(201, 168, 106, 0.2);
+    border-color: $gold;
+    transform: scale(1.1);
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+/* Touch Interaction Feedback */
+@media (max-width: 768px) {
+  .sustainability-card {
+    -webkit-tap-highlight-color: rgba(201, 168, 106, 0.1);
+    
+    &:active {
+      transform: scale(0.98);
+      transition: transform 0.1s ease;
+    }
+  }
+}
+
+/* Progress Bar */
+.sustainability-progress {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    width: calc(100% - 4rem);
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 1.5rem auto 0;
+    border-radius: 1px;
+    overflow: hidden;
+    position: relative;
+  }
+}
+
+.sustainability-progress-bar {
+  height: 100%;
+  background: linear-gradient(to right, $gold, $gold-dark);
+  @include transition(width, 0.3s);
+  border-radius: 1px;
+}
 /* Corporate Section */
 .corporate-section {
   padding: 8rem 0;

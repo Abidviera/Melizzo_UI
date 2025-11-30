@@ -3,6 +3,8 @@ import {
   HostListener,
   ChangeDetectorRef,
   NgZone,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import AOS from 'aos';
 import { WhatsAppService } from '../../../services/whats-app.service';
@@ -72,9 +74,15 @@ interface SustainabilityFeature {
   styleUrl: './landing-page.component.scss',
 })
 export class LandingPageComponent {
+    showScrollToTop = false;
   private scrollSubject = new Subject<number>();
   private destroy$ = new Subject<void>();
   private isScrolling = false;
+  @ViewChild('sustainabilityGrid') sustainabilityGrid!: ElementRef;
+  currentSustainabilityIndex = 0;
+  sustainabilityProgress = 0;
+  showScrollHint = true;
+  private scrollHintTimer: any;
 
   isScrolled = false;
   isMobileMenuOpen = false;
@@ -86,7 +94,6 @@ export class LandingPageComponent {
   private lastScrollTop = 0;
 
   selectedImageIndex: { [key: number]: number } = {};
-  currentSustainabilityIndex = 0;
 
   slides: Slide[] = [
     {
@@ -313,15 +320,24 @@ export class LandingPageComponent {
     this.checkScroll();
     this.startSlideshow();
     this.initAOS();
+
+    this.scrollHintTimer = setTimeout(() => {
+      this.showScrollHint = false;
+      this.cdr.detectChanges();
+    }, 5000);
   }
 
   private handleScroll(scrollTop: number): void {
     const newScrollState = scrollTop > 50;
+    const newScrollToTopState = scrollTop > 500; 
 
-    if (this.isScrolled !== newScrollState) {
+    if (
+      this.isScrolled !== newScrollState ||
+      this.showScrollToTop !== newScrollToTopState
+    ) {
       this.ngZone.run(() => {
         this.isScrolled = newScrollState;
-
+        this.showScrollToTop = newScrollToTopState;
         this.cdr.markForCheck();
       });
     }
@@ -339,6 +355,83 @@ export class LandingPageComponent {
     this.stopSlideshow();
     this.cancelAnimationFrame();
     this.closeMobileMenu();
+
+    if (this.scrollHintTimer) {
+      clearTimeout(this.scrollHintTimer);
+    }
+  }
+
+  onSustainabilityScroll(event: Event): void {
+    const element = event.target as HTMLElement;
+
+    // Hide scroll hint on first interaction
+    if (this.showScrollHint) {
+      this.showScrollHint = false;
+    }
+
+    // Calculate scroll progress
+    const scrollLeft = element.scrollLeft;
+    const scrollWidth = element.scrollWidth - element.clientWidth;
+    this.sustainabilityProgress = (scrollLeft / scrollWidth) * 100;
+
+    // Detect which card is currently in view (center-aligned)
+    const cards = element.querySelectorAll('.sustainability-card');
+    const containerCenter = element.scrollLeft + element.clientWidth / 2;
+
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+
+    cards.forEach((card, index) => {
+      const cardElement = card as HTMLElement;
+      const cardCenter = cardElement.offsetLeft + cardElement.offsetWidth / 2;
+      const distance = Math.abs(containerCenter - cardCenter);
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    if (this.currentSustainabilityIndex !== closestIndex) {
+      this.currentSustainabilityIndex = closestIndex;
+      this.cdr.detectChanges();
+    }
+  }
+
+  // Method to scroll to a specific card
+  scrollToSustainabilityCard(index: number): void {
+    if (!this.sustainabilityGrid) return;
+
+    const grid = this.sustainabilityGrid.nativeElement;
+    const cards = grid.querySelectorAll('.sustainability-card');
+
+    if (cards[index]) {
+      const card = cards[index] as HTMLElement;
+      const scrollLeft =
+        card.offsetLeft - (grid.clientWidth - card.offsetWidth) / 2;
+
+      grid.scrollTo({
+        left: scrollLeft,
+        behavior: 'smooth',
+      });
+
+      this.currentSustainabilityIndex = index;
+      this.cdr.detectChanges();
+    }
+  }
+
+  // Optional: Add navigation methods for arrow buttons
+  scrollSustainabilityPrev(): void {
+    const newIndex = Math.max(0, this.currentSustainabilityIndex - 1);
+    this.scrollToSustainabilityCard(newIndex);
+  }
+
+  scrollSustainabilityNext(): void {
+    const newIndex = Math.min(
+      this.sustainabilityFeatures.length - 1,
+      this.currentSustainabilityIndex + 1
+    );
+    this.scrollToSustainabilityCard(newIndex);
   }
 
   private initAOS(): void {
@@ -580,4 +673,19 @@ export class LandingPageComponent {
   trackByIndex(index: number): number {
     return index;
   }
+
+
+
+
+  scrollToTop(): void {
+  
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+
+
+  }
+
+
 }

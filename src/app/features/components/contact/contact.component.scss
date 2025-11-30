@@ -1,5 +1,3 @@
-
-
 $gold: #c9a86a;
 $gold-dark: #b8975a;
 $gold-light: #d4b87c;
@@ -10,11 +8,9 @@ $white: #ffffff;
 $font-main: "Noto Sans Georgian", sans-serif;
 $font-serif: "Noto Serif Georgian", serif;
 
-
 @mixin transition($property: all, $duration: 0.3s, $timing: ease) {
   transition: $property $duration $timing;
 }
-
 
 .contact-page {
   background: $black;
@@ -22,8 +18,6 @@ $font-serif: "Noto Serif Georgian", serif;
   font-family: $font-main;
   min-height: 100vh;
   overflow: hidden;
-
- 
 }
 
 .contact-page::-webkit-scrollbar {
@@ -40,11 +34,10 @@ $font-serif: "Noto Serif Georgian", serif;
   }
 }
 
-
 .contact-hero {
   position: relative;
   min-height: 40vh;
-    padding-top: 50px;
+  padding-top: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,7 +108,6 @@ $font-serif: "Noto Serif Georgian", serif;
     font-size: 1.25rem;
   }
 }
-
 
 .contact-cards {
   padding: 3rem 0;
@@ -232,7 +224,6 @@ $font-serif: "Noto Serif Georgian", serif;
   }
 }
 
-
 .contact-form-section {
   padding: 3rem 0;
   background: $dark-bg;
@@ -247,8 +238,6 @@ $font-serif: "Noto Serif Georgian", serif;
   margin: 0 auto;
   padding: 20px;
 }
-
-
 
 .form-header {
   text-align: center;
@@ -284,11 +273,11 @@ $font-serif: "Noto Serif Georgian", serif;
 }
 .contact-form {
   display: grid;
-  grid-template-columns: 1fr; // Single column on mobile
+  grid-template-columns: 1fr;
   gap: 1.5rem;
 
   @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr); // Two columns on tablet+
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }
 }
@@ -298,7 +287,7 @@ $font-serif: "Noto Serif Georgian", serif;
   flex-direction: column;
 
   &.full-width {
-    grid-column: 1 / -1; // Spans all columns
+    grid-column: 1 / -1;
   }
 
   label {
@@ -324,7 +313,7 @@ $font-serif: "Noto Serif Georgian", serif;
     font-size: 0.938rem;
     font-family: $font-main;
     font-weight: 300;
-    border-radius: 0; 
+    border-radius: 0;
     @include transition(all, 0.3s);
 
     @media (min-width: 768px) {
@@ -369,7 +358,7 @@ $font-serif: "Noto Serif Georgian", serif;
   }
 }
 .submit-btn {
-  grid-column: 1 / -1; // Spans all columns
+  grid-column: 1 / -1;
   padding: 1rem 2rem;
   background: $gold;
   color: $black;
@@ -384,14 +373,14 @@ $font-serif: "Noto Serif Georgian", serif;
   justify-content: center;
   gap: 0.75rem;
   margin-top: 0.5rem;
-  width: 100%; // Full width on mobile
+  width: 100%;
   @include transition(all, 0.3s);
 
   @media (min-width: 768px) {
     padding: 1.25rem 2.5rem;
     font-size: 0.938rem;
-    width: auto; // Auto width on desktop
-    justify-self: start; // Left align on desktop
+    width: auto;
+    justify-self: start;
   }
 
   svg {
@@ -428,11 +417,10 @@ $font-serif: "Noto Serif Georgian", serif;
     input,
     select,
     textarea {
-      font-size: 16px; 
+      font-size: 16px;
     }
   }
 }
-
 
 .contact-page {
   scroll-behavior: smooth;
@@ -512,7 +500,6 @@ $font-serif: "Noto Serif Georgian", serif;
     font-size: 0.875rem;
   }
 }
-
 
 .faq-section {
   padding: 3rem 0 4rem;
@@ -622,7 +609,6 @@ $font-serif: "Noto Serif Georgian", serif;
   }
 }
 
-
 .response-promise {
   padding: 3rem 0;
   background: linear-gradient(135deg, $dark-bg 0%, $black 100%);
@@ -727,7 +713,6 @@ $font-serif: "Noto Serif Georgian", serif;
     font-size: 0.813rem;
   }
 }
-
 
 @keyframes fadeInUp {
   from {

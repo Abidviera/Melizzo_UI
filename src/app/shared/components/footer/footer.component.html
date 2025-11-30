@@ -1,60 +1,60 @@
-  <footer class="footer" id="contact">
-    <div class="container">
-      <div class="footer-grid" data-aos="fade-up">
-        <div class="footer-brand">
-          <div class="logo">
-            <img
-              src="/logos/melizzoLogo.png"
-              alt="MELIZZO"
-              class="logo-text-image"
-              loading="lazy"
-            />
-            <p class="logo-subtitle">Melt The Moment</p>
-          </div>
-        </div>
-
-        <div
-          *ngFor="let col of footerColumns; let i = index"
-          class="footer-column"
-          data-aos="fade-up"
-          [attr.data-aos-delay]="i * 100"
-        >
-          <h4 class="footer-column-title">{{ col.title.toUpperCase() }}</h4>
-          <ul class="footer-links">
-            <li *ngFor="let link of col.links">
-              <a href="#">{{ link }}</a>
-            </li>
-          </ul>
+<footer class="footer" id="contact">
+  <div class="container">
+    <div class="footer-grid" data-aos="fade-up">
+      <div class="footer-brand">
+        <div class="logo">
+          <img
+            src="/logos/melizzoLogo.png"
+            alt="MELIZZO"
+            class="logo-text-image"
+            loading="lazy"
+          />
+          <p class="logo-subtitle">Melt The Moment</p>
         </div>
       </div>
 
-      <div class="footer-bottom" data-aos="fade-up" data-aos-delay="400">
-        <p class="footer-copyright">© 2025 MELIZZO. ALL RIGHTS RESERVED.</p>
-        <div class="footer-social">
-          <a href="#" class="social-link">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-            </svg>
-          </a>
-          <a href="#" class="social-link">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <rect x="2" y="4" width="20" height="16" rx="2" />
-              <path d="m2 7 10 6 10-6" />
-            </svg>
-          </a>
-        </div>
+      <div
+        *ngFor="let col of footerColumns; let i = index"
+        class="footer-column"
+        data-aos="fade-up"
+        [attr.data-aos-delay]="i * 100"
+      >
+        <h4 class="footer-column-title">{{ col.title.toUpperCase() }}</h4>
+        <ul class="footer-links">
+          <li *ngFor="let link of col.links">
+            <a href="#">{{ link }}</a>
+          </li>
+        </ul>
       </div>
     </div>
-  </footer>
+
+    <div class="footer-bottom" data-aos="fade-up" data-aos-delay="400">
+      <p class="footer-copyright">© 2025 MELIZZO. ALL RIGHTS RESERVED.</p>
+      <div class="footer-social">
+        <a href="#" class="social-link">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+          </svg>
+        </a>
+        <a href="#" class="social-link">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="2" y="4" width="20" height="16" rx="2" />
+            <path d="m2 7 10 6 10-6" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

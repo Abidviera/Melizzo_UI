@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, HostListener, Input, NgZone } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  Input,
+  NgZone,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import AOS from 'aos';
 
@@ -11,10 +17,10 @@ interface NavigationItem {
   selector: 'app-navbar',
   standalone: false,
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
-   isScrolled = false;
+  isScrolled = false;
   isMobileMenuOpen = false;
   cartItemCount = 0;
 
@@ -81,17 +87,17 @@ export class NavbarComponent {
 
   private updateScrollState(): void {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
+
     if (Math.abs(scrollTop - this.lastScrollTop) > 5) {
       const newScrollState = scrollTop > 50;
-      
+
       if (this.isScrolled !== newScrollState) {
         this.ngZone.run(() => {
           this.isScrolled = newScrollState;
           this.cdr.detectChanges();
         });
       }
-      
+
       this.lastScrollTop = scrollTop;
     }
   }

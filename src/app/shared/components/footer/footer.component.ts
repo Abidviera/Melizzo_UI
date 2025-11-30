@@ -7,10 +7,10 @@ interface FooterColumn {
   selector: 'app-footer',
   standalone: false,
   templateUrl: './footer.component.html',
-  styleUrl: './footer.component.scss'
+  styleUrl: './footer.component.scss',
 })
 export class FooterComponent {
- footerColumns: FooterColumn[] = [
+  footerColumns: FooterColumn[] = [
     {
       title: 'Shop',
       links: ['New Launch', 'Gift Sets', 'Corporate Gifting', 'Pre-Order'],

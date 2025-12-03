@@ -232,6 +232,21 @@ $font-serif: "Noto Serif Georgian", serif;
   }
 }
 
+// Hardware acceleration
+.hero-slide,
+.product-card,
+.dubai-image-container {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+
+
+
+video {
+  object-fit: cover;
+  pointer-events: none;
+}
 .hero-overlay {
   position: absolute;
   inset: 0;

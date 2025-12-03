@@ -240,8 +240,8 @@
               <div
                 *ngFor="let feature of product.features; let j = index"
                 class="feature-item"
-                data-aos="fade-right"
-                [attr.data-aos-delay]="i * 100 + j * 100 + 300"
+              [attr.data-aos]="i < 3 ? 'fade-right' : null"
+               
               >
                 <svg
                   viewBox="0 0 24 24"

@@ -5,12 +5,14 @@ import {
   NgZone,
   ViewChild,
   ElementRef,
+  ChangeDetectionStrategy,
+  Inject,
+  PLATFORM_ID,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import AOS from 'aos';
 import { WhatsAppService } from '../../../services/whats-app.service';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { debounceTime, throttleTime } from 'rxjs/operators';
 
 interface Slide {
   title: string;
@@ -72,12 +74,14 @@ interface SustainabilityFeature {
   standalone: false,
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LandingPageComponent {
-    showScrollToTop = false;
-  private scrollSubject = new Subject<number>();
-  private destroy$ = new Subject<void>();
-  private isScrolling = false;
+  showScrollToTop = false;
+  private lastScrollTime = 0;
+  private scrollThrottle = 100;
+  private isBrowser: boolean;
+
   @ViewChild('sustainabilityGrid') sustainabilityGrid!: ElementRef;
   currentSustainabilityIndex = 0;
   sustainabilityProgress = 0;
@@ -90,8 +94,6 @@ export class LandingPageComponent {
 
   currentSlide = 0;
   private slideInterval: any;
-  private rafId: number | null = null;
-  private lastScrollTop = 0;
 
   selectedImageIndex: { [key: number]: number } = {};
 
@@ -304,18 +306,17 @@ export class LandingPageComponent {
   ];
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
     private whatsappService: WhatsAppService,
     private router: Router
-  ) {}
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit(): void {
-    this.scrollSubject
-      .pipe(throttleTime(16), debounceTime(10))
-      .subscribe((scrollTop) => {
-        this.handleScroll(scrollTop);
-      });
+    if (!this.isBrowser) return;
 
     this.checkScroll();
     this.startSlideshow();
@@ -323,37 +324,20 @@ export class LandingPageComponent {
 
     this.scrollHintTimer = setTimeout(() => {
       this.showScrollHint = false;
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     }, 5000);
   }
 
-  private handleScroll(scrollTop: number): void {
-    const newScrollState = scrollTop > 50;
-    const newScrollToTopState = scrollTop > 500; 
-
-    if (
-      this.isScrolled !== newScrollState ||
-      this.showScrollToTop !== newScrollToTopState
-    ) {
-      this.ngZone.run(() => {
-        this.isScrolled = newScrollState;
-        this.showScrollToTop = newScrollToTopState;
-        this.cdr.markForCheck();
-      });
-    }
-  }
-
   ngAfterViewInit(): void {
+    if (!this.isBrowser) return;
+
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => AOS.refresh(), 150);
     });
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
     this.stopSlideshow();
-    this.cancelAnimationFrame();
     this.closeMobileMenu();
 
     if (this.scrollHintTimer) {
@@ -361,143 +345,68 @@ export class LandingPageComponent {
     }
   }
 
-  onSustainabilityScroll(event: Event): void {
-    const element = event.target as HTMLElement;
-
-    // Hide scroll hint on first interaction
-    if (this.showScrollHint) {
-      this.showScrollHint = false;
-    }
-
-    // Calculate scroll progress
-    const scrollLeft = element.scrollLeft;
-    const scrollWidth = element.scrollWidth - element.clientWidth;
-    this.sustainabilityProgress = (scrollLeft / scrollWidth) * 100;
-
-    // Detect which card is currently in view (center-aligned)
-    const cards = element.querySelectorAll('.sustainability-card');
-    const containerCenter = element.scrollLeft + element.clientWidth / 2;
-
-    let closestIndex = 0;
-    let closestDistance = Infinity;
-
-    cards.forEach((card, index) => {
-      const cardElement = card as HTMLElement;
-      const cardCenter = cardElement.offsetLeft + cardElement.offsetWidth / 2;
-      const distance = Math.abs(containerCenter - cardCenter);
-
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestIndex = index;
-      }
-    });
-
-    if (this.currentSustainabilityIndex !== closestIndex) {
-      this.currentSustainabilityIndex = closestIndex;
-      this.cdr.detectChanges();
-    }
-  }
-
-  // Method to scroll to a specific card
-  scrollToSustainabilityCard(index: number): void {
-    if (!this.sustainabilityGrid) return;
-
-    const grid = this.sustainabilityGrid.nativeElement;
-    const cards = grid.querySelectorAll('.sustainability-card');
-
-    if (cards[index]) {
-      const card = cards[index] as HTMLElement;
-      const scrollLeft =
-        card.offsetLeft - (grid.clientWidth - card.offsetWidth) / 2;
-
-      grid.scrollTo({
-        left: scrollLeft,
-        behavior: 'smooth',
-      });
-
-      this.currentSustainabilityIndex = index;
-      this.cdr.detectChanges();
-    }
-  }
-
-  // Optional: Add navigation methods for arrow buttons
-  scrollSustainabilityPrev(): void {
-    const newIndex = Math.max(0, this.currentSustainabilityIndex - 1);
-    this.scrollToSustainabilityCard(newIndex);
-  }
-
-  scrollSustainabilityNext(): void {
-    const newIndex = Math.min(
-      this.sustainabilityFeatures.length - 1,
-      this.currentSustainabilityIndex + 1
-    );
-    this.scrollToSustainabilityCard(newIndex);
-  }
-
   private initAOS(): void {
-    this.ngZone.runOutsideAngular(() => {
-      setTimeout(() => {
-        AOS.init({
-          duration: 600,
-          easing: 'ease-out-cubic',
-          once: true,
-          mirror: false,
-          offset: 100,
-          delay: 0,
-          anchorPlacement: 'top-bottom',
+    if (!this.isBrowser) return;
 
-          throttleDelay: 99,
-        });
-      }, 1000);
+    const isMobile = window.innerWidth < 768;
+
+    AOS.init({
+      duration: 400,
+      easing: 'ease-out-cubic',
+      once: true,
+      mirror: false,
+      offset: 80,
+      delay: 0,
+      anchorPlacement: 'top-bottom',
+      throttleDelay: 150,
+      disable: isMobile,
     });
   }
 
   @HostListener('window:scroll')
   onWindowScroll(): void {
-    if (!this.isScrolling) {
-      this.isScrolling = true;
+    if (!this.isBrowser) return;
 
-      this.ngZone.runOutsideAngular(() => {
-        requestAnimationFrame(() => {
-          const scrollTop =
-            window.pageYOffset || document.documentElement.scrollTop;
-          this.scrollSubject.next(scrollTop);
-          this.isScrolling = false;
-        });
-      });
+    const now = Date.now();
+
+    if (now - this.lastScrollTime < this.scrollThrottle) {
+      return;
     }
+
+    this.lastScrollTime = now;
+
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(() => {
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+        const newScrollState = scrollTop > 50;
+        const newScrollToTopState = scrollTop > 500;
+
+        if (
+          this.isScrolled !== newScrollState ||
+          this.showScrollToTop !== newScrollToTopState
+        ) {
+          this.ngZone.run(() => {
+            this.isScrolled = newScrollState;
+            this.showScrollToTop = newScrollToTopState;
+            this.cdr.markForCheck();
+          });
+        }
+      });
+    });
   }
 
   checkScroll(): void {
+    if (!this.isBrowser) return;
+
     this.isScrolled = window.pageYOffset > 50;
-  }
-
-  private updateScrollState(): void {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    if (Math.abs(scrollTop - this.lastScrollTop) > 5) {
-      const newScrollState = scrollTop > 50;
-
-      if (this.isScrolled !== newScrollState) {
-        this.ngZone.run(() => {
-          this.isScrolled = newScrollState;
-          this.cdr.detectChanges();
-        });
-      }
-
-      this.lastScrollTop = scrollTop;
-    }
-  }
-
-  private cancelAnimationFrame(): void {
-    if (this.rafId) {
-      cancelAnimationFrame(this.rafId);
-      this.rafId = null;
-    }
+    this.cdr.markForCheck();
   }
 
   @HostListener('window:resize')
   onResize(): void {
+    if (!this.isBrowser) return;
+
     if (window.innerWidth > 768 && this.isMobileMenuOpen) {
       this.closeMobileMenu();
     }
@@ -505,20 +414,18 @@ export class LandingPageComponent {
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
-    this.toggleBodyScroll();
+    if (this.isBrowser) {
+      document.body.classList.toggle('mobile-menu-open', this.isMobileMenuOpen);
+    }
+    this.cdr.markForCheck();
   }
 
   closeMobileMenu(): void {
     this.isMobileMenuOpen = false;
-    this.enableBodyScroll();
-  }
-
-  private toggleBodyScroll(): void {
-    document.body.classList.toggle('mobile-menu-open', this.isMobileMenuOpen);
-  }
-
-  private enableBodyScroll(): void {
-    document.body.classList.remove('mobile-menu-open');
+    if (this.isBrowser) {
+      document.body.classList.remove('mobile-menu-open');
+    }
+    this.cdr.markForCheck();
   }
 
   navigateHome(): void {
@@ -557,10 +464,16 @@ export class LandingPageComponent {
   }
 
   startSlideshow(): void {
-    this.slideInterval = setInterval(() => {
-      this.currentSlide = (this.currentSlide + 1) % this.slides.length;
-      this.cdr.detectChanges();
-    }, 5000);
+    if (!this.isBrowser) return;
+
+    this.ngZone.runOutsideAngular(() => {
+      this.slideInterval = setInterval(() => {
+        this.ngZone.run(() => {
+          this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+          this.cdr.markForCheck();
+        });
+      }, 5000);
+    });
   }
 
   stopSlideshow(): void {
@@ -574,7 +487,7 @@ export class LandingPageComponent {
     this.stopSlideshow();
     this.currentSlide = index;
     this.startSlideshow();
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
   prevSlide(): void {
@@ -582,14 +495,14 @@ export class LandingPageComponent {
     this.currentSlide =
       this.currentSlide === 0 ? this.slides.length - 1 : this.currentSlide - 1;
     this.startSlideshow();
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
   nextSlide(): void {
     this.stopSlideshow();
     this.currentSlide = (this.currentSlide + 1) % this.slides.length;
     this.startSlideshow();
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
   getCurrentSlide(): Slide {
@@ -609,6 +522,75 @@ export class LandingPageComponent {
     return !this.isImage(url);
   }
 
+  onSustainabilityScroll(event: Event): void {
+    const element = event.target as HTMLElement;
+
+    if (this.showScrollHint) {
+      this.showScrollHint = false;
+      this.cdr.markForCheck();
+    }
+
+    const scrollLeft = element.scrollLeft;
+    const scrollWidth = element.scrollWidth - element.clientWidth;
+    this.sustainabilityProgress = (scrollLeft / scrollWidth) * 100;
+
+    const cards = element.querySelectorAll('.sustainability-card');
+    const containerCenter = element.scrollLeft + element.clientWidth / 2;
+
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+
+    cards.forEach((card, index) => {
+      const cardElement = card as HTMLElement;
+      const cardCenter = cardElement.offsetLeft + cardElement.offsetWidth / 2;
+      const distance = Math.abs(containerCenter - cardCenter);
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    if (this.currentSustainabilityIndex !== closestIndex) {
+      this.currentSustainabilityIndex = closestIndex;
+      this.cdr.markForCheck();
+    }
+  }
+
+  scrollToSustainabilityCard(index: number): void {
+    if (!this.sustainabilityGrid) return;
+
+    const grid = this.sustainabilityGrid.nativeElement;
+    const cards = grid.querySelectorAll('.sustainability-card');
+
+    if (cards[index]) {
+      const card = cards[index] as HTMLElement;
+      const scrollLeft =
+        card.offsetLeft - (grid.clientWidth - card.offsetWidth) / 2;
+
+      grid.scrollTo({
+        left: scrollLeft,
+        behavior: 'smooth',
+      });
+
+      this.currentSustainabilityIndex = index;
+      this.cdr.markForCheck();
+    }
+  }
+
+  scrollSustainabilityPrev(): void {
+    const newIndex = Math.max(0, this.currentSustainabilityIndex - 1);
+    this.scrollToSustainabilityCard(newIndex);
+  }
+
+  scrollSustainabilityNext(): void {
+    const newIndex = Math.min(
+      this.sustainabilityFeatures.length - 1,
+      this.currentSustainabilityIndex + 1
+    );
+    this.scrollToSustainabilityCard(newIndex);
+  }
+
   getSelectedImage(productIndex: number, product: DubaiProduct): string {
     const index = this.selectedImageIndex[productIndex] || 0;
     return product.images[index];
@@ -616,21 +598,21 @@ export class LandingPageComponent {
 
   selectProductImage(productIndex: number, imageIndex: number): void {
     this.selectedImageIndex[productIndex] = imageIndex;
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
   prevImage(productIndex: number, product: DubaiProduct): void {
     const currentIndex = this.selectedImageIndex[productIndex] || 0;
     this.selectedImageIndex[productIndex] =
       currentIndex === 0 ? product.images.length - 1 : currentIndex - 1;
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
   nextImage(productIndex: number, product: DubaiProduct): void {
     const currentIndex = this.selectedImageIndex[productIndex] || 0;
     this.selectedImageIndex[productIndex] =
       (currentIndex + 1) % product.images.length;
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
   orderDubaiProduct(product: DubaiProduct): void {
@@ -674,18 +656,12 @@ export class LandingPageComponent {
     return index;
   }
 
-
-
-
   scrollToTop(): void {
-  
+    if (!this.isBrowser) return;
+
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
     });
-
-
   }
-
-
 }

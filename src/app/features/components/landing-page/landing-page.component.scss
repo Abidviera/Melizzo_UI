@@ -8,7 +8,6 @@ $white: #ffffff;
 $font-main: "Noto Sans Georgian", sans-serif;
 $font-serif: "Noto Serif Georgian", serif;
 
-
 @mixin transition($property: all, $duration: 0.3s, $timing: ease) {
   transition: $property $duration $timing;
 }
@@ -127,7 +126,6 @@ $font-serif: "Noto Serif Georgian", serif;
   }
 }
 
-
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -138,7 +136,6 @@ $font-serif: "Noto Serif Georgian", serif;
     transform: translateY(0);
   }
 }
-
 
 .scroll-to-top.animate-in {
   animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
@@ -240,9 +237,6 @@ $font-serif: "Noto Serif Georgian", serif;
   transform: translateZ(0);
 }
 
-
-
-
 video {
   object-fit: cover;
   pointer-events: none;
@@ -267,8 +261,6 @@ video {
   object-fit: cover;
   animation: kenburns 20s ease-in-out infinite;
 }
-
-
 
 @keyframes kenburns {
   0%,
@@ -1556,7 +1548,8 @@ img {
 }
 
 @keyframes fadeInOut {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.4;
   }
   50% {
@@ -1565,7 +1558,8 @@ img {
 }
 
 @keyframes slideHint {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
   50% {
@@ -1622,7 +1616,7 @@ img {
 @media (max-width: 768px) {
   .sustainability-card {
     -webkit-tap-highlight-color: rgba(201, 168, 106, 0.1);
-    
+
     &:active {
       transform: scale(0.98);
       transition: transform 0.1s ease;
@@ -2417,6 +2411,3 @@ img {
 .landing-page::-webkit-scrollbar {
   display: none;
 }
-
-
-

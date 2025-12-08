@@ -25,8 +25,8 @@ export class FooterComponent {
       links: [
         'info@melizzo.com',
         '+1 705 927-0127',
-        '525 Macintosh Grove',
-        'Peterborough, ON K9H 0K1',
+        '',
+        '',
       ],
     },
   ];

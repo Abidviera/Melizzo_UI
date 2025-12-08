@@ -36,7 +36,7 @@ export class ContactComponent {
     {
       question: 'Can I visit your location?',
       answer:
-        'Our location is at 525 Macintosh Grove, Peterborough, Ontario, Canada K9H 0K1. We welcome visits by appointment. Please contact us in advance to schedule your visit.',
+        '',
       isOpen: false,
     },
     {

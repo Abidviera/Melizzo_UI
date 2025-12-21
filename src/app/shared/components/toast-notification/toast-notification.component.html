@@ -1,0 +1,20 @@
+<div class="toast-container">
+  <div 
+    *ngFor="let notification of notifications" 
+    class="toast-notification"
+    [class.success]="notification.type === 'success'"
+    [class.error]="notification.type === 'error'"
+    [class.warning]="notification.type === 'warning'"
+    [class.info]="notification.type === 'info'"
+    [@slideIn]
+  >
+    <div class="toast-icon">{{ getIcon(notification.type) }}</div>
+    <div class="toast-message">{{ notification.message }}</div>
+    <button class="toast-close" (click)="removeNotification(notification.id)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+</div>

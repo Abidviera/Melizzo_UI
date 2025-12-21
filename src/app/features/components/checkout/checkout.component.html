@@ -1,0 +1,397 @@
+<div class="checkout-page">
+  <div class="checkout-header">
+    <div class="container">
+      <button class="back-btn" (click)="backToCart()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        <span>BACK TO CART</span>
+      </button>
+      <h1 class="checkout-title">Secure Checkout</h1>
+
+      <!-- Progress Steps -->
+      <div class="progress-steps">
+        <div class="step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">
+          <div class="step-number">1</div>
+          <div class="step-label">Shipping</div>
+        </div>
+        <div class="step-line" [class.completed]="currentStep > 1"></div>
+        <div class="step" [class.active]="currentStep >= 2" [class.completed]="currentStep > 2">
+          <div class="step-number">2</div>
+          <div class="step-label">Payment</div>
+        </div>
+        <div class="step-line" [class.completed]="currentStep > 2"></div>
+        <div class="step" [class.active]="currentStep >= 3">
+          <div class="step-number">3</div>
+          <div class="step-label">Review</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="checkout-content" *ngIf="cart">
+    <div class="container">
+      <div class="checkout-grid">
+        <!-- Main Content -->
+        <div class="checkout-main">
+          <!-- Step 1: Shipping Information -->
+          <div class="checkout-section" *ngIf="currentStep === 1">
+            <h2 class="section-title" data-aos="fade-up">Shipping Information</h2>
+            
+            <form class="checkout-form">
+              <div class="form-row" data-aos="fade-up" data-aos-delay="100">
+                <div class="form-group">
+                  <label>First Name *</label>
+                  <input 
+                    type="text" 
+                    [(ngModel)]="shippingForm.firstName"
+                    name="firstName"
+                    placeholder="John"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Last Name *</label>
+                  <input 
+                    type="text" 
+                    [(ngModel)]="shippingForm.lastName"
+                    name="lastName"
+                    placeholder="Doe"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group" data-aos="fade-up" data-aos-delay="150">
+                <label>Email Address *</label>
+                <input 
+                  type="email" 
+                  [(ngModel)]="shippingForm.email"
+                  name="email"
+                  placeholder="john.doe@example.com"
+                  required
+                />
+              </div>
+
+              <div class="form-group" data-aos="fade-up" data-aos-delay="200">
+                <label>Phone Number *</label>
+                <input 
+                  type="tel" 
+                  [(ngModel)]="shippingForm.phone"
+                  name="phone"
+                  placeholder="+1 (705) 927-0127"
+                  required
+                />
+              </div>
+
+              <div class="form-group" data-aos="fade-up" data-aos-delay="250">
+                <label>Address *</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="shippingForm.address"
+                  name="address"
+                  placeholder="123 Main Street"
+                  required
+                />
+              </div>
+
+              <div class="form-group" data-aos="fade-up" data-aos-delay="300">
+                <label>Apartment, Suite, etc. (Optional)</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="shippingForm.apartment"
+                  name="apartment"
+                  placeholder="Apt 4B"
+                />
+              </div>
+
+              <div class="form-row" data-aos="fade-up" data-aos-delay="350">
+                <div class="form-group">
+                  <label>City *</label>
+                  <input 
+                    type="text" 
+                    [(ngModel)]="shippingForm.city"
+                    name="city"
+                    placeholder="Peterborough"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Province *</label>
+                  <select [(ngModel)]="shippingForm.province" name="province">
+                    <option *ngFor="let province of provinces" [value]="province">
+                      {{ province }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row" data-aos="fade-up" data-aos-delay="400">
+                <div class="form-group">
+                  <label>Postal Code *</label>
+                  <input 
+                    type="text" 
+                    [(ngModel)]="shippingForm.postalCode"
+                    name="postalCode"
+                    placeholder="K9H 0K1"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Country *</label>
+                  <input 
+                    type="text" 
+                    [(ngModel)]="shippingForm.country"
+                    name="country"
+                    value="Canada"
+                    readonly
+                  />
+                </div>
+              </div>
+            </form>
+
+            <div class="shipping-methods" data-aos="fade-up" data-aos-delay="450">
+              <h3 class="methods-title">Shipping Method</h3>
+              <div class="methods-grid">
+                <div 
+                  *ngFor="let method of shippingMethods"
+                  class="shipping-method"
+                  [class.selected]="selectedShippingMethod === method.id"
+                  (click)="selectShippingMethod(method.id)"
+                >
+                  <div class="method-radio">
+                    <div class="radio-outer">
+                      <div class="radio-inner"></div>
+                    </div>
+                  </div>
+                  <div class="method-details">
+                    <div class="method-name">{{ method.name }}</div>
+                    <div class="method-time">{{ method.time }}</div>
+                  </div>
+                  <div class="method-price">${{ method.price.toFixed(2) }}</div>
+                </div>
+              </div>
+            </div>
+
+            <button class="continue-btn" (click)="continueToPayment()" data-aos="fade-up" data-aos-delay="500">
+              <span>CONTINUE TO PAYMENT</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Step 2: Payment Information -->
+          <div class="checkout-section" *ngIf="currentStep === 2">
+            <h2 class="section-title" data-aos="fade-up">Payment Information</h2>
+            
+            <div class="payment-methods" data-aos="fade-up" data-aos-delay="100">
+              <div class="payment-method active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                  <line x1="1" y1="10" x2="23" y2="10"></line>
+                </svg>
+                <span>Credit / Debit Card</span>
+              </div>
+            </div>
+
+            <form class="checkout-form payment-form">
+              <div class="form-group" data-aos="fade-up" data-aos-delay="150">
+                <label>Card Number *</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="paymentForm.cardNumber"
+                  name="cardNumber"
+                  (input)="formatCardNumber($event)"
+                  placeholder="1234 5678 9012 3456"
+                  maxlength="19"
+                  required
+                />
+                <div class="card-icons">
+                  <img src="/assets/visa.svg" alt="Visa" *ngIf="false" />
+                  <img src="/assets/mastercard.svg" alt="Mastercard" *ngIf="false" />
+                </div>
+              </div>
+
+              <div class="form-group" data-aos="fade-up" data-aos-delay="200">
+                <label>Cardholder Name *</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="paymentForm.cardName"
+                  name="cardName"
+                  placeholder="JOHN DOE"
+                  required
+                />
+              </div>
+
+              <div class="form-row" data-aos="fade-up" data-aos-delay="250">
+                <div class="form-group">
+                  <label>Expiry Date *</label>
+                  <input 
+                    type="text" 
+                    [(ngModel)]="paymentForm.expiryDate"
+                    name="expiryDate"
+                    (input)="formatExpiryDate($event)"
+                    placeholder="MM/YY"
+                    maxlength="5"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>CVV *</label>
+                  <input 
+                    type="text" 
+                    [(ngModel)]="paymentForm.cvv"
+                    name="cvv"
+                    placeholder="123"
+                    maxlength="4"
+                    required
+                  />
+                </div>
+              </div>
+            </form>
+
+            <div class="security-notice" data-aos="fade-up" data-aos-delay="300">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <div>
+                <div class="security-title">Your payment is secure</div>
+                <div class="security-desc">We use 256-bit SSL encryption to protect your data</div>
+              </div>
+            </div>
+
+            <div class="button-group">
+              <button class="back-step-btn" (click)="backToShipping()" data-aos="fade-up" data-aos-delay="350">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                <span>BACK TO SHIPPING</span>
+              </button>
+              <button class="continue-btn" (click)="continueToReview()" data-aos="fade-up" data-aos-delay="400">
+                <span>REVIEW ORDER</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Order Review -->
+          <div class="checkout-section" *ngIf="currentStep === 3">
+            <h2 class="section-title" data-aos="fade-up">Review Your Order</h2>
+
+            <div class="review-section" data-aos="fade-up" data-aos-delay="100">
+              <div class="review-header">
+                <h3>Shipping Information</h3>
+                <button class="edit-btn" (click)="backToShipping()">EDIT</button>
+              </div>
+              <div class="review-content">
+                <p>{{ shippingForm.firstName }} {{ shippingForm.lastName }}</p>
+                <p>{{ shippingForm.email }}</p>
+                <p>{{ shippingForm.phone }}</p>
+                <p>{{ shippingForm.address }}{{ shippingForm.apartment ? ', ' + shippingForm.apartment : '' }}</p>
+                <p>{{ shippingForm.city }}, {{ shippingForm.province }} {{ shippingForm.postalCode }}</p>
+                <p>{{ shippingForm.country }}</p>
+              </div>
+            </div>
+
+            <div class="review-section" data-aos="fade-up" data-aos-delay="150">
+              <div class="review-header">
+                <h3>Payment Method</h3>
+                <button class="edit-btn" (click)="backToPayment()">EDIT</button>
+              </div>
+              <div class="review-content">
+                <p>Card ending in {{ paymentForm.cardNumber.slice(-4) }}</p>
+                <p>{{ paymentForm.cardName }}</p>
+              </div>
+            </div>
+
+            <div class="review-section" data-aos="fade-up" data-aos-delay="200">
+              <h3>Order Items</h3>
+              <div class="review-items">
+                <div class="review-item" *ngFor="let item of cart.items">
+                  <img [src]="item.image" [alt]="item.name" />
+                  <div class="review-item-details">
+                    <div class="review-item-name">{{ item.name }}</div>
+                    <div class="review-item-variant" *ngIf="item.variant">{{ item.variant }}</div>
+                    <div class="review-item-qty">Qty: {{ item.quantity }}</div>
+                  </div>
+                  <div class="review-item-price">${{ (item.price * item.quantity).toFixed(2) }}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="button-group">
+              <button class="back-step-btn" (click)="backToPayment()" data-aos="fade-up" data-aos-delay="250">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                <span>BACK TO PAYMENT</span>
+              </button>
+              <button 
+                class="place-order-btn" 
+                (click)="placeOrder()" 
+                [disabled]="isProcessing"
+                data-aos="fade-up" 
+                data-aos-delay="300"
+              >
+                <span *ngIf="!isProcessing">PLACE ORDER</span>
+                <span *ngIf="isProcessing" class="processing">
+                  <span class="spinner"></span>
+                  PROCESSING...
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Summary Sidebar -->
+        <div class="order-summary-sidebar" data-aos="fade-left">
+          <h2 class="summary-title">Order Summary</h2>
+
+          <div class="summary-items">
+            <div class="summary-item" *ngFor="let item of cart.items">
+              <img [src]="item.image" [alt]="item.name" />
+              <div class="summary-item-details">
+                <div class="summary-item-name">{{ item.name }}</div>
+                <div class="summary-item-qty">Qty: {{ item.quantity }}</div>
+              </div>
+              <div class="summary-item-price">${{ (item.price * item.quantity).toFixed(2) }}</div>
+            </div>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>${{ cart.subtotal.toFixed(2) }}</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span>${{ getSelectedShippingPrice().toFixed(2) }}</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Tax (HST 13%)</span>
+            <span>${{ cart.tax.toFixed(2) }}</span>
+          </div>
+
+          <div class="summary-row discount-row" *ngIf="cart.discount > 0">
+            <span>Discount</span>
+            <span class="discount-amount">-${{ cart.discount.toFixed(2) }}</span>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-total">
+            <span>Total</span>
+            <span>${{ totalWithShipping.toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

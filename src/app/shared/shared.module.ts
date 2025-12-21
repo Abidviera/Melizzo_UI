@@ -5,13 +5,15 @@ import { FooterComponent } from './components/footer/footer.component';
 import { CheckoutSidebarComponent } from './components/checkout-sidebar/checkout-sidebar.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ToastNotificationComponent } from './components/toast-notification/toast-notification.component';
 
 
 @NgModule({
   declarations: [
     NavbarComponent,
     FooterComponent,
-    CheckoutSidebarComponent
+    CheckoutSidebarComponent,
+    ToastNotificationComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { RouterModule } from '@angular/router';
   exports: [
     NavbarComponent,
     FooterComponent,
-    CheckoutSidebarComponent
+    CheckoutSidebarComponent,
+    ToastNotificationComponent
   ]
 })
 export class SharedModule { }

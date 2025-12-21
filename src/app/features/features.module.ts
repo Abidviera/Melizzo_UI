@@ -8,6 +8,9 @@ import { ProductPageComponent } from './components/product-page/product-page.com
 import { PaymentComponent } from './components/payment/payment.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { CartComponent } from './components/cart/cart.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { OrderConfirmationComponent } from './components/order-confirmation/order-confirmation.component';
 
 
 @NgModule({
@@ -16,7 +19,10 @@ import { ContactComponent } from './components/contact/contact.component';
     ProductPageComponent,
     PaymentComponent,
     AboutUsComponent,
-    ContactComponent
+    ContactComponent,
+    CartComponent,
+    CheckoutComponent,
+    OrderConfirmationComponent
   ],
   imports: [
     CommonModule,

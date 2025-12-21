@@ -473,3 +473,17 @@ header {
     animation-delay: #{0.05 + ($i * 0.05)}s;
   }
 }
+
+
+  .badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: $gold;
+    color: $black;
+    font-size: 8px;
+    font-weight: 600;
+    padding: 0.125rem 0.35rem;
+    border-radius: 10px;
+    font-family: $font-main;
+  }

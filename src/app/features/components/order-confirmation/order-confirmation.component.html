@@ -1,0 +1,130 @@
+<div class="confirmation-page">
+  <div class="confirmation-content" *ngIf="orderDetails">
+    <div class="container">
+      <!-- Success Icon Animation -->
+      <div class="success-animation" data-aos="zoom-in">
+        <div class="checkmark-circle">
+          <svg class="checkmark" viewBox="0 0 52 52">
+            <circle class="checkmark-circle-path" cx="26" cy="26" r="25" fill="none" />
+            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Success Message -->
+      <div class="success-message" data-aos="fade-up" data-aos-delay="200">
+        <h1 class="success-title">Order Confirmed!</h1>
+        <p class="success-subtitle">Thank you for your purchase</p>
+      </div>
+
+      <!-- Order Number -->
+      <div class="order-number-box" data-aos="fade-up" data-aos-delay="300">
+        <div class="order-label">ORDER NUMBER</div>
+        <div class="order-number">{{ orderNumber }}</div>
+        <p class="order-note">A confirmation email has been sent to {{ orderDetails.shipping?.email }}</p>
+      </div>
+
+      <!-- Delivery Info -->
+      <div class="delivery-info" data-aos="fade-up" data-aos-delay="400">
+        <div class="delivery-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path>
+          </svg>
+        </div>
+        <div class="delivery-text">
+          <div class="delivery-title">Estimated Delivery</div>
+          <div class="delivery-date">{{ estimatedDelivery }}</div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="order-summary-section" data-aos="fade-up" data-aos-delay="500">
+        <h2 class="section-title">Order Summary</h2>
+
+        <div class="summary-grid">
+          <!-- Shipping Address -->
+          <div class="summary-card">
+            <h3 class="summary-card-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              Shipping Address
+            </h3>
+            <div class="summary-card-content">
+              <p>{{ orderDetails.shipping?.firstName }} {{ orderDetails.shipping?.lastName }}</p>
+              <p>{{ orderDetails.shipping?.address }}</p>
+              <p *ngIf="orderDetails.shipping?.apartment">{{ orderDetails.shipping?.apartment }}</p>
+              <p>{{ orderDetails.shipping?.city }}, {{ orderDetails.shipping?.province }} {{ orderDetails.shipping?.postalCode }}</p>
+              <p>{{ orderDetails.shipping?.country }}</p>
+            </div>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="summary-card">
+            <h3 class="summary-card-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              Contact Information
+            </h3>
+            <div class="summary-card-content">
+              <p>{{ orderDetails.shipping?.email }}</p>
+              <p>{{ orderDetails.shipping?.phone }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Items -->
+        <div class="order-items" data-aos="fade-up" data-aos-delay="600">
+          <h3 class="items-title">Items Ordered</h3>
+          <div class="items-list">
+            <div class="order-item" *ngFor="let item of orderDetails.items">
+              <img [src]="item.image" [alt]="item.name" />
+              <div class="item-details">
+                <div class="item-name">{{ item.name }}</div>
+                <div class="item-variant" *ngIf="item.variant">{{ item.variant }}</div>
+                <div class="item-qty">Quantity: {{ item.quantity }}</div>
+              </div>
+              <div class="item-price">${{ (item.price * item.quantity).toFixed(2) }}</div>
+            </div>
+          </div>
+
+          <div class="order-total-summary">
+            <div class="total-row">
+              <span>Order Total</span>
+              <span class="total-amount">${{ orderDetails.total?.toFixed(2) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="confirmation-actions" data-aos="fade-up" data-aos-delay="700">
+        <button class="print-btn" (click)="printOrder()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          PRINT ORDER
+        </button>
+        <button class="continue-btn" (click)="continueShopping()">
+          <span>CONTINUE SHOPPING</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Trust Message -->
+      <div class="trust-message" data-aos="fade-up" data-aos-delay="800">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+        <p>Thank you for choosing Melizzo. We're preparing your order with care and attention to detail.</p>
+      </div>
+    </div>
+  </div>
+</div>

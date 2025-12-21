@@ -2,11 +2,14 @@ import {
   ChangeDetectorRef,
   Component,
   HostListener,
-  Input,
   NgZone,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import AOS from 'aos';
+import { CartService } from '../../../services/cart.service';
 
 interface NavigationItem {
   label: string;
@@ -19,10 +22,11 @@ interface NavigationItem {
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit, OnDestroy {
   isScrolled = false;
   isMobileMenuOpen = false;
   cartItemCount = 0;
+  wishlistCount = 0;
 
   navigationItems: NavigationItem[] = [
     { label: 'Our Launch', route: '' },
@@ -31,15 +35,22 @@ export class NavbarComponent {
     { label: 'Contact', route: '/contact' },
   ];
 
+  private rafId: number | null = null;
+  private lastScrollTop = 0;
+  private destroy$ = new Subject<void>();
+
   constructor(
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
-    private router: Router
+    private router: Router,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
     this.checkScroll();
     this.initAOS();
+    this.subscribeToCart();
+    this.subscribeToWishlist();
   }
 
   ngAfterViewInit(): void {
@@ -49,8 +60,34 @@ export class NavbarComponent {
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.cancelAnimationFrame();
     this.closeMobileMenu();
+  }
+
+  /**
+   * Subscribe to cart changes to update cart icon count
+   */
+  private subscribeToCart(): void {
+    this.cartService.cart$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(cart => {
+        this.cartItemCount = this.cartService.getCartItemCount();
+        this.cdr.markForCheck();
+      });
+  }
+
+  /**
+   * Subscribe to wishlist changes to update wishlist icon count
+   */
+  private subscribeToWishlist(): void {
+    this.cartService.wishlist$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(wishlist => {
+        this.wishlistCount = this.cartService.getWishlistCount();
+        this.cdr.markForCheck();
+      });
   }
 
   private initAOS(): void {
@@ -83,6 +120,7 @@ export class NavbarComponent {
 
   checkScroll(): void {
     this.isScrolled = window.pageYOffset > 50;
+    this.cdr.markForCheck();
   }
 
   private updateScrollState(): void {
@@ -119,11 +157,13 @@ export class NavbarComponent {
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
     this.toggleBodyScroll();
+    this.cdr.markForCheck();
   }
 
   closeMobileMenu(): void {
     this.isMobileMenuOpen = false;
     this.enableBodyScroll();
+    this.cdr.markForCheck();
   }
 
   private toggleBodyScroll(): void {
@@ -139,29 +179,65 @@ export class NavbarComponent {
     this.closeMobileMenu();
   }
 
+  navigateTo(route: string): void {
+    if (route) {
+      this.router.navigate([route]);
+    } else {
+      // If route is empty, scroll to top of current page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    this.closeMobileMenu();
+  }
+
   openSearch(): void {
-    console.log('Open search');
+    // TODO: Implement search functionality
+    console.log('Search functionality - to be implemented');
+    // You can implement a search modal/overlay here
   }
 
   openCart(): void {
     this.router.navigate(['/cart']);
+    this.closeMobileMenu();
   }
 
   openAccount(): void {
-    this.router.navigate(['/account']);
+    // TODO: Implement account page
+    console.log('Account page - to be implemented');
+    // For now, you can redirect to a placeholder or show a message
     this.closeMobileMenu();
   }
 
   openWishlist(): void {
-    this.router.navigate(['/wishlist']);
+    // TODO: Implement wishlist page
+    console.log('Wishlist page - to be implemented');
     this.closeMobileMenu();
   }
 
   openOrders(): void {
-    this.router.navigate(['/orders']);
+    // TODO: Implement orders page
+    console.log('Orders page - to be implemented');
     this.closeMobileMenu();
   }
 
-  private rafId: number | null = null;
-  private lastScrollTop = 0;
+  /**
+   * Get cart total for display (optional)
+   */
+  getCartTotal(): number {
+    const cart = this.cartService.getCurrentCart();
+    return cart ? cart.total : 0;
+  }
+
+  /**
+   * Check if user has items in cart
+   */
+  hasCartItems(): boolean {
+    return this.cartItemCount > 0;
+  }
+
+  /**
+   * Check if user has items in wishlist
+   */
+  hasWishlistItems(): boolean {
+    return this.wishlistCount > 0;
+  }
 }

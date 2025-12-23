@@ -1130,7 +1130,7 @@ img {
   }
 }
 
-/* Coming Soon Section */
+
 .coming-soon-section {
   padding: 8rem 0;
   background: linear-gradient(to bottom, $dark-bg 0%, $black 100%);
@@ -2411,3 +2411,704 @@ img {
 .landing-page::-webkit-scrollbar {
   display: none;
 }
+
+
+
+
+
+
+$burgundy-900: #2d0a0a;
+$burgundy-800: #3d0f0f;
+$burgundy-700: #4d1414;
+
+$gold-400: #d9c589;
+$gold-500: #c9b572;
+
+$cream-100: #fdfcfa;
+$cream-200: #f8f6f2;
+
+$white-soft: rgba(253, 252, 250, 0.95);
+$white-muted: rgba(253, 252, 250, 0.75);
+$white-subtle: rgba(253, 252, 250, 0.5);
+$white-whisper: rgba(253, 252, 250, 0.25);
+
+
+$font-display: 'Playfair Display', 'Crimson Text', Georgia, serif;
+$font-body: 'Inter', -apple-system, system-ui, sans-serif;
+
+$text-hero: clamp(2.5rem, 6vw, 4.5rem);
+$text-h1: clamp(1.75rem, 4vw, 2.75rem);
+$text-h2: clamp(1.75rem, 3.5vw, 2.5rem);
+$text-large: clamp(1rem, 2vw, 1.25rem);
+$text-base: clamp(0.9rem, 1.8vw, 1.05rem);
+$text-small: clamp(0.75rem, 1.5vw, 0.9rem);
+$text-micro: clamp(0.6rem, 1.2vw, 0.75rem);
+
+// Spacing Scale - Compact & Efficient
+$space-1: 0.25rem;
+$space-2: 0.5rem;
+$space-3: 0.75rem;
+$space-4: 1rem;
+$space-5: 1.25rem;
+$space-6: 1.5rem;
+$space-8: 2rem;
+$space-10: 2.5rem;
+$space-12: 3rem;
+
+// ───────────────────────────────────────────────────────────────────
+// FOUNDATION - Compact Section Architecture
+// ───────────────────────────────────────────────────────────────────
+
+.christmas-section {
+  min-height: 100vh;
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(141, 36, 36, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(201, 181, 114, 0.08) 0%, transparent 50%),
+    linear-gradient(180deg, $burgundy-900 0%, $burgundy-800 40%, $burgundy-700 100%);
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+
+  @media (max-width: 768px) { 
+    padding: $space-8 $space-4; 
+  }
+
+
+  
+.christmas-lights {
+  position: absolute;
+  top: $space-6;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  max-width: 1000px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, $white-whisper 20%, $white-whisper 80%, transparent 100%);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1;
+
+  @media (max-width: 768px) {
+    top: $space-4;
+    width: 90%;
+  }
+}
+
+.light {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: $gold-400;
+  box-shadow: 0 0 8px currentColor;
+  opacity: 0;
+  animation: luxuryTwinkle 4s ease-in-out infinite;
+
+  &:nth-child(1) { animation-delay: 0s; }
+  &:nth-child(2) { animation-delay: 0.7s; }
+  &:nth-child(3) { animation-delay: 1.4s; }
+  &:nth-child(4) { animation-delay: 2.1s; }
+  &:nth-child(5) { animation-delay: 0.35s; }
+  &:nth-child(6) { animation-delay: 1.05s; }
+}
+
+@keyframes luxuryTwinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.5; }
+}
+
+.snowflake {
+  position: absolute;
+  color: rgb(255, 255, 255);
+  font-size: 0.8rem;
+  opacity: 0;
+  animation: cinematicSnow linear infinite;
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(0.5px);
+}
+
+@keyframes cinematicSnow {
+  0% { transform: translateY(-5vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.15; }
+  90% { opacity: 0.1; }
+  100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+}
+
+// ───────────────────────────────────────────────────────────────────
+// COMPACT HEADER - Tight Hero Message
+// ───────────────────────────────────────────────────────────────────
+
+.merry-christmas-banner {
+  text-align: center;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+
+  img{
+    width: 60%;
+  }
+
+  @media (max-width: 768px) { 
+    margin-bottom: $space-8; 
+  }
+}
+
+.merry-text {
+  font-family: $font-display;
+  font-size: $text-hero;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: $cream-100;
+  margin: 0 0 $space-4 0;
+  text-shadow: 0 1px 40px rgba(201, 181, 114, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+
+  &::before,
+  &::after {
+    content: "";
+    display: inline-block;
+    width: clamp(30px, 5vw, 50px);
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, $gold-400 50%, transparent 100%);
+    opacity: 0.4;
+  }
+}
+
+.christmas-subtitle-text {
+  font-family: $font-body;
+  font-size: $text-small;
+  color: $white-muted;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin: 0 0 $space-6 0;
+
+  @media (max-width: 768px) {
+    letter-spacing: 0.2em;
+    margin-bottom: $space-5;
+  }
+}
+
+.offer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  background: $cream-100;
+  color: $burgundy-800;
+  padding: $space-3 $space-6;
+  border-radius: 100px;
+  font-family: $font-body;
+  font-weight: 500;
+  font-size: $text-small;
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(201, 181, 114, 0.2);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    background: $cream-200;
+  }
+
+  &::before {
+    content: "⋆";
+    font-size: 1.2em;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 768px) {
+    padding: $space-2 $space-5;
+  }
+}
+
+// ───────────────────────────────────────────────────────────────────
+// COMPACT GRID LAYOUT
+// ───────────────────────────────────────────────────────────────────
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.christmas-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    gap: $space-8;
+  }
+}
+
+// ───────────────────────────────────────────────────────────────────
+// VISUAL SHOWCASE - Tight Gallery
+// ───────────────────────────────────────────────────────────────────
+
+.christmas-gallery {
+  position: relative;
+  
+  @media (max-width: 1024px) {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.christmas-main-image {
+  position: relative;
+}
+
+.christmas-decorations {
+  display: none;
+}
+
+.main-image-wrapper {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: $burgundy-900;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px $white-whisper;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(201, 181, 114, 0.3);
+  }
+
+  .product-image1 {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  &:hover .product-image1 {
+    transform: scale(1.02);
+  }
+}
+
+// Compact Navigation
+.carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(253, 252, 250, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid $white-whisper;
+  color: $cream-100;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+  opacity: 0;
+
+  .main-image-wrapper:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    background: rgba(253, 252, 250, 0.12);
+    border-color: $gold-400;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &.carousel-prev-christmas { left: $space-4; }
+  &.carousel-next-christmas { right: $space-4; }
+
+  @media (max-width: 768px) {
+    width: 36px;
+    height: 36px;
+    opacity: 1;
+    
+    &.carousel-prev-christmas { left: $space-2; }
+    &.carousel-next-christmas { right: $space-2; }
+  }
+}
+
+// Compact Badge
+.limited-badge-overlay {
+  position: absolute;
+  top: $space-4;
+  right: $space-4;
+  background: rgba(45, 10, 10, 0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(201, 181, 114, 0.3);
+  color: $cream-100;
+  padding: $space-3;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 100px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+  .badge-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    margin-bottom: $space-1;
+  }
+
+  .badge-text {
+    font-family: $font-body;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: $gold-400;
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+
+  .badge-subtitle {
+    font-family: $font-body;
+    font-size: 0.5rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: $white-muted;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 768px) {
+    padding: $space-2;
+    min-width: 90px;
+    top: $space-3;
+    right: $space-3;
+  }
+}
+
+// Compact Thumbnails
+.christmas-thumbnails {
+  display: flex;
+  gap: $space-2;
+  margin-top: $space-4;
+  justify-content: center;
+
+  .thumbnail-item {
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    opacity: 0.4;
+    overflow: hidden;
+    background: $burgundy-900;
+
+    &:hover {
+      opacity: 0.7;
+      transform: translateY(-2px);
+    }
+
+    &.active {
+      border-color: $gold-400;
+      opacity: 1;
+      box-shadow: 0 4px 16px rgba(201, 181, 114, 0.3);
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: 768px) {
+    gap: $space-1;
+    
+    .thumbnail-item {
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
+
+// ───────────────────────────────────────────────────────────────────
+// COMPACT CONTENT - Right Column
+// ───────────────────────────────────────────────────────────────────
+
+.christmas-details {
+  color: $cream-100;
+  padding: 0;
+
+  @media (min-width: 1025px) {
+    padding-left: $space-8;
+  }
+}
+
+.christmas-product-title {
+  font-family: $font-display;
+  font-size: $text-h1;
+  font-weight: 400;
+  line-height: 1.1;
+  color: $cream-100;
+  margin-bottom: $space-2;
+  letter-spacing: -0.02em;
+}
+
+.christmas-product-subtitle {
+  font-family: $font-body;
+  font-size: $text-base;
+  font-weight: 300;
+  color: $white-muted;
+  margin-bottom: $space-6;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+}
+
+// Compact Body Copy
+.christmas-details p {
+  font-family: $font-body;
+  font-size: $text-base;
+  line-height: 1.7;
+  color: $white-muted;
+  margin: $space-5 0;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+}
+
+// ───────────────────────────────────────────────────────────────────
+// COMPACT PRICING
+// ───────────────────────────────────────────────────────────────────
+
+.christmas-price {
+  display: flex;
+  align-items: baseline;
+  gap: $space-4;
+  flex-wrap: wrap;
+  margin: $space-6 0;
+  padding: $space-5 0;
+  border-top: 1px solid $white-whisper;
+  border-bottom: 1px solid $white-whisper;
+
+  .current-price {
+    font-family: $font-display;
+    font-size: $text-h2;
+    font-weight: 400;
+    color: $gold-400;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .original-price {
+    font-family: $font-body;
+    font-size: $text-large;
+    color: $white-subtle;
+    text-decoration: line-through;
+    text-decoration-color: $white-whisper;
+    font-weight: 300;
+  }
+
+  .savings-badge {
+    background: rgba(110, 231, 183, 0.1);
+    color: #86efac;
+    padding: $space-1 $space-3;
+    border-radius: 100px;
+    font-family: $font-body;
+    font-weight: 500;
+    font-size: $text-micro;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(110, 231, 183, 0.2);
+  }
+}
+
+// ───────────────────────────────────────────────────────────────────
+// COMPACT FEATURES
+// ───────────────────────────────────────────────────────────────────
+
+.christmas-features {
+   display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-2;
+  margin: $space-6 0;
+}
+
+.christmas-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-3;
+  padding: $space-3 0;
+  transition: all 0.3s ease;
+  font-family: $font-body;
+
+  &::before {
+    content: "✓";
+    font-size: 0.9rem;
+    color: $gold-400;
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-weight: 400;
+  }
+
+  &:hover {
+    padding-left: $space-2;
+  }
+
+  span {
+    font-size: $text-base;
+    color: $white-muted;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+}
+
+// ───────────────────────────────────────────────────────────────────
+// COMPACT CTA
+// ───────────────────────────────────────────────────────────────────
+
+.christmas-actions {
+  margin-top: $space-8;
+}
+
+.order-btn-primary {
+  width: 100%;
+  background: $cream-100;
+  color: $burgundy-800;
+  border: none;
+  padding: $space-4 $space-6;
+  font-family: $font-body;
+  font-size: $text-base;
+  font-weight: 500;
+  border-radius: 100px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  border: 1px solid transparent;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.4);
+    background: $cream-200;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    padding: $space-3 $space-5;
+  }
+}
+
+
+
+.ingredients-section {
+  margin: $space-6 0;
+  padding: $space-5 0;
+  border-top: 1px solid $white-whisper;
+}
+
+.ingredients-title {
+  font-family: $font-display;
+  font-size: $text-large;
+  color: $cream-100;
+  margin-bottom: $space-4;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.ingredient-item {
+  margin-bottom: $space-3;
+  
+  p {
+    font-family: $font-body;
+    font-size: $text-small;
+    line-height: 1.6;
+    color: $white-muted;
+    margin: 0;
+    padding-left: $space-4;
+    position: relative;
+    
+    &::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: $gold-400;
+      font-weight: bold;
+    }
+  }
+}
+
+
+.additional-info {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  margin-top: $space-6;
+  padding-top: $space-6;
+  border-top: 1px solid $white-whisper;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  font-family: $font-body;
+  font-size: $text-small;
+  color: $white-muted;
+  font-weight: 300;
+  line-height: 1.4;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    color: $gold-400;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+}
+}
+
+
+.christmas-section::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(201, 181, 114, 0.03) 0%, transparent 70%);
+  transform: translateX(-50%);
+  pointer-events: none;
+  animation: ambientPulse 15s ease-in-out infinite;
+}
+
+@keyframes ambientPulse {
+  0%, 100% { opacity: 0.4; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.6; transform: translateX(-50%) scale(1.1); }
+}
+

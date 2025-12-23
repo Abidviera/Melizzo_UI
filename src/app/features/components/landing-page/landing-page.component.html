@@ -240,8 +240,7 @@
               <div
                 *ngFor="let feature of product.features; let j = index"
                 class="feature-item"
-              [attr.data-aos]="i < 3 ? 'fade-right' : null"
-               
+                [attr.data-aos]="i < 3 ? 'fade-right' : null"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -335,109 +334,223 @@
     </div>
   </section>
 
-  <section class="limited-section">
-    <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <div class="limited-badge">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <polygon
-              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-            />
-          </svg>
-          <p class="section-badge">LIMITED EDITION</p>
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <polygon
-              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-            />
-          </svg>
-        </div>
-        <div class="section-title">Seasonal Collections</div>
-        <p class="section-description">
-          Celebrate the spirit of every season with our limited-edition
-          artisanal creations
-        </p>
-      </div>
+  <section class="christmas-section">
+    <div class="christmas-lights">
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+      <div class="light"></div>
+    </div>
 
-      <div class="limited-content">
-        <div class="limited-placeholder" data-aos="fade-right">
-          <div class="placeholder-text">
-            <span class="coming-soon-title">COMING SOON</span>
-            <span class="coming-soon-subtitle">December 2025</span>
+    <!-- Cinematic Snowfall -->
+    <div
+      *ngFor="let i of [].constructor(20); let idx = index"
+      class="snowflake"
+      [style.left.%]="idx * 5 + 2"
+      [style.animation-duration.s]="8 + (idx % 12)"
+      [style.animation-delay.s]="idx % 6"
+      [style.font-size.rem]="1.1 + (idx % 3) * 0.3"
+    >
+      ❄
+    </div>
+
+    <!-- Editorial Header -->
+    <div
+      class="merry-christmas-banner"
+      data-aos="fade-down"
+      data-aos-duration="800"
+    >
+      <img src="merry.png" alt="" />
+      <p class="christmas-subtitle-text">Season's Greetings</p>
+    </div>
+
+    <!-- Hero Split Layout -->
+    <div class="container">
+      <div class="christmas-content">
+        <!-- Visual Showcase - Left Column -->
+        <div
+          class="christmas-gallery"
+          data-aos="fade-right"
+          data-aos-duration="1000"
+        >
+          <div class="christmas-main-image">
+            <div class="main-image-wrapper">
+              <img
+                [src]="christmasProduct.images[currentChristmasImageIndex]"
+                [alt]="christmasProduct.title"
+                class="product-image1"
+                loading="lazy"
+              />
+
+              <!-- Minimal Navigation -->
+              <button
+                class="carousel-nav carousel-prev-christmas"
+                (click)="prevChristmasImage()"
+                aria-label="Previous image"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <button
+                class="carousel-nav carousel-next-christmas"
+                (click)="nextChristmasImage()"
+                aria-label="Next image"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Elegant Thumbnail Gallery -->
+            <div class="christmas-thumbnails">
+              <div
+                *ngFor="let img of christmasProduct.images; let i = index"
+                class="thumbnail-item"
+                [class.active]="currentChristmasImageIndex === i"
+                (click)="setChristmasImage(i)"
+                data-aos="fade-up"
+                [attr.data-aos-delay]="i * 100"
+                [attr.data-aos-duration]="600"
+              >
+                <img
+                  [src]="img"
+                  [alt]="christmasProduct.title + ' view ' + (i + 1)"
+                  loading="lazy"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="limited-details" data-aos="fade-left" data-aos-delay="200">
-          <div class="limited-title">Christmas Gift Collection</div>
-          <p class="limited-description">
-            Something special is being crafted for the festive season. Our
-            exclusive Christmas collection will bring warmth and joy to your
-            celebrations with handcrafted artisanal creations presented in
-            luxurious gift packaging.
+        <!-- Editorial Content - Right Column -->
+        <div
+          class="christmas-details"
+          data-aos="fade-left"
+          data-aos-delay="200"
+          data-aos-duration="1000"
+        >
+          <!-- Product Title & Subtitle -->
+          <h2 class="christmas-product-title">{{ christmasProduct.title }}</h2>
+          <p class="christmas-product-subtitle">
+            {{ christmasProduct.subtitle }}
           </p>
-          <ul class="limited-features">
-            <li class="feature-item" data-aos="fade-left" data-aos-delay="300">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-              <span>Luxury gift assortment</span>
-            </li>
-            <li class="feature-item" data-aos="fade-left" data-aos-delay="400">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-              <span>Premium packaging</span>
-            </li>
-            <li class="feature-item" data-aos="fade-left" data-aos-delay="500">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-              <span>Personalized greeting card</span>
-            </li>
-            <li class="feature-item" data-aos="fade-left" data-aos-delay="600">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-              <span>Limited availability</span>
-            </li>
-          </ul>
-          <button
-            class="order-btn"
-            (click)="notifyLimitedEdition()"
-            data-aos="zoom-in"
-            data-aos-delay="700"
+
+          <!-- Pricing Section -->
+          <div class="christmas-price">
+            <span class="current-price">   CA$ {{ christmasProduct.price | number:'1.2-2' }}</span>
+            <span class="original-price" *ngIf="christmasProduct.originalPrice">
+            CA$ {{ christmasProduct.originalPrice | number:'1.2-2' }}
+            </span>
+            <span class="savings-badge" *ngIf="christmasProduct.originalPrice">
+               Save CA$ {{
+      (christmasProduct.originalPrice - christmasProduct.price) | number:'1.2-2'
+    }}
+            </span>
+          </div>
+
+          <!-- Body Description -->
+          <p>
+            A refined Dubai Chocolate ensemble crafted especially for the season
+            of gifting. Savour the perfect blend of tradition and luxury—a gift
+            that carries warmth, elegance, and the taste of Christmas in every
+            bite.
+          </p>
+
+          <!-- Minimal Feature List -->
+          <div class="christmas-features">
+            <div
+              *ngFor="let feature of christmasProduct.features; let i = index"
+              class="christmas-feature-item"
+              data-aos="fade-left"
+              [attr.data-aos-delay]="300 + i * 80"
+              [attr.data-aos-duration]="600"
+            >
+              <span>{{ feature }}</span>
+            </div>
+          </div>
+
+          <!-- Ingredients Information -->
+          <div
+            class="ingredients-section"
+            *ngIf="christmasProduct.includes.length > 0"
           >
-            NOTIFY ME WHEN AVAILABLE
-          </button>
+            <h3 class="ingredients-title">What's Inside</h3>
+            <div
+              class="ingredient-item"
+              *ngFor="let ingredient of christmasProduct.includes"
+            >
+              <p>{{ ingredient }}</p>
+            </div>
+          </div>
+
+          <!-- Call to Action -->
+          <div class="christmas-actions">
+            <button
+              class="order-btn-primary"
+              (click)="orderChristmasProduct()"
+              data-aos="fade-up"
+              data-aos-delay="600"
+              data-aos-duration="800"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="9" cy="21" r="1" />
+                <circle cx="20" cy="21" r="1" />
+                <path
+                  d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+                />
+              </svg>
+              Order Now — Gift The Joy
+            </button>
+
+            <!-- Subtle Additional Info -->
+            <div class="additional-info">
+              <div class="info-item">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+                  ></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>Free delivery on orders over £50</span>
+              </div>
+              <div class="info-item">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M3 9h18"></path>
+                </svg>
+                <span>Beautiful festive packaging included</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

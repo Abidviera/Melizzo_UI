@@ -12,8 +12,8 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import AOS from 'aos';
 import { Router } from '@angular/router';
-import { CartService, CartItem } from '../../../services/cart.service';
-import { NotificationService } from '../../../services/notification.service';
+import { WhatsAppService } from '../../../services/whats-app.service';
+
 interface ChristmasProduct {
   id: string;
   title: string;
@@ -25,7 +25,6 @@ interface ChristmasProduct {
   originalPrice?: number;
   includes: string[];
 }
-
 
 interface Slide {
   title: string;
@@ -104,9 +103,7 @@ export class LandingPageComponent {
     ],
   };
 
-
   currentChristmasImageIndex = 0;
-
   private christmasSlideInterval: any;
 
   slides: Slide[] = [
@@ -139,7 +136,6 @@ export class LandingPageComponent {
     },
   ];
 
-
   products: Product[] = [
     {
       id: 'angel-hair-white',
@@ -161,7 +157,6 @@ export class LandingPageComponent {
     },
   ];
 
- 
   dubaiProducts: DubaiProduct[] = [
     {
       id: 'kunafa-pistachio-dubai',
@@ -209,7 +204,6 @@ export class LandingPageComponent {
     },
   ];
 
-  
   instagramPosts = [
     { image: '/choclate images/IMG_7901.webp', likes: '2.3K' },
     { image: '/choclate images/IMG_7896.webp', likes: '1.9K' },
@@ -309,8 +303,7 @@ export class LandingPageComponent {
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
     private router: Router,
-    private cartService: CartService,
-    private notificationService: NotificationService
+    private whatsappService: WhatsAppService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -322,18 +315,11 @@ export class LandingPageComponent {
     this.startSlideshow();
     this.initAOS();
 
-    this.cartService.cart$.subscribe((cart) => {
-      this.cartItemCount = this.cartService.getCartItemCount();
-      this.cdr.markForCheck();
-    });
-
     this.scrollHintTimer = setTimeout(() => {
       this.showScrollHint = false;
       this.cdr.markForCheck();
     }, 5000);
   }
-
- 
 
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
@@ -367,63 +353,71 @@ export class LandingPageComponent {
     });
   }
 
- 
+  // WhatsApp ordering methods
   orderDubaiProduct(product: DubaiProduct): void {
-    const cartItem: CartItem = {
-      id: product.id,
+    this.whatsappService.sendProductInquiry({
       name: product.title,
-      price: product.price,
-      quantity: 1,
-      image: product.image,
       description: product.description,
-      maxQuantity: 10,
-    };
-
-    const success = this.cartService.addToCart(cartItem);
-
-    if (success) {
-      this.notificationService.success(`${product.title} added to cart!`);
-    } else {
-      this.notificationService.warning(
-        'Maximum quantity reached for this item'
-      );
-    }
+      image: product.image,
+      price: `$${product.price.toFixed(2)}`,
+    });
   }
 
   orderProduct(product: Product): void {
-    const cartItem: CartItem = {
-      id: product.id,
+    this.whatsappService.sendProductInquiry({
       name: product.name,
-      price: product.price,
-      quantity: 1,
+      description: `${product.tag} - ${product.description}`,
       image: product.image,
-      description: product.description,
-      maxQuantity: 10,
-    };
+      price: `$${product.price.toFixed(2)}`,
+    });
+  }
 
-    const success = this.cartService.addToCart(cartItem);
+  orderChristmasProduct(): void {
+    const message = `Hello Melizzo! 👋\n\n`;
+    const msg = 
+      message +
+      `I'm interested in ordering:\n\n` +
+      `🎄 ${this.christmasProduct.title}\n` +
+      `${this.christmasProduct.subtitle}\n\n` +
+      `${this.christmasProduct.description}\n\n` +
+      `💰 Price: $${this.christmasProduct.price.toFixed(2)}` +
+      (this.christmasProduct.originalPrice
+        ? ` (Save $${(this.christmasProduct.originalPrice - this.christmasProduct.price).toFixed(2)}!)`
+        : '') +
+      `\n\n` +
+      `Could you please provide more details about:\n` +
+      `• Availability\n` +
+      `• Delivery options\n` +
+      `• Payment methods\n\n` +
+      `Thank you! 😊🎄`;
 
-    if (success) {
-      this.notificationService.success(`${product.name} added to cart!`);
-    } else {
-      this.notificationService.warning(
-        'Maximum quantity reached for this item'
-      );
-    }
+    this.whatsappService.sendCustomMessage(msg);
+  }
+
+  notifyLimitedEdition(): void {
+    this.orderChristmasProduct();
   }
 
   discoverLaunch(): void {
-   
     const element = document.getElementById('our-launch');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   }
 
+  requestCorporateQuote(): void {
+    const message = `Hello Melizzo! 👋\n\nI'm interested in Corporate Gifting for my company.\n\nPlease provide information about:\n• Custom branding & packaging\n• Bulk order discounts\n• Minimum order quantities\n• Delivery timeline\n\nThank you! 😊`;
+    this.whatsappService.sendCustomMessage(message);
+  }
+
+  notifyMe(): void {
+    const message = `Hello Melizzo! 👋\n\nI'd like to be notified when you launch new products!\n\nI'm particularly interested in:\n• Artisan Brownies\n• Gourmet Pancakes\n• Other upcoming delights\n\nPlease add me to your notification list.\n\nThank you! 😊`;
+    this.whatsappService.sendCustomMessage(message);
+  }
+
   openCart(): void {
     this.router.navigate(['/cart']);
   }
-
 
   @HostListener('window:scroll')
   onWindowScroll(): void {
@@ -628,21 +622,8 @@ export class LandingPageComponent {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-
-
-  requestCorporateQuote(): void {
-    this.router.navigate(['/contact'], { queryParams: { type: 'corporate' } });
-  }
-
-  notifyMe(): void {
-    this.notificationService.info(
-      'You will be notified about new product launches!'
-    );
-  }
-
   startChristmasSlideshow(): void {
     if (!this.isBrowser) return;
-
     this.ngZone.runOutsideAngular(() => {
       this.christmasSlideInterval = setInterval(() => {
         this.ngZone.run(() => {
@@ -655,9 +636,6 @@ export class LandingPageComponent {
     });
   }
 
-  /**
-   * Stop the automatic slideshow
-   */
   stopChristmasSlideshow(): void {
     if (this.christmasSlideInterval) {
       clearInterval(this.christmasSlideInterval);
@@ -665,10 +643,6 @@ export class LandingPageComponent {
     }
   }
 
-  /**
-   * Set specific image by index
-   * @param index - Index of the image to display
-   */
   setChristmasImage(index: number): void {
     this.stopChristmasSlideshow();
     this.currentChristmasImageIndex = index;
@@ -676,9 +650,6 @@ export class LandingPageComponent {
     this.cdr.markForCheck();
   }
 
-  /**
-   * Navigate to previous image
-   */
   prevChristmasImage(): void {
     this.stopChristmasSlideshow();
     this.currentChristmasImageIndex =
@@ -689,9 +660,6 @@ export class LandingPageComponent {
     this.cdr.markForCheck();
   }
 
-  /**
-   * Navigate to next image
-   */
   nextChristmasImage(): void {
     this.stopChristmasSlideshow();
     this.currentChristmasImageIndex =
@@ -699,38 +667,5 @@ export class LandingPageComponent {
       this.christmasProduct.images.length;
     this.startChristmasSlideshow();
     this.cdr.markForCheck();
-  }
-
-  /**
-   * Add Christmas product to cart
-   */
-  orderChristmasProduct(): void {
-    const cartItem: CartItem = {
-      id: this.christmasProduct.id,
-      name: this.christmasProduct.title,
-      price: this.christmasProduct.price,
-      quantity: 1,
-      image: this.christmasProduct.images[0],
-      description: this.christmasProduct.subtitle,
-      maxQuantity: 10, 
-    };
-
-    const success = this.cartService.addToCart(cartItem);
-
-    if (success) {
-      this.notificationService.success(
-        `${this.christmasProduct.title} added to cart! 🎄`
-      );
-    } else {
-      this.notificationService.warning(
-        'Maximum quantity reached for this item'
-      );
-    }
-  }
-
-
-  notifyLimitedEdition(): void {
- 
-    this.orderChristmasProduct();
   }
 }

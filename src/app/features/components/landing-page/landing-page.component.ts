@@ -128,6 +128,13 @@ export class LandingPageComponent {
         'Silky white chocolate fused with fluffy cotton candy for a cloud-soft, melt-in-mouth sweetness.',
       image: 'angelhair.webp',
     },
+     {
+      title: 'Angel Hair White',
+      subtitle: 'A Visual Treat in Motion',
+      description:
+        'Watch our Angel Hair White Chocolate come alive — silky white chocolate blended with sweet cotton candy and delicate angel hair strands, crafted to mesmerize every sense.',
+      image: 'angelHairWhitevideo.mp4',
+    },
     {
       title: 'Kunafa Pistachio',
       subtitle: 'Middle Eastern Excellence',

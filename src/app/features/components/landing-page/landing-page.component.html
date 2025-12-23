@@ -14,17 +14,19 @@
         loading="lazy"
       />
 
-      <video
-        *ngIf="isVideo(slide.image)"
-        class="hero-image"
-        autoplay
-        muted
-        loop
-        playsinline
-      >
-        <source [src]="slide.image" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+       <video
+      *ngIf="isVideo(slide.image)"
+      #heroVideo
+      class="hero-image"
+      [muted]="true"
+      [loop]="true"
+      [attr.playsinline]="''"
+      preload="auto"
+      [attr.data-slide-index]="i"
+    >
+      <source [src]="slide.image" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
     </div>
 
     <div class="hero-content">

@@ -64,7 +64,7 @@ export class LandingPageComponent {
   private lastScrollTime = 0;
   private scrollThrottle = 100;
   private isBrowser: boolean;
-
+@ViewChild('heroVideo') heroVideo!: ElementRef<HTMLVideoElement>;
   @ViewChild('sustainabilityGrid') sustainabilityGrid!: ElementRef;
   currentSustainabilityIndex = 0;
   sustainabilityProgress = 0;
@@ -107,6 +107,13 @@ export class LandingPageComponent {
   private christmasSlideInterval: any;
 
   slides: Slide[] = [
+     {
+      title: 'Introducing Melizzo',
+      subtitle: 'A New Era of Artisan Chocolate',
+      description:
+        'Witness the mesmerizing journey of cocoa transformed into pure indulgence — where craftsmanship meets passion.',
+      image: 'melizzopromo.mp4',
+    },
     {
       title: 'Our First Collection',
       subtitle: 'Kunafa Pistachio & Angel Hair',
@@ -127,13 +134,7 @@ export class LandingPageComponent {
       description: 'Where tradition meets innovation in every bite',
       image: 'kunafa.webp',
     },
-    {
-      title: 'Introducing Melizzo',
-      subtitle: 'A New Era of Artisan Chocolate',
-      description:
-        'Witness the mesmerizing journey of cocoa transformed into pure indulgence — where craftsmanship meets passion.',
-      image: 'choclate.mp4',
-    },
+   
   ];
 
   products: Product[] = [
@@ -212,6 +213,45 @@ export class LandingPageComponent {
     { image: '/choclate images/IMG_7925.webp', likes: '2.1K' },
     { image: '/choclate images/IMG_7906.webp', likes: '1.8K' },
   ];
+
+
+playCurrentVideo(): void {
+  if (!this.isBrowser) return;
+  
+  this.ngZone.runOutsideAngular(() => {
+    setTimeout(() => {
+      const currentSlide = this.slides[this.currentSlide];
+      if (this.isVideo(currentSlide.image)) {
+        const videoElement = document.querySelector('.hero-slide.active video') as HTMLVideoElement;
+        if (videoElement) {
+          // Reset video to start
+          videoElement.currentTime = 0;
+          
+          // Attempt to play
+          const playPromise = videoElement.play();
+          
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                // Video started successfully
+                console.log('Video playing successfully');
+              })
+              .catch((error) => {
+                // Autoplay was prevented
+                console.warn('Video autoplay prevented:', error);
+                // Optionally: show a play button overlay for user interaction
+              });
+          }
+        }
+      }
+    }, 100); // Small delay to ensure DOM is ready
+  });
+}
+
+getSlideDuration(): number {
+  const currentSlide = this.slides[this.currentSlide];
+  return this.isVideo(currentSlide.image) ? 15000 : 5000; // 15s for video, 5s for image
+}
 
   blogPosts = [
     {
@@ -308,19 +348,21 @@ export class LandingPageComponent {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
-  ngOnInit(): void {
-    if (!this.isBrowser) return;
-    this.startChristmasSlideshow();
-    this.checkScroll();
-    this.startSlideshow();
-    this.initAOS();
+ ngOnInit(): void {
+  if (!this.isBrowser) return;
+  this.startChristmasSlideshow();
+  this.checkScroll();
+  this.startSlideshow();
+  this.initAOS();
+  
+  // Play video on initial load
+  setTimeout(() => this.playCurrentVideo(), 500);
 
-    this.scrollHintTimer = setTimeout(() => {
-      this.showScrollHint = false;
-      this.cdr.markForCheck();
-    }, 5000);
-  }
-
+  this.scrollHintTimer = setTimeout(() => {
+    this.showScrollHint = false;
+    this.cdr.markForCheck();
+  }, 5000);
+}
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
     this.ngZone.runOutsideAngular(() => {
@@ -490,45 +532,49 @@ export class LandingPageComponent {
   }
 
   startSlideshow(): void {
-    if (!this.isBrowser) return;
-    this.ngZone.runOutsideAngular(() => {
-      this.slideInterval = setInterval(() => {
-        this.ngZone.run(() => {
-          this.currentSlide = (this.currentSlide + 1) % this.slides.length;
-          this.cdr.markForCheck();
-        });
-      }, 5000);
-    });
-  }
+  if (!this.isBrowser) return;
+  this.ngZone.runOutsideAngular(() => {
+    const duration = this.getSlideDuration(); // Get duration based on content type
+    this.slideInterval = setTimeout(() => {
+      this.ngZone.run(() => {
+        this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+        this.playCurrentVideo();
+        this.startSlideshow(); // Recursively call to get new duration
+        this.cdr.markForCheck();
+      });
+    }, duration);
+  });
+}
 
-  stopSlideshow(): void {
-    if (this.slideInterval) {
-      clearInterval(this.slideInterval);
-      this.slideInterval = null;
-    }
+ stopSlideshow(): void {
+  if (this.slideInterval) {
+    clearTimeout(this.slideInterval); // Changed from clearInterval
+    this.slideInterval = null;
   }
+}
+setSlide(index: number): void {
+  this.stopSlideshow();
+  this.currentSlide = index;
+  this.playCurrentVideo(); // Add this
+  this.startSlideshow();
+  this.cdr.markForCheck();
+}
+prevSlide(): void {
+  this.stopSlideshow();
+  this.currentSlide =
+    this.currentSlide === 0 ? this.slides.length - 1 : this.currentSlide - 1;
+  this.playCurrentVideo(); // Add this
+  this.startSlideshow();
+  this.cdr.markForCheck();
+}
 
-  setSlide(index: number): void {
-    this.stopSlideshow();
-    this.currentSlide = index;
-    this.startSlideshow();
-    this.cdr.markForCheck();
-  }
-
-  prevSlide(): void {
-    this.stopSlideshow();
-    this.currentSlide =
-      this.currentSlide === 0 ? this.slides.length - 1 : this.currentSlide - 1;
-    this.startSlideshow();
-    this.cdr.markForCheck();
-  }
-
-  nextSlide(): void {
-    this.stopSlideshow();
-    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
-    this.startSlideshow();
-    this.cdr.markForCheck();
-  }
+nextSlide(): void {
+  this.stopSlideshow();
+  this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+  this.playCurrentVideo(); // Add this
+  this.startSlideshow();
+  this.cdr.markForCheck();
+}
 
   getCurrentSlide(): Slide {
     return this.slides[this.currentSlide];

@@ -87,14 +87,14 @@
                 <div class="item-variant" *ngIf="item.variant">{{ item.variant }}</div>
                 <div class="item-qty">Quantity: {{ item.quantity }}</div>
               </div>
-              <div class="item-price">${{ (item.price * item.quantity).toFixed(2) }}</div>
+              <div class="item-price">{{ (item.price * item.quantity).toFixed(2) }}</div>
             </div>
           </div>
 
           <div class="order-total-summary">
             <div class="total-row">
               <span>Order Total</span>
-              <span class="total-amount">${{ orderDetails.total?.toFixed(2) }}</span>
+              <span class="total-amount">{{ orderDetails.total?.toFixed(2) }}</span>
             </div>
           </div>
         </div>

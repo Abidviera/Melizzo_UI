@@ -262,7 +262,7 @@ export class CartService {
         message = `${promo.discount * 100}% discount applied!`;
       } else {
         discount = promo.discount;
-        message = `$${promo.discount} discount applied!`;
+        message = `${promo.discount} discount applied!`;
       }
 
       // Ensure discount doesn't exceed subtotal

@@ -50,7 +50,7 @@
                 <span *ngIf="item.variant" class="item-variant">{{ item.variant }}</span>
                 <span *ngIf="item.size" class="item-size">Size: {{ item.size }}</span>
               </div>
-              <div class="item-price">${{ item.price.toFixed(2) }}</div>
+              <div class="item-price">{{ item.price.toFixed(2) }} CAD</div>
             </div>
 
             <div class="item-quantity">
@@ -77,7 +77,7 @@
             </div>
 
             <div class="item-total">
-              ${{ (item.price * item.quantity).toFixed(2) }}
+              {{ (item.price * item.quantity).toFixed(2) }} CAD
             </div>
 
             <button class="item-remove" (click)="removeItem(item)">
@@ -95,30 +95,30 @@
 
           <div class="summary-row">
             <span>Subtotal</span>
-            <span>${{ cart.subtotal.toFixed(2) }}</span>
+            <span>{{ cart.subtotal.toFixed(2) }} CAD</span>
           </div>
 
           <div class="summary-row">
             <span>Shipping</span>
             <span *ngIf="cart.shipping === 0" class="free-shipping">FREE</span>
-            <span *ngIf="cart.shipping > 0">${{ cart.shipping.toFixed(2) }}</span>
+            <span *ngIf="cart.shipping > 0">{{ cart.shipping.toFixed(2) }} CAD</span>
           </div>
 
           <div class="summary-row">
             <span>Tax (HST 13%)</span>
-            <span>${{ cart.tax.toFixed(2) }}</span>
+            <span>{{ cart.tax.toFixed(2) }} CAD</span>
           </div>
 
           <div class="summary-row discount-row" *ngIf="cart.discount > 0">
             <span>Discount</span>
-            <span class="discount-amount">-${{ cart.discount.toFixed(2) }}</span>
+            <span class="discount-amount">-{{ cart.discount.toFixed(2) }} CAD</span>
           </div>
 
           <div class="summary-divider"></div>
 
           <div class="summary-row summary-total">
             <span>Total</span>
-            <span>${{ cart.total.toFixed(2) }}</span>
+            <span>{{ cart.total.toFixed(2) }} CAD</span>
           </div>
 
           <!-- Promo Code -->
@@ -155,7 +155,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"></path>
             </svg>
-            <span>Add ${{ (100 - cart.subtotal).toFixed(2) }} more for FREE shipping!</span>
+            <span>Add {{ (100 - cart.subtotal).toFixed(2) }} CAD more for FREE shipping!</span>
           </div>
         </div>
       </div>

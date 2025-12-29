@@ -150,7 +150,7 @@ export class LandingPageComponent {
       name: 'Angel Hair White',
       image: '/choclate images/IMG_7906.webp',
       tag: 'New Launch',
-      price: 24.99,
+      price: 13.99,
       description:
         'Silky white chocolate with fluffy cotton candy and crisp angel hair pastry',
     },
@@ -159,7 +159,7 @@ export class LandingPageComponent {
       name: 'Kunafa Pistachio',
       image: '/choclate images/IMG_7896.webp',
       tag: 'New Launch',
-      price: 27.99,
+      price: 13.99,
       description:
         'Premium milk chocolate with creamy pistachio filling and roasted kunafa',
     },
@@ -186,7 +186,7 @@ export class LandingPageComponent {
         '/choclate images/IMG_7918.webp',
         '/choclate images/IMG_7927.webp',
       ],
-      price: 27.99,
+      price: 13.99,
     },
     {
       id: 'angel-hair-dubai',
@@ -208,7 +208,7 @@ export class LandingPageComponent {
         '/choclate images/IMG_7923.webp',
         '/choclate images/IMG_7911.webp',
       ],
-      price: 24.99,
+      price: 13.99,
     },
   ];
 
@@ -408,7 +408,7 @@ getSlideDuration(): number {
       name: product.title,
       description: product.description,
       image: product.image,
-      price: `$${product.price.toFixed(2)}`,
+      price: `CAD ${product.price.toFixed(2)}`,
     });
   }
 
@@ -417,7 +417,7 @@ getSlideDuration(): number {
       name: product.name,
       description: `${product.tag} - ${product.description}`,
       image: product.image,
-      price: `$${product.price.toFixed(2)}`,
+      price: `CAD ${product.price.toFixed(2)}`,
     });
   }
 
@@ -429,9 +429,9 @@ getSlideDuration(): number {
       `🎄 ${this.christmasProduct.title}\n` +
       `${this.christmasProduct.subtitle}\n\n` +
       `${this.christmasProduct.description}\n\n` +
-      `💰 Price: $${this.christmasProduct.price.toFixed(2)}` +
+      `💰 Price: CAD ${this.christmasProduct.price.toFixed(2)}` +
       (this.christmasProduct.originalPrice
-        ? ` (Save $${(this.christmasProduct.originalPrice - this.christmasProduct.price).toFixed(2)}!)`
+        ? ` (Save CAD ${(this.christmasProduct.originalPrice - this.christmasProduct.price).toFixed(2)}!)`
         : '') +
       `\n\n` +
       `Could you please provide more details about:\n` +

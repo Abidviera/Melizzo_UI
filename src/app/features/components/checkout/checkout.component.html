@@ -168,7 +168,7 @@
                     <div class="method-name">{{ method.name }}</div>
                     <div class="method-time">{{ method.time }}</div>
                   </div>
-                  <div class="method-price">${{ method.price.toFixed(2) }}</div>
+                  <div class="method-price">{{ method.price.toFixed(2) }} CAD</div>
                 </div>
               </div>
             </div>
@@ -318,7 +318,7 @@
                     <div class="review-item-variant" *ngIf="item.variant">{{ item.variant }}</div>
                     <div class="review-item-qty">Qty: {{ item.quantity }}</div>
                   </div>
-                  <div class="review-item-price">${{ (item.price * item.quantity).toFixed(2) }}</div>
+                  <div class="review-item-price">{{ (item.price * item.quantity).toFixed(2) }} CAD</div>
                 </div>
               </div>
             </div>
@@ -358,7 +358,7 @@
                 <div class="summary-item-name">{{ item.name }}</div>
                 <div class="summary-item-qty">Qty: {{ item.quantity }}</div>
               </div>
-              <div class="summary-item-price">${{ (item.price * item.quantity).toFixed(2) }}</div>
+              <div class="summary-item-price">{{ (item.price * item.quantity).toFixed(2) }} CAD</div>
             </div>
           </div>
 
@@ -366,22 +366,22 @@
 
           <div class="summary-row">
             <span>Subtotal</span>
-            <span>${{ cart.subtotal.toFixed(2) }}</span>
+            <span>{{ cart.subtotal.toFixed(2) }} CAD</span>
           </div>
 
           <div class="summary-row">
             <span>Shipping</span>
-            <span>${{ getSelectedShippingPrice().toFixed(2) }}</span>
+            <span>{{ getSelectedShippingPrice().toFixed(2) }} CAD</span>
           </div>
 
           <div class="summary-row">
             <span>Tax (HST 13%)</span>
-            <span>${{ cart.tax.toFixed(2) }}</span>
+            <span>{{ cart.tax.toFixed(2) }} CAD</span>
           </div>
 
           <div class="summary-row discount-row" *ngIf="cart.discount > 0">
             <span>Discount</span>
-            <span class="discount-amount">-${{ cart.discount.toFixed(2) }}</span>
+            <span class="discount-amount">-{{ cart.discount.toFixed(2) }} CAD</span>
           </div>
 
           <div class="summary-divider"></div>

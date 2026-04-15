@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 interface FooterColumn {
   title: string;
   links: string[];
 }
+
 @Component({
   selector: 'app-footer',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',
 })

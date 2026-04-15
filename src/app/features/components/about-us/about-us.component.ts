@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import AOS from 'aos';
 
 interface AboutFeature {
@@ -19,9 +20,11 @@ interface TimelineItem {
   description: string;
   status: 'active' | 'upcoming';
 }
+
 @Component({
   selector: 'app-about-us',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './about-us.component.html',
   styleUrl: './about-us.component.scss',
 })

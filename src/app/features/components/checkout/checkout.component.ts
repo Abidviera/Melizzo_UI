@@ -1,4 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Cart, CartService } from '../../../services/cart.service';
@@ -35,7 +37,8 @@ interface ShippingMethod {
 
 @Component({
   selector: 'app-checkout',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss'
 })
@@ -142,7 +145,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   validateShippingForm(): boolean {
     const required = ['firstName', 'lastName', 'email', 'phone', 'address', 'city', 'postalCode'];
-    
+
     for (const field of required) {
       if (!this.shippingForm[field as keyof ShippingForm]) {
         this.notificationService.error(`Please fill in ${this.formatFieldName(field)}`);
@@ -175,7 +178,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   validatePaymentForm(): boolean {
-    if (!this.paymentForm.cardNumber || !this.paymentForm.cardName || 
+    if (!this.paymentForm.cardNumber || !this.paymentForm.cardName ||
         !this.paymentForm.expiryDate || !this.paymentForm.cvv) {
       this.notificationService.error('Please fill in all payment details');
       return false;
@@ -228,24 +231,24 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   formatCardNumber(event: any): void {
     let value = event.target.value.replace(/\s/g, '');
     let formattedValue = '';
-    
+
     for (let i = 0; i < value.length && i < 16; i++) {
       if (i > 0 && i % 4 === 0) {
         formattedValue += ' ';
       }
       formattedValue += value[i];
     }
-    
+
     this.paymentForm.cardNumber = formattedValue;
   }
 
   formatExpiryDate(event: any): void {
     let value = event.target.value.replace(/\D/g, '');
-    
+
     if (value.length >= 2) {
       value = value.substring(0, 2) + '/' + value.substring(2, 4);
     }
-    
+
     this.paymentForm.expiryDate = value;
   }
 
@@ -353,4 +356,4 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       console.error('Order placement error:', error);
     }
   }
-} 
+}

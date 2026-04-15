@@ -12,6 +12,7 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import AOS from 'aos';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { WhatsAppService } from '../../../services/whats-app.service';
 
 interface ChristmasProduct {
@@ -54,7 +55,8 @@ interface DubaiProduct {
 
 @Component({
   selector: 'app-landing-page',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -64,7 +66,7 @@ export class LandingPageComponent {
   private lastScrollTime = 0;
   private scrollThrottle = 100;
   private isBrowser: boolean;
-@ViewChild('heroVideo') heroVideo!: ElementRef<HTMLVideoElement>;
+  @ViewChild('heroVideo') heroVideo!: ElementRef<HTMLVideoElement>;
   @ViewChild('sustainabilityGrid') sustainabilityGrid!: ElementRef;
   currentSustainabilityIndex = 0;
   sustainabilityProgress = 0;
@@ -141,7 +143,7 @@ export class LandingPageComponent {
       description: 'Where tradition meets innovation in every bite',
       image: 'kunafa.webp',
     },
-   
+
   ];
 
   products: Product[] = [
@@ -224,7 +226,7 @@ export class LandingPageComponent {
 
 playCurrentVideo(): void {
   if (!this.isBrowser) return;
-  
+
   this.ngZone.runOutsideAngular(() => {
     setTimeout(() => {
       const currentSlide = this.slides[this.currentSlide];
@@ -233,10 +235,10 @@ playCurrentVideo(): void {
         if (videoElement) {
           // Reset video to start
           videoElement.currentTime = 0;
-          
+
           // Attempt to play
           const playPromise = videoElement.play();
-          
+
           if (playPromise !== undefined) {
             playPromise
               .then(() => {
@@ -361,7 +363,7 @@ getSlideDuration(): number {
   this.checkScroll();
   this.startSlideshow();
   this.initAOS();
-  
+
   // Play video on initial load
   setTimeout(() => this.playCurrentVideo(), 500);
 
@@ -423,7 +425,7 @@ getSlideDuration(): number {
 
   orderChristmasProduct(): void {
     const message = `Hello Melizzo! 👋\n\n`;
-    const msg = 
+    const msg =
       message +
       `I'm interested in ordering:\n\n` +
       `🎄 ${this.christmasProduct.title}\n` +

@@ -6,7 +6,8 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import AOS from 'aos';
 import { CartService } from '../../../services/cart.service';
@@ -18,7 +19,8 @@ interface NavigationItem {
 
 @Component({
   selector: 'app-navbar',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
@@ -72,7 +74,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private subscribeToCart(): void {
     this.cartService.cart$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(cart => {
+      .subscribe(() => {
         this.cartItemCount = this.cartService.getCartItemCount();
         this.cdr.markForCheck();
       });
@@ -84,7 +86,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private subscribeToWishlist(): void {
     this.cartService.wishlist$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(wishlist => {
+      .subscribe(() => {
         this.wishlistCount = this.cartService.getWishlistCount();
         this.cdr.markForCheck();
       });

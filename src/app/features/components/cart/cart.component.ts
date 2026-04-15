@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Cart, CartItem, CartService } from '../../../services/cart.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
@@ -6,7 +8,8 @@ import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-cart',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
@@ -16,7 +19,7 @@ export class CartComponent {
   promoError = '';
   promoSuccess = '';
   isLoading = false;
-  
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -71,12 +74,12 @@ export class CartComponent {
     }
 
     const result = this.cartService.applyPromoCode(this.promoCode);
-    
+
     if (result.success) {
       this.promoSuccess = result.message;
       this.notificationService.success(result.message);
       this.promoCode = '';
-      
+
       // Clear success message after 3 seconds
       setTimeout(() => {
         this.promoSuccess = '';

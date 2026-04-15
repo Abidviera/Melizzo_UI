@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import AOS from 'aos';
 
 interface FAQItem {
@@ -9,7 +11,8 @@ interface FAQItem {
 
 @Component({
   selector: 'app-contact',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
 })

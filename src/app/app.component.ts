@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { ToastNotificationComponent } from './shared/components/toast-notification/toast-notification.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, NavbarComponent, ToastNotificationComponent, FooterComponent],
   templateUrl: './app.component.html',
-  standalone: false,
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-confirmation',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './order-confirmation.component.html',
   styleUrl: './order-confirmation.component.scss'
 })
@@ -27,7 +29,7 @@ export class OrderConfirmationComponent implements OnInit {
 
     // Set order number
     this.orderNumber = this.orderDetails.id || 'ORD-' + Date.now();
-    
+
     // Format estimated delivery date
     if (this.orderDetails.estimatedDelivery) {
       const deliveryDate = new Date(this.orderDetails.estimatedDelivery);

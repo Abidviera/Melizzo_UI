@@ -1,5 +1,5 @@
-// toast-notification.component.ts
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { Notification, NotificationService } from '../../../services/notification.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -8,9 +8,11 @@ interface ActiveNotification extends Notification {
   visible: boolean;
   timeoutId?: any;
 }
+
 @Component({
   selector: 'app-toast-notification',
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './toast-notification.component.html',
   styleUrl: './toast-notification.component.scss',
   animations: [
@@ -45,7 +47,7 @@ export class ToastNotificationComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    
+
     // Clear all timeouts
     this.notifications.forEach(n => {
       if (n.timeoutId) {

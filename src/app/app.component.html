@@ -1,7 +1,206 @@
-
+<!-- 
 <app-navbar ></app-navbar>
 <app-toast-notification></app-toast-notification>
 
 <router-outlet ></router-outlet>
 <app-footer></app-footer>
+ -->
+    <div class="carousel" id="carousel">
+      <section class="slide theme-pink" data-theme="pink">
+        <div class="frame">
+          <div class="top">
+            <div class="logo reveal fade-down d1">  <img
+                src="https://gulumedia.blob.core.windows.net/images/gulu/creators/6d3fa87a-11f6-4f5e-a2ef-cf8717bca0e7/portfolio/2026/07/12/EB68329560BB.png"
+                alt=""
+              /> </div>
+            <nav class="nav reveal fade-down d2">
+              <div class="bar"></div>
+              <ul>
+                <li><a href="melizzo-about.html">Our Launch</a></li>
+                <li><a href="melizzo-about.html">Our Story</a></li>
+                <li><a>Coming Soon</a></li>
+                <li><a href="melizzo-about.html">About</a></li>
+                <li><a>Contact</a></li>
+              </ul>
+            </nav>
+            <div class="right reveal fade-left d2">
+              <div class="right-nav">
+                <a></a><a>Account</a><a>Newsletter</a>
+              </div>
+              <form
+                class="newsletter"
+                (submit)="onSubscribe($event)"
+              >
+                <input type="email" placeholder="Your Email" required />
+                <button class="arrow-btn" type="submit" aria-label="Subscribe">
+                  →
+                </button>
+              </form>
+            </div>
+          </div>
 
+          <h1 class="fashionable reveal fade-left d3">
+            <span class="grain">Angel Hair</span>
+          </h1>
+          <p class="tagline reveal fade-left d4">
+          Premium white chocolate with a crispy angel hair pastry filling
+          </p>
+
+          <div class="minis reveal fade-up d5">
+            <div class="m">
+              <img
+                src="https://gulumedia.blob.core.windows.net/images/gulu/creators/6d3fa87a-11f6-4f5e-a2ef-cf8717bca0e7/portfolio/2026/07/12/B74FBF8ED99D.jpg"
+                alt=""
+              />
+            </div>
+            <div class="m">
+              <img
+                src="https://gulumedia.blob.core.windows.net/images/gulu/creators/6d3fa87a-11f6-4f5e-a2ef-cf8717bca0e7/portfolio/2026/07/12/C557B1C1FB44.jpg"
+                alt=""
+              />
+            </div>
+          </div>
+
+          <div class="hero-model">
+            <img
+              src="https://gulumedia.blob.core.windows.net/images/gulu/creators/6d3fa87a-11f6-4f5e-a2ef-cf8717bca0e7/portfolio/2026/07/12/43D0A61D6193.png"
+              alt="Puffy pink jacket model"
+            />
+          </div>
+
+          <aside class="explore-card reveal fade-right d4">
+            <div class="imgwrap">
+              <img
+                src="https://gulumedia.blob.core.windows.net/images/gulu/creators/6d3fa87a-11f6-4f5e-a2ef-cf8717bca0e7/portfolio/2026/07/12/B74FBF8ED99D.jpg"
+                alt="2025 Collection"
+              />
+              <div
+                class="explore-ring"
+                (click)="onExplore()"
+              >
+                Explore
+              </div>
+            </div>
+            <div class="explore-meta">
+              <div class="yr"></div>
+              <div class="col"></div>
+            </div>
+          </aside>
+
+          <div class="everyday reveal fade-up d6">White</div>
+          <div class="slide-chip reveal fade-up d7">
+            <span class="num">01</span><span class="line"></span
+            ><span>Pink · Blossom</span>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="dots" id="dots"></div>
+  
+<div class="mz" style="position:relative;z-index:10;background:#fff">
+<section class="section" id="discover">
+  <div class="wrap">
+    <div class="sec-head mz-reveal">
+      <div class="sec-eyebrow">For everyday and for giving on</div>
+      <h2 class="sec-title">Discover</h2>
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="best">Bestsellers</button>
+        <button class="tab" data-tab="gift">Gifting</button>
+        <button class="tab" data-tab="new">New In</button>
+      </div>
+    </div>
+    <div class="products" id="productGrid"></div>
+    <div class="center-cta mz-reveal"><a href="#" class="btn btn-dark">Shop All Melizzo</a></div>
+  </div>
+</section>
+
+<!-- ============ MELIZZO MELT VIDEO SECTION ============ -->
+<section class="melt-video" id="melt">
+  <!-- preload="none" + no eager <source>: the video is far below the fold, so letting it
+       download on page load stole bandwidth from the hero. initProductGridAndMelt()
+       attaches the source and switches to preload="auto" when the section nears the
+       viewport. The poster keeps the section looking complete until then. -->
+  <video id="meltVideo" loop playsinline preload="none" disablepictureinpicture controlsList="nodownload noremoteplayback"
+         data-src="https://gulumedia.blob.core.windows.net/videos/gulu/creators/af9c11d2-d520-4174-8ad8-f0d1580c5007/portfolio/2026/07/10/5016BD93266E.mp4"
+         poster="https://gulumedia.blob.core.windows.net/images/gulu/creators/6d3fa87a-11f6-4f5e-a2ef-cf8717bca0e7/portfolio/2026/07/12/119CECA9E20D.png">
+  </video>
+  <div class="melt-copy">
+    <div class="melt-title">Melizzo</div>
+    <div class="melt-sub">Melt <em>the</em> Moment</div>
+  </div>
+  <div class="melt-scroll">⌄</div>
+</section>
+<!-- ============ END MELT VIDEO SECTION ============ -->
+
+</div>
+
+
+<!-- ============ MELIZZO FOOTER ============ -->
+
+<footer class="mz-footer">
+  <div class="mz-f-top">
+    <div class="mz-f-cta mz-f-reveal">
+      <div class="mz-f-eyebrow">Join the Melizzo circle</div>
+      <h3 class="mz-f-title">Sweet news, <em>softly</em> delivered.</h3>
+      <p class="mz-f-sub">First tastes, private launches and the occasional love letter from our chocolatiers — straight to your inbox, never too often.</p>
+      <form class="mz-newsletter" (submit)="onMzSubscribe($event)">
+        <input type="email" required placeholder="your@email.com" aria-label="Email address"/>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+
+    <div class="mz-f-col mz-f-reveal">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">Bestsellers <span class="arr">→</span></a></li>
+        <li><a href="#">New In <span class="arr">→</span></a></li>
+        <li><a href="#">Gifting <span class="arr">→</span></a></li>
+        <li><a href="#">Bundles <span class="arr">→</span></a></li>
+        <li><a href="#">Gift Cards <span class="arr">→</span></a></li>
+      </ul>
+    </div>
+
+    <div class="mz-f-col mz-f-reveal">
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="#">Our Story <span class="arr">→</span></a></li>
+        <li><a href="#">Craft & Origins <span class="arr">→</span></a></li>
+        <li><a href="#">Journal <span class="arr">→</span></a></li>
+        <li><a href="#">Stockists <span class="arr">→</span></a></li>
+        <li><a href="#">Press <span class="arr">→</span></a></li>
+      </ul>
+    </div>
+
+    <div class="mz-f-col mz-f-reveal">
+      <h4>Care</h4>
+      <ul>
+        <li><a href="#">Contact <span class="arr">→</span></a></li>
+        <li><a href="#">Shipping <span class="arr">→</span></a></li>
+        <li><a href="#">Returns <span class="arr">→</span></a></li>
+        <li><a href="#">FAQ <span class="arr">→</span></a></li>
+        <li><a href="#">Wholesale <span class="arr">→</span></a></li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  <div class="mz-bigmark mz-f-reveal">
+    <img src="https://gulumedia.blob.core.windows.net/images/gulu/creators/6d3fa87a-11f6-4f5e-a2ef-cf8717bca0e7/portfolio/2026/07/12/EB68329560BB.png" alt="Melizzo"/>
+  </div>
+
+  <div class="mz-f-bottom mz-f-reveal">
+    <div>© <span id="mzYear"></span> Melizzo · All rights reserved</div>
+    <div class="mz-f-social">
+      <a href="#">Instagram</a>
+      <a href="#">TikTok</a>
+      <a href="#">Pinterest</a>
+      <a href="#">YouTube</a>
+    </div>
+    <div class="mz-f-legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Cookies</a>
+    </div>
+  </div>
+</footer>
